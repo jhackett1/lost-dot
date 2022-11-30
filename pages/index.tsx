@@ -1,3 +1,3 @@
-const Page = () => <h1>Testing</h1>
+const ProfilePage = () => <p>Profile page</p>
 
-export default Page
+export default ProfilePage
