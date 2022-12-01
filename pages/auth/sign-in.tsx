@@ -1,11 +1,17 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import { getCsrfToken, signIn } from "next-auth/react"
 import { FormProvider, useForm } from "react-hook-form"
 import Field from "../../components/Field"
+import { SignInSchema } from "../../lib/validators"
 
 const SignInPage = () => {
-  const methods = useForm()
+  const methods = useForm({
+    resolver: zodResolver(SignInSchema),
+  })
 
-  const onSubmit = values => signIn("email", values)
+  const onSubmit = async values => {
+    const res = await signIn("email", values)
+  }
 
   return (
     <div className="container">
