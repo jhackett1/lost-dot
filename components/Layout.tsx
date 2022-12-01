@@ -1,7 +1,7 @@
 import s from "./Layout.module.scss"
 import Link from "next/link"
 import logo from "./logo.svg"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 
 const Layout = ({ children }) => {
   const session = useSession()
@@ -28,12 +28,14 @@ const Layout = ({ children }) => {
             <Link href="/">Our races</Link>
             <Link href="/">Past races</Link>
             <Link href="/api/auth/signin">Sign in</Link>
-            <Link href="/api/auth/signout">Sign out</Link>
+            <a href="#" onClick={() => signOut()}>
+              Sign out
+            </a>
           </nav>
         </div>
       </header>
 
-      <main>{children}</main>
+      <main className="container">{children}</main>
 
       <footer className="app-footer">
         <div className="container">Lost Dot 2022</div>

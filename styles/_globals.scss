@@ -26,3 +26,29 @@ h5 {
 a {
   color: $teal;
 }
+
+button {
+  padding: 0.75rem 4rem;
+  font-size: 1.2rem;
+  background: $teal;
+  font-weight: 600;
+  color: $white;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  width: 100%;
+
+  &:hover {
+    background: darken($teal, 2);
+  }
+
+  &:focus,
+  &:active {
+    outline: 3px solid $yellow;
+  }
+
+  @media screen and (min-width: $breakpoint-m) {
+    width: auto;
+
+  }
+}

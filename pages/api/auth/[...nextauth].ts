@@ -8,9 +8,6 @@ export const authOptions = {
   pages: {
     signIn: "/auth/sign-in",
     verifyRequest: "/auth/check-email",
-    // signOut: "/auth/signout",
-    // error: "/auth/error", // Error code passed in query string as ?error=
-    // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   providers: [
     EmailProvider({
@@ -23,6 +20,10 @@ export const authOptions = {
         },
       },
       from: process.env.EMAIL_FROM,
+      sendVerificationRequest({ url }) {
+        if (process.env.NODE_ENV === "development")
+          console.log(`Sign in URL: ${url}`)
+      },
     }),
   ],
 }

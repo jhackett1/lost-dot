@@ -10,13 +10,13 @@ const CheckEmailPage = () => {
   }
 
   return (
-    <div className="container">
+    <>
       <h1>Check your email</h1>
       <p>A sign in link has been sent to your email address.</p>
       <p>
         If you're having trouble signing in, <a href="/">let us know</a>.
       </p>
-    </div>
+    </>
   )
 }
 

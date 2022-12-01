@@ -14,7 +14,7 @@ const SignInPage = () => {
   }
 
   return (
-    <div className="container">
+    <>
       <h1>Sign in to Lost Dot</h1>
       <p>
         Lost Dot uses passwordless sign-in. To sign in or sign up just enter
@@ -27,7 +27,7 @@ const SignInPage = () => {
           <button type="submit">Continue</button>
         </form>
       </FormProvider>
-    </div>
+    </>
   )
 }
 

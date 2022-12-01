@@ -30,12 +30,14 @@ const UserForm = ({ user }: Props) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {JSON.stringify(methods.formState.errors)}
         <Field label="First name" name="firstName" required />
         <Field label="Last name" name="lastName" required />
         <Field
           label="Date of birth"
           name="dateOfBirth"
           hint="You must be 18 years or older on race day"
+          type="date"
           required
         />
         <Field label="Gender" name="gender" />

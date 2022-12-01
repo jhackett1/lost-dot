@@ -19,7 +19,7 @@
 
   &__input {
     display: block;
-    border-radius: 5px;
+    border-radius: $border-radius;
     border: 2px solid $grey2;
     font-size: 1.2rem;
     padding: 0.75rem;
@@ -28,7 +28,7 @@
 
     &:focus,
     &:active {
-      outline: 3px solid $yellow;
+      outline: 1px solid $yellow;
       border-color: $yellow;
     }
   }

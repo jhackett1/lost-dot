@@ -11,8 +11,7 @@ export const UserInputSchema = z.object({
   nextOfKinName: z.string(),
   nextOfKinEmail: z.string(),
   nextOfKinPhone: z.string(),
-  contactPrefs: z.string(),
-  onboardedAt: z.string(),
+  contactPrefs: z.array(z.string()),
 })
 
 export const SignInSchema = z.object({
