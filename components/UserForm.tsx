@@ -4,19 +4,27 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Field from "./Field"
 import { UserInput } from "../types"
 import { UserInputSchema } from "../lib/validators"
+import { useState } from "react"
 
 interface Props {
   user: User
 }
 
 const UserForm = ({ user }: Props) => {
+  const [formStatus, setFormStatus] = useState<string>("")
+
   const methods = useForm<UserInput>({
     defaultValues: user,
     resolver: zodResolver(UserInputSchema),
   })
 
-  const onSubmit = values => {
+  const onSubmit = async values => {
     console.log(values)
+
+    const res = await fetch(`/api/profile`, {
+      method: "PUT",
+      body: JSON.stringify(values),
+    })
   }
 
   return (
@@ -53,7 +61,9 @@ const UserForm = ({ user }: Props) => {
           {/* TODO */}
         </fieldset>
 
-        <button>Save</button>
+        {formStatus && <p role="alert">{formStatus}</p>}
+
+        <button disabled={methods.formState.isSubmitting}>Save</button>
       </form>
     </FormProvider>
   )

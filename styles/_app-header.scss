@@ -1,8 +1,4 @@
-@import "../styles/vars";
-@import "../styles/mixins";
-
-
-.header {
+.app-header {
   background: $teal;
   @include standard-padding;
 
@@ -21,12 +17,12 @@
       margin-left: 1rem
     }
   }
-}
 
-.container {
-  @include container;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 }

@@ -1,0 +1,35 @@
+.field {
+
+  *+* {
+    margin-top: 0.25rem;
+  }
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__hint {
+    color: $grey;
+  }
+
+  &__error {
+    color: $red;
+    font-weight: 600;
+  }
+
+  &__input {
+    display: block;
+    border-radius: 5px;
+    border: 2px solid $grey2;
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    color: $black;
+    width: 100%;
+
+    &:focus,
+    &:active {
+      outline: 3px solid $yellow;
+      border-color: $yellow;
+    }
+  }
+}

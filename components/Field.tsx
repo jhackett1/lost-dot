@@ -15,11 +15,23 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
   const error = errors?.[name]?.message
 
   return (
-    <div>
-      <label htmlFor={name}>{label}</label>
-      {hint && <p>{hint}</p>}
-      {error && <p role="alert">{error?.toString()}</p>}
-      <input {...register(name)} id={name} type={type} {...props} />
+    <div className="field">
+      <label className="field__label" htmlFor={name}>
+        {label}
+      </label>
+      {hint && <p className="field__hint">{hint}</p>}
+      {error && (
+        <p role="alert" className="field__error">
+          {error?.toString()}
+        </p>
+      )}
+      <input
+        {...register(name)}
+        className="field__input"
+        id={name}
+        type={type}
+        {...props}
+      />
     </div>
   )
 }

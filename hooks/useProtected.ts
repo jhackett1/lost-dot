@@ -5,7 +5,7 @@ const useProtected = () => {
   const { replace } = useRouter()
   const session = useSession()
 
-  if (session.status === "unauthenticated") replace("/api/auth/signin")
+  if (session.status === "unauthenticated") replace("/auth/sign-in")
 
   return
 }

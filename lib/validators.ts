@@ -14,3 +14,7 @@ export const UserInputSchema = z.object({
   contactPrefs: z.string(),
   onboardedAt: z.string(),
 })
+
+export const SignInSchema = z.object({
+  email: z.string(),
+})
