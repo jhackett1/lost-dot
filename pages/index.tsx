@@ -10,9 +10,8 @@ const ProfilePage = (user?: User) => {
 
   return (
     <div>
-      {JSON.stringify(user)}
-
-      <h1>Testing</h1>
+      <h1>Hello!</h1>
+      <p>First, create a Lost Dot profile</p>
 
       {user && <UserForm user={user} />}
     </div>
