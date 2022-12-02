@@ -5,6 +5,7 @@ import Field from "./Field"
 import { UserInput } from "../types"
 import { UserInputSchema } from "../lib/validators"
 import { useState } from "react"
+import marketingPrefs from "../data/marketing-preferences.json"
 
 interface Props {
   user: User
@@ -40,9 +41,21 @@ const UserForm = ({ user }: Props) => {
           required
         />
         <Field label="Gender" name="gender" />
-        <Field label="Ethnicity" name="ethnicity" />
-        <Field label="Nationality" name="nationality" />
-        <Field label="First language" name="firstLang" />
+        <Field
+          label="Ethnicity"
+          name="ethnicity"
+          hint="The only intention behind collecting information on ethnicity is that Lost Dot choose to take positive action in encouraging diversity on our events."
+        />
+        <Field
+          label="Nationality"
+          name="nationality"
+          hint="This is the country that you'd like to represent when you race a Lost Dot race. This does not need to be the same as your country of residence."
+        />
+        <Field
+          label="First language"
+          name="firstLang"
+          hint="We'd like to know your first language in case of emergency."
+        />
 
         <fieldset>
           <legend>Next of kin</legend>
@@ -59,7 +72,15 @@ const UserForm = ({ user }: Props) => {
         <fieldset>
           <legend>Contact preferences</legend>
           <p>Let us know what emails you'd like to receive.</p>
-          {/* TODO */}
+          {Object.entries(marketingPrefs).map(opt => (
+            <Field
+              label={opt[0]}
+              value={opt[0]}
+              name="contactPrefs"
+              hint={opt[1]}
+              type="checkbox"
+            />
+          ))}
         </fieldset>
 
         {formStatus && <p role="alert">{formStatus}</p>}

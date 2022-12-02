@@ -1,0 +1,40 @@
+name: On push
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    # env:
+    #   CONTENTFUL_MANAGEMENT_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN }}
+    #   CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+    steps:
+      - name: 🛍 Checkout code
+        uses: actions/checkout@v2
+
+      - name: 💽 Setup Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 🧱 Build Docker image
+        run: gcloud builds submit --tag gcr.io/calcium-verbena-370022/lost-dot --project calcium-verbena-370022
+
+      - name: 🚢 Deploy
+        run: gcloud run deploy --image gcr.io/calcium-verbena-370022/lost-dot --project calcium-verbena-370022 --platform managed
+
+      # - name: 🧩 Install dependencies
+      #   run: npm i
+
+      # - name: 💅 Lint code
+      #   run: npm run lint
+
+      # - name: 🧪 Run unit tests
+      #   # run: npm test
+      #   run: npm run test:jest
+
+      # # - name: 🧱 Try to build the app
+      # #   run: npm run build

@@ -1,4 +1,7 @@
 .field {
+  * {
+    margin: 0;
+  }
 
   *+* {
     margin-top: 0.25rem;
@@ -31,5 +34,11 @@
       outline: 1px solid $yellow;
       border-color: $yellow;
     }
+  }
+
+
+  &--required label:after {
+    content: "*";
+    color: $red;
   }
 }

@@ -14,12 +14,19 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
 
   const error = errors?.[name]?.message
 
+  let id = name
+  if (props.value) id = `${name}-${props.value}`
+
   return (
-    <div className="field">
-      <label className="field__label" htmlFor={name}>
+    <div className={required ? "field field--required" : "field"}>
+      <label className="field__label" htmlFor={id}>
         {label}
       </label>
-      {hint && <p className="field__hint">{hint}</p>}
+      {hint && (
+        <p className="field__hint" id={`${id}-hint`}>
+          {hint}
+        </p>
+      )}
       {error && (
         <p role="alert" className="field__error">
           {error?.toString()}
@@ -28,7 +35,8 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
       <input
         {...register(name)}
         className="field__input"
-        id={name}
+        aria-describedby={hint ? `${id}-hint` : ""}
+        id={id}
         type={type}
         {...props}
       />
