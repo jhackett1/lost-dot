@@ -110,4 +110,6 @@ model Application {
   // meta
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([raceId, userId])
 }
