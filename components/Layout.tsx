@@ -6,9 +6,10 @@ import { useSession, signOut } from "next-auth/react"
 const Layout = ({ children }) => {
   const session = useSession()
 
+  const signedIn = session.status === "authenticated"
+
   return (
     <>
-      {JSON.stringify(session)}
       <header className="app-header">
         <div className="app-header__container container">
           <Link href="/">
@@ -24,21 +25,47 @@ const Layout = ({ children }) => {
             </svg>
           </Link>
 
-          <nav>
+          <nav className="app-header__nav">
             <Link href="/">Our races</Link>
             <Link href="/">Past races</Link>
-            <Link href="/api/auth/signin">Sign in</Link>
-            <a href="#" onClick={() => signOut()}>
-              Sign out
-            </a>
+            {signedIn ? (
+              <>
+                <span>Firstname Surname</span>
+                <a href="#" onClick={() => signOut()}>
+                  Sign out
+                </a>
+              </>
+            ) : (
+              <Link href="/api/auth/signin">Sign in</Link>
+            )}
           </nav>
         </div>
       </header>
 
-      <main className="container">{children}</main>
+      <main>
+        <div className="container">{children}</div>
+      </main>
 
       <footer className="app-footer">
-        <div className="container">Lost Dot 2022</div>
+        <div className="app-footer__inner container">
+          <div className="app-footer__statement">
+            Lost Dot Ltd run self supported ultra distance cycling races
+          </div>
+          <nav>
+            <Link href="#">Contact us</Link>
+            <Link href="#">Our inclusion & climate commitment</Link>
+            <Link href="#">Press releases</Link>
+            <Link href="#">Sponsors</Link>
+            <Link href="#">Privacy</Link>
+          </nav>
+
+          <nav>
+            <Link href="#">Facebook</Link>
+            <Link href="#">Instagram</Link>
+            <Link href="#">Twitter</Link>
+            <Link href="#">Komoot</Link>
+          </nav>
+        </div>
       </footer>
     </>
   )

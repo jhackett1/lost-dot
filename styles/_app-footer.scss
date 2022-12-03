@@ -2,4 +2,41 @@
   @include standard-padding;
   background: $black;
   color: $white;
+
+  &__inner {
+    display: grid;
+    gap: 1rem;
+
+    @media screen and (min-width: $breakpoint-m) {
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__statement {
+    font-size: 1.3rem;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    columns: 2;
+  }
+
+  a {
+    text-decoration: none;
+    color: $white;
+
+    &:hover {
+      color: darken($white, 10)
+    }
+
+    &:focus,
+    &:active {
+      color: $black;
+      background: $yellow;
+      outline: 3px solid $yellow;
+    }
+
+  }
 }

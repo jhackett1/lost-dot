@@ -24,7 +24,7 @@ const SignInPage = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Field label="Email" name="email" />
-          <button type="submit">Continue</button>
+          <button>Continue</button>
         </form>
       </FormProvider>
     </>

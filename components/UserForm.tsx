@@ -30,16 +30,20 @@ const UserForm = ({ user }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Field label="First name" name="firstName" required />
-        <Field label="Last name" name="lastName" required />
-        <Field
-          label="Date of birth"
-          name="dateOfBirth"
-          hint="You must be 18 years or older on race day"
-          type="date"
-          required
-        />
+      <form className="form" onSubmit={methods.handleSubmit(onSubmit)}>
+        <div className="side-by-side">
+          <Field label="First name" name="firstName" required />
+          <Field label="Last name" name="lastName" required />
+        </div>
+        <div className="side-by-side">
+          <Field
+            label="Date of birth"
+            name="dateOfBirth"
+            hint="You must be 18 years or older on race day"
+            type="date"
+            required
+          />
+        </div>
         <Field label="Gender" name="gender" />
         <Field
           label="Ethnicity"
@@ -57,19 +61,27 @@ const UserForm = ({ user }: Props) => {
           hint="We'd like to know your first language in case of emergency."
         />
 
-        <fieldset>
+        <fieldset className="fieldset">
           <legend>Next of kin</legend>
           <p>Who should we contact in an emergency?</p>
           <p>
             We will email this person as part of the application process, so
             make sure you have input their email correctly
           </p>
-          <Field label="Their name" name="nextOfKinName" />
-          <Field label="Their contact number" name="nextOfKinPhone" />
-          <Field label="Their email" name="nextOfKinEmail" />
+          <div className="side-by-side">
+            <Field label="Their name" name="nextOfKinName" required />
+            <Field
+              label="Their contact number"
+              name="nextOfKinPhone"
+              required
+            />
+          </div>
+          <div className="side-by-side">
+            <Field label="Their email" name="nextOfKinEmail" required />
+          </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset className="fieldset">
           <legend>Contact preferences</legend>
           <p>Let us know what emails you'd like to receive.</p>
           {Object.entries(marketingPrefs).map(opt => (
@@ -82,10 +94,40 @@ const UserForm = ({ user }: Props) => {
             />
           ))}
         </fieldset>
-
         {formStatus && <p role="alert">{formStatus}</p>}
 
-        <button disabled={methods.formState.isSubmitting}>Save</button>
+        {!methods.formState.isValid && methods.formState.submitCount > 0 && (
+          <p role="alert" className="error">
+            There are errors with your profile
+          </p>
+        )}
+        <button disabled={methods.formState.isSubmitting}>
+          {methods.formState.isSubmitting && (
+            <svg width="142" height="142" viewBox="0 0 142 142" fill="none">
+              <g clipPath="url(#clip0_541_343)">
+                <path
+                  opacity="0.5"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M71 142C110.212 142 142 110.212 142 71C142 31.7878 110.212 0 71 0C31.7878 0 0 31.7878 0 71C0 110.212 31.7878 142 71 142ZM71 112C93.6437 112 112 93.6437 112 71C112 48.3563 93.6437 30 71 30C48.3563 30 30 48.3563 30 71C30 93.6437 48.3563 112 71 112Z"
+                  fill="white"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M194 -52H71V30C93.6437 30 112 48.3563 112 71H194V-52Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_541_343">
+                  <rect width="142" height="142" rx="71" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          )}
+          Save
+        </button>
       </form>
     </FormProvider>
   )

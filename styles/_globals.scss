@@ -9,7 +9,6 @@ body {
 
 p,
 li,
-span,
 label,
 legend {
   color: $black;
@@ -19,7 +18,8 @@ h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+legend {
   font-family: "Futura";
 }
 
@@ -28,6 +28,7 @@ a {
 }
 
 button {
+  position: relative;
   padding: 0.75rem 4rem;
   font-size: 1.2rem;
   background: $teal;
@@ -49,6 +50,50 @@ button {
 
   @media screen and (min-width: $breakpoint-m) {
     width: auto;
+  }
 
+  // loader
+  svg {
+    height: 1.4rem;
+    width: 1.4rem;
+    position: absolute;
+    left: 1rem;
+    margin-top: 2.5px;
+    animation: spin 0.75s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+main {
+  @include standard-padding
+}
+
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+
+  @media screen and (min-width: $breakpoint-m) {
+    font-size: 4rem;
   }
 }

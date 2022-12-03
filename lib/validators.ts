@@ -8,10 +8,11 @@ export const UserInputSchema = z.object({
   ethnicity: z.string(),
   nationality: z.string(),
   firstLang: z.string(),
-  nextOfKinName: z.string(),
-  nextOfKinEmail: z.string().email(),
+  nextOfKinName: z.string().min(1),
+  nextOfKinEmail: z.string().min(1).email(),
   nextOfKinPhone: z
     .string()
+    .min(1)
     .regex(
       /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/
     ),
@@ -19,5 +20,5 @@ export const UserInputSchema = z.object({
 })
 
 export const SignInSchema = z.object({
-  email: z.string(),
+  email: z.string().email(),
 })

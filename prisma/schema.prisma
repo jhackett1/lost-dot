@@ -102,7 +102,7 @@ model Payment {
 
 model Application {
   id        String   @id @default(cuid())
-  answers   Json
+  answers   Json?
   raceId    String
   // associations
   userId    String
@@ -111,5 +111,5 @@ model Application {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([raceId, userId])
+  @@unique([raceId, userId]) // user can only apply to each race once
 }

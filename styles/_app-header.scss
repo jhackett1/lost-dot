@@ -1,5 +1,6 @@
 .app-header {
   background: $teal;
+  color: $white;
   @include standard-padding;
 
   svg {
@@ -7,22 +8,54 @@
     height: auto;
   }
 
+  &__nav {
+    *+* {
+      display: block;
+
+      @media screen and (min-width: $breakpoint-m) {
+        display: inline-block;
+        margin-left: 1rem;
+      }
+    }
+  }
+
   a {
-    color: $white;
     font-family: "Futura";
     font-weight: bold;
     text-decoration: none;
+    color: $white;
 
-    &+a {
-      margin-left: 1rem
+
+    &:hover {
+      color: darken($white, 10);
+
+      svg path {
+        fill: darken($white, 10)
+      }
+    }
+
+    &:active,
+    &:focus {
+      background: $yellow;
+      outline: 3px solid $yellow;
+      color: $black;
+
+      svg path {
+        fill: $black;
+      }
     }
   }
 
   &__container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (min-width: $breakpoint-m) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
 }

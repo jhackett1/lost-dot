@@ -1,3 +1,36 @@
 .container {
   @include container;
 }
+
+.side-by-side {
+  @media screen and (min-width: $breakpoint-m) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    * {
+      margin-top: 0;
+    }
+  }
+}
+
+.error {
+  color: $red;
+  font-weight: 600;
+}
+
+.form {
+  @include narrow-container;
+
+  &>*+* {
+    margin-top: 1rem;
+  }
+}
+
+.fieldset {
+  margin-top: 2rem;
+
+  &>*+* {
+    margin-top: 1rem;
+  }
+}

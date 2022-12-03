@@ -18,7 +18,22 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
   if (props.value) id = `${name}-${props.value}`
 
   return (
-    <div className={required ? "field field--required" : "field"}>
+    <div
+      className={`field${required ? " field--required" : ""}${
+        type === "checkbox" ? " field--checkbox" : ""
+      }`}
+    >
+      {type === "checkbox" && (
+        <input
+          {...register(name)}
+          className="field__input"
+          aria-describedby={hint ? `${id}-hint` : ""}
+          id={id}
+          type={type}
+          {...props}
+        />
+      )}
+
       <label className="field__label" htmlFor={id}>
         {label}
       </label>
@@ -32,14 +47,17 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
           {error?.toString()}
         </p>
       )}
-      <input
-        {...register(name)}
-        className="field__input"
-        aria-describedby={hint ? `${id}-hint` : ""}
-        id={id}
-        type={type}
-        {...props}
-      />
+
+      {type !== "checkbox" && (
+        <input
+          {...register(name)}
+          className="field__input"
+          aria-describedby={hint ? `${id}-hint` : ""}
+          id={id}
+          type={type}
+          {...props}
+        />
+      )}
     </div>
   )
 }
