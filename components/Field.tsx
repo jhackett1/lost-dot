@@ -6,7 +6,15 @@ export interface Props extends HTMLProps<HTMLInputElement> {
   hint?: string
 }
 
-const Field = ({ label, name, hint, required, type, ...props }: Props) => {
+const Field = ({
+  label,
+  name,
+  hint,
+  required,
+  type,
+  children,
+  ...props
+}: Props) => {
   const {
     register,
     formState: { errors },
@@ -18,24 +26,10 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
   if (props.value) id = `${name}-${props.value}`
 
   return (
-    <div
-      className={`field${required ? " field--required" : ""}${
-        type === "checkbox" ? " field--checkbox" : ""
-      }`}
-    >
-      {type === "checkbox" && (
-        <input
-          {...register(name)}
-          className="field__input"
-          aria-describedby={hint ? `${id}-hint` : ""}
-          id={id}
-          type={type}
-          {...props}
-        />
-      )}
-
+    <div className={`field${required ? " field--required" : ""}`}>
       <label className="field__label" htmlFor={id}>
         {label}
+        {required || <span className="field__optional">optional</span>}
       </label>
       {hint && (
         <p className="field__hint" id={`${id}-hint`}>
@@ -48,16 +42,34 @@ const Field = ({ label, name, hint, required, type, ...props }: Props) => {
         </p>
       )}
 
-      {type !== "checkbox" && (
-        <input
-          {...register(name)}
-          className="field__input"
-          aria-describedby={hint ? `${id}-hint` : ""}
-          id={id}
-          type={type}
-          {...props}
-        />
-      )}
+      {!["checkbox", "radio"].includes(type) &&
+        (type === "textarea" ? (
+          <textarea
+            {...register(name)}
+            className="field__input"
+            aria-describedby={hint ? `${id}-hint` : ""}
+            id={id}
+          ></textarea>
+        ) : type === "select" ? (
+          <select
+            {...register(name)}
+            className="field__input"
+            aria-describedby={hint ? `${id}-hint` : ""}
+            id={id}
+            {...props}
+          >
+            {children}
+          </select>
+        ) : (
+          <input
+            {...register(name)}
+            className="field__input"
+            aria-describedby={hint ? `${id}-hint` : ""}
+            id={id}
+            type={type}
+            {...props}
+          />
+        ))}
     </div>
   )
 }

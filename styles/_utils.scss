@@ -21,9 +21,22 @@
 
 .form {
   @include narrow-container;
+  margin-bottom: 3rem;
 
   &>*+* {
     margin-top: 1rem;
+  }
+
+  &__footer {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    *:last-child {
+      margin-left: auto;
+    }
   }
 }
 
@@ -33,4 +46,9 @@
   &>*+* {
     margin-top: 1rem;
   }
+}
+
+
+.centred {
+  text-align: center;
 }

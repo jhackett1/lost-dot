@@ -10,6 +10,10 @@ const Layout = ({ children }) => {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       <header className="app-header">
         <div className="app-header__container container">
           <Link href="/">
@@ -42,7 +46,7 @@ const Layout = ({ children }) => {
         </div>
       </header>
 
-      <main>
+      <main id="main-content">
         <div className="container">{children}</div>
       </main>
 

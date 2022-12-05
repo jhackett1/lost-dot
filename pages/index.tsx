@@ -4,14 +4,28 @@ import prisma from "../lib/prisma"
 import { getSession } from "next-auth/react"
 import { GetServerSideProps } from "next"
 import { User } from "@prisma/client"
+import AppNav from "../components/AppNav"
 
 const ProfilePage = (user?: User) => {
   useProtected()
 
   return (
     <div>
-      <h1>Hello!</h1>
-      <p>First, create a Lost Dot profile</p>
+      <header className="page-header">
+        {user.onboardedAt ? (
+          <>
+            <h1 className="page-header__heading">Hi {user.firstName}</h1>
+            <AppNav />
+          </>
+        ) : (
+          <>
+            <h1 className="page-header__heading">Hello!</h1>
+            <p className="page-header__caption">
+              First, create a Lost Dot profile
+            </p>
+          </>
+        )}
+      </header>
 
       {user && <UserForm user={user} />}
     </div>

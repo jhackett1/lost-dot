@@ -4,7 +4,7 @@
   }
 
   *+* {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
   }
 
   &__label {
@@ -12,12 +12,20 @@
   }
 
   &__hint {
+    margin-top: 0.1rem;
     color: $grey;
   }
 
   &__error {
     color: $red;
     font-weight: 600;
+  }
+
+  &__optional {
+    color: $grey;
+    font-weight: normal;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
   }
 
   &__input {
@@ -28,76 +36,25 @@
     padding: 0.75rem;
     color: $black;
     width: 100%;
+    background: $white;
 
     &:focus,
     &:active {
-      outline: 3px solid $yellow;
+      border-color: $yellow;
+      outline: 1px solid $yellow;
     }
   }
 
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='37' height='11' viewBox='0 0 37 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath opacity='0.25' d='M2 2L8.5 9L15 2' stroke='%230B0C0C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 3rem;
+  }
 
   &--required label:after {
     content: "*";
     color: $red;
-  }
-
-  $checkbox-size: 2.5rem;
-
-  &--checkbox {
-    position: relative;
-    padding-left: 3.5rem;
-
-    &:focus-within label:before {
-      outline: 3px solid $yellow;
-    }
-
-    label {
-      cursor: pointer;
-    }
-
-    label:before {
-      box-sizing: border-box;
-      position: absolute;
-      display: block;
-      content: "";
-      top: 0;
-      left: 0;
-      width: $checkbox-size;
-      height: $checkbox-size;
-      border: 2px solid $grey2;
-      border-radius: $border-radius;
-    }
-
-    input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: $checkbox-size;
-      height: $checkbox-size;
-      opacity: 0;
-
-      &:checked+label {
-        &:before {
-          background: $teal;
-          border-color: $teal;
-        }
-
-        &:after {
-          box-sizing: border-box;
-          position: absolute;
-          display: block;
-          content: "";
-          top: 0;
-          left: 0;
-          width: $checkbox-size;
-          height: $checkbox-size;
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-size: 1.5xrem;
-          background-image: url("data:image/svg+xml,%3Csvg width='26' height='19' viewBox='0 0 26 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M25.0607 0.43934C25.6464 1.02513 25.6464 1.97487 25.0607 2.56066L9.56066 18.0607C8.97487 18.6464 8.02513 18.6464 7.43934 18.0607L0.93934 11.5607C0.353553 10.9749 0.353553 10.0251 0.93934 9.43934C1.52513 8.85355 2.47487 8.85355 3.06066 9.43934L8.5 14.8787L22.9393 0.43934C23.5251 -0.146447 24.4749 -0.146447 25.0607 0.43934Z' fill='white'/%3E%3C/svg%3E");
-        }
-      }
-    }
-
   }
 }

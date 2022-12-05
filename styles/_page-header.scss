@@ -1,0 +1,29 @@
+.page-header {
+  padding-bottom: 3rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    padding-bottom: 4rem;
+  }
+
+  &__heading {
+    font-size: 2rem;
+    text-align: center;
+
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 4rem;
+    }
+  }
+
+  &__caption {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0;
+    margin-top: 0.5rem;
+
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 1.4rem;
+      margin-top: 0.75rem;
+    }
+  }
+}

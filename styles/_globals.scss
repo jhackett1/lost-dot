@@ -21,6 +21,7 @@ h4,
 h5,
 legend {
   font-family: "Futura";
+  margin-bottom: 0;
 }
 
 a {
@@ -86,14 +87,4 @@ legend {
 
 main {
   @include standard-padding
-}
-
-
-h1 {
-  font-size: 2rem;
-  text-align: center;
-
-  @media screen and (min-width: $breakpoint-m) {
-    font-size: 4rem;
-  }
 }

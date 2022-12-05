@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     redirect: {
-      destination: `/applications/${application.id}`,
+      destination: `/applications/${application.raceId}`,
       permanent: false,
     },
   }

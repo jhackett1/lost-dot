@@ -6,6 +6,9 @@ import { UserInput } from "../types"
 import { UserInputSchema } from "../lib/validators"
 import { useState } from "react"
 import marketingPrefs from "../data/marketing-preferences.json"
+import ethnicities from "../data/ethnicities.json"
+import Loader from "./Loader"
+import GroupField from "./GroupField"
 
 interface Props {
   user: User
@@ -44,12 +47,30 @@ const UserForm = ({ user }: Props) => {
             required
           />
         </div>
-        <Field label="Gender" name="gender" />
+        <Field label="Gender" name="gender" type="select">
+          <option></option>
+          <option>Female</option>
+          <option>Male</option>
+          <option>Non-binary/genderqueer</option>
+          <option>Other</option>
+        </Field>
         <Field
           label="Ethnicity"
           name="ethnicity"
+          type="select"
           hint="The only intention behind collecting information on ethnicity is that Lost Dot choose to take positive action in encouraging diversity on our events."
-        />
+        >
+          <option></option>
+          {Object.entries(ethnicities).map(([groupName, subEthnicities]) => (
+            <optgroup label={groupName} key={groupName}>
+              {subEthnicities.map(opt => (
+                <option value={opt} key={opt}>
+                  {opt}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </Field>
         <Field
           label="Nationality"
           name="nationality"
@@ -85,7 +106,7 @@ const UserForm = ({ user }: Props) => {
           <legend>Contact preferences</legend>
           <p>Let us know what emails you'd like to receive.</p>
           {Object.entries(marketingPrefs).map(opt => (
-            <Field
+            <GroupField
               label={opt[0]}
               value={opt[0]}
               name="contactPrefs"
@@ -94,40 +115,20 @@ const UserForm = ({ user }: Props) => {
             />
           ))}
         </fieldset>
+
         {formStatus && <p role="alert">{formStatus}</p>}
 
-        {!methods.formState.isValid && methods.formState.submitCount > 0 && (
-          <p role="alert" className="error">
-            There are errors with your profile
-          </p>
-        )}
-        <button disabled={methods.formState.isSubmitting}>
-          {methods.formState.isSubmitting && (
-            <svg width="142" height="142" viewBox="0 0 142 142" fill="none">
-              <g clipPath="url(#clip0_541_343)">
-                <path
-                  opacity="0.5"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M71 142C110.212 142 142 110.212 142 71C142 31.7878 110.212 0 71 0C31.7878 0 0 31.7878 0 71C0 110.212 31.7878 142 71 142ZM71 112C93.6437 112 112 93.6437 112 71C112 48.3563 93.6437 30 71 30C48.3563 30 30 48.3563 30 71C30 93.6437 48.3563 112 71 112Z"
-                  fill="white"
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M194 -52H71V30C93.6437 30 112 48.3563 112 71H194V-52Z"
-                  fill="white"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_541_343">
-                  <rect width="142" height="142" rx="71" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
+        <div className="form__footer">
+          {!methods.formState.isValid && methods.formState.submitCount > 0 && (
+            <p role="alert" className="error">
+              There are errors with your profile
+            </p>
           )}
-          Save
-        </button>
+          <button disabled={methods.formState.isSubmitting}>
+            {methods.formState.isSubmitting && <Loader />}
+            Save
+          </button>
+        </div>
       </form>
     </FormProvider>
   )

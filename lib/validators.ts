@@ -1,4 +1,6 @@
 import { z } from "zod"
+import legals from "../data/legals.json"
+import { Question } from "../types"
 
 export const UserInputSchema = z.object({
   firstName: z.string().min(2),
@@ -22,3 +24,21 @@ export const UserInputSchema = z.object({
 export const SignInSchema = z.object({
   email: z.string().email(),
 })
+
+export const LegalApplicationSchema = z.object({
+  legals: z.array(z.string()).min(legals.length),
+})
+
+export const generateApplicationSchema = (questions: Question[]) => {
+  const schema = {}
+
+  questions.forEach(question => {
+    if (question.required) {
+      schema[question.name] = z.string().min(1)
+    } else {
+      schema[question.name] = z.string()
+    }
+  })
+
+  return z.object(schema)
+}

@@ -1,0 +1,48 @@
+.app-nav {
+  text-align: center;
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0 1rem;
+
+  &__link {
+    font-family: "Futura";
+    margin-left: 1rem;
+    display: inline-block;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: $black;
+
+    &:hover {
+      color: lighten($black, 20);
+    }
+
+
+    &--active {
+      color: $teal;
+
+      &:hover {
+        color: darken($teal, 2);
+      }
+    }
+
+
+    &:focus,
+    &:active {
+      background: $yellow;
+      outline: 3px solid $yellow;
+      color: $black;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 1.2rem;
+      margin-left: 2rem;
+    }
+  }
+
+}

@@ -1,0 +1,16 @@
+.skip-link {
+  position: absolute;
+  // opacity: 0;
+
+  &:focus {
+    position: relative;
+    display: block;
+    padding: 1rem;
+    background: $yellow;
+    color: $black;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    outline: none;
+  }
+}

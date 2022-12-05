@@ -9,6 +9,12 @@
   }
 
   &__nav {
+    display: none;
+
+    @media screen and (min-width: $breakpoint-m) {
+      display: block;
+    }
+
     *+* {
       display: block;
 
