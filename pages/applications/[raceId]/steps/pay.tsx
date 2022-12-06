@@ -31,6 +31,9 @@ const ApplicationPayPage = (application: Application) => {
 
   return (
     <>
+      <h1>
+        You will need to study the race manual to complete your application
+      </h1>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

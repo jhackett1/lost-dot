@@ -1,9 +1,12 @@
-import { User } from "@prisma/client"
+import { PaymentType, User } from "@prisma/client"
 import { HTMLProps } from "react"
 
 export interface Race {
   id: string
-  brand: string
+  title: string
+  costs: {
+    [kind in PaymentType]?: number
+  }
 }
 
 export interface UserInput

@@ -1,7 +1,7 @@
 import type { NextApiHandler } from "next"
 import { unstable_getServerSession } from "next-auth"
-import prisma from "../../../lib/prisma"
-import { authOptions } from "../auth/[...nextauth]"
+import prisma from "../../../../lib/prisma"
+import { authOptions } from "../../auth/[...nextauth]"
 
 const handler: NextApiHandler = async (req, res) => {
   try {

@@ -10,19 +10,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
+import { useRouter } from "next/router"
 
 const ApplicationStepIndexPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
+
+  const { push } = useRouter()
   const methods = useForm({
     defaultValues: application.answers as { [x: string]: any },
     // resolver: zodResolver(generateApplicationSchema(questions)),
   })
 
   const onSubmit = async values => {
-    await fetch(`/api/applications/${application.raceId}`, {
+    const res = await fetch(`/api/applications/${application.raceId}`, {
       method: "PUT",
       body: JSON.stringify(values),
     })
+    if (res.ok) push(`/applications/${application.raceId}/steps/pay`)
   }
 
   return (

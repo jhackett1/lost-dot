@@ -1,10 +1,29 @@
 [
   {
     "id": "transcontinental",
-    "title": "transcontinental"
+    "title": "Transcontinental",
+    "costs": {
+      "expressionOfInterest": 25,
+      "acceptance": 220,
+      "remaining": 220
+    }
+  },
+  {
+    "id": "transpyrenees",
+    "title": "Transpyrenees",
+    "costs": {
+      "expressionOfInterest": 25,
+      "acceptance": 175,
+      "remaining": 175
+    }
   },
   {
     "id": "test_race",
-    "title": "Test race"
+    "title": "Test race",
+    "costs": {
+      "expressionOfInterest": 25,
+      "acceptance": 175,
+      "remaining": 175
+    }
   }
 ]
