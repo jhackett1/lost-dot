@@ -1,11 +1,4 @@
 .group-field {
-  * {
-    margin: 0;
-  }
-
-  *+* {
-    margin-top: 0.75rem;
-  }
 
   &__label {
     font-weight: 600;
@@ -16,48 +9,17 @@
     color: $grey;
   }
 
-  &__error {
-    color: $red;
-    font-weight: 600;
-  }
+  $checkbox-size: 3rem;
 
-  &__optional {
-    color: $grey;
-    font-weight: normal;
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
-  }
 
   &__input {
-    display: block;
-    border-radius: $border-radius;
-    border: 2px solid $grey2;
-    font-size: 1.2rem;
-    padding: 0.75rem;
-    color: $black;
-    width: 100%;
-    background: $white;
-
-    &:focus,
-    &:active {
-      outline: 3px solid $yellow;
-    }
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    opacity: 0;
   }
-
-  select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='37' height='11' viewBox='0 0 37 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath opacity='0.25' d='M2 2L8.5 9L15 2' stroke='%230B0C0C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center right;
-    padding-right: 3rem;
-  }
-
-  &--required label:after {
-    content: "*";
-    color: $red;
-  }
-
-  $checkbox-size: 3rem;
 
   &--checkbox {
     position: relative;
@@ -65,6 +27,7 @@
 
     &:focus-within label:before {
       outline: 3px solid $yellow;
+      border: none;
     }
 
     label {
@@ -85,13 +48,6 @@
     }
 
     input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: $checkbox-size;
-      height: $checkbox-size;
-      opacity: 0;
-
       &:checked+label {
         &:before {
           background: $teal;

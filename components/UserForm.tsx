@@ -18,7 +18,10 @@ const UserForm = ({ user }: Props) => {
   const [formStatus, setFormStatus] = useState<string>("")
 
   const methods = useForm<UserInput>({
-    defaultValues: user,
+    defaultValues: {
+      ...user,
+      dateOfBirth: new Date(user.dateOfBirth).toISOString().slice(0, 10),
+    },
     resolver: zodResolver(UserInputSchema),
   })
 

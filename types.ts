@@ -6,10 +6,13 @@ export interface Race {
   brand: string
 }
 
-export type UserInput = Omit<
-  User,
-  "id" | "createdAt" | "updatedAt" | "emailVerified" | "admin"
->
+export interface UserInput
+  extends Omit<
+    User,
+    "id" | "createdAt" | "updatedAt" | "emailVerified" | "admin" | "dateOfBirth"
+  > {
+  dateOfBirth: string // for input type=date
+}
 
 export interface Question extends HTMLProps<HTMLInputElement> {
   options?: string[]
