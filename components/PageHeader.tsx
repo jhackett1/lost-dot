@@ -6,9 +6,9 @@ const PageHeader = () => {
 
   return (
     <header className="page-header">
-      <h1 className="page-header__heading">
+      <p className="page-header__heading">
         Hi {session?.data?.user?.firstName}
-      </h1>
+      </p>
       <AppNav />
     </header>
   )

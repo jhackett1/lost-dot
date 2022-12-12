@@ -1,4 +1,5 @@
 .page-header {
+  padding-top: 2rem;
   padding-bottom: 3rem;
 
   @media screen and (min-width: $breakpoint-m) {
@@ -8,6 +9,9 @@
   &__heading {
     font-size: 2rem;
     text-align: center;
+    font-family: Futura, sans-serif;
+    font-weight: bold;
+    margin: 0;
 
     @media screen and (min-width: $breakpoint-m) {
       font-size: 4rem;

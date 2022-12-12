@@ -48,6 +48,12 @@ const AppLayout = ({ children }) => {
         </div>
       </header>
 
+      {asPath.includes("/admin") && (
+        <div className="admin-banner">
+          You're using your admin superpowers to see this page
+        </div>
+      )}
+
       {asPath.includes("/steps") && (
         <RaceBanner race={getRaceById(query.raceId as string)} />
       )}
