@@ -1,7 +1,10 @@
 import { HTMLProps } from "react"
 import { useFormContext } from "react-hook-form"
 
-export interface Props extends HTMLProps<HTMLInputElement> {
+export interface Props
+  extends HTMLProps<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  > {
   label: string
   hint?: string
 }
@@ -51,6 +54,7 @@ const Field = ({
             id={id}
           ></textarea>
         ) : type === "select" ? (
+          //@ts-ignore
           <select
             {...register(name)}
             className="field__input"
@@ -61,6 +65,7 @@ const Field = ({
             {children}
           </select>
         ) : (
+          //@ts-ignore
           <input
             {...register(name)}
             className="field__input"

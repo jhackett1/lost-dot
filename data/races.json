@@ -20,6 +20,9 @@
   {
     "id": "test_race",
     "title": "Test race",
+    "logoUrl": "https://images.squarespace-cdn.com/content/v1/56e03aab7da24fcf36e00d86/1524595698330-2NODSADFUMHKE7K81M14/TCR+Logo+500px+SQ+Filled.png?format=1000w",
+    "hashtag": "#TCRNo9",
+    "date": "2022-12-12T22:11:11.327",
     "costs": {
       "expressionOfInterest": 25,
       "acceptance": 175,

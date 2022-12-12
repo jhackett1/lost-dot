@@ -1,16 +1,21 @@
 .group-field {
+  min-height: $checkbox-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding-left: 4rem;
 
   &__label {
     font-weight: 600;
+    cursor: pointer;
   }
 
   &__hint {
+    margin: 0;
     margin-top: 0.1rem;
     color: $grey;
   }
-
-  $checkbox-size: 3rem;
-
 
   &__input {
     position: absolute;
@@ -22,16 +27,9 @@
   }
 
   &--checkbox {
-    position: relative;
-    padding-left: 4rem;
-
     &:focus-within label:before {
       outline: 3px solid $yellow;
       border: none;
-    }
-
-    label {
-      cursor: pointer;
     }
 
     label:before {
@@ -70,6 +68,48 @@
         }
       }
     }
+  }
 
+  &--radio {
+    &:focus-within label:before {
+      outline: 3px solid $yellow;
+      border: none;
+    }
+
+    label:before {
+      box-sizing: border-box;
+      position: absolute;
+      display: block;
+      content: "";
+      top: 0;
+      left: 0;
+      width: $checkbox-size;
+      height: $checkbox-size;
+      border: 2px solid $grey2;
+      border-radius: 100%;
+    }
+
+    input {
+      &:checked+label {
+        &:before {
+          border-color: $teal;
+        }
+
+        $shrink-factor: 0.6rem;
+
+        &:after {
+          background: $teal;
+          box-sizing: border-box;
+          position: absolute;
+          display: block;
+          content: "";
+          top: $shrink-factor;
+          left: $shrink-factor;
+          width: calc($checkbox-size - $shrink-factor - $shrink-factor);
+          height: calc($checkbox-size - $shrink-factor - $shrink-factor);
+          border-radius: 100%;
+        }
+      }
+    }
   }
 }

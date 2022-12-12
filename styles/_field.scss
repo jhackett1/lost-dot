@@ -4,7 +4,7 @@
   }
 
   *+* {
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
   }
 
   &__label {
@@ -12,13 +12,11 @@
   }
 
   &__hint {
-    margin-top: 0.1rem;
     color: $grey;
   }
 
   &__error {
-    color: $red;
-    font-weight: 600;
+    @include error-text;
   }
 
   &__optional {

@@ -11,6 +11,7 @@ import Link from "next/link"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
 import { useRouter } from "next/router"
+import { z } from "zod"
 
 const ApplicationStepIndexPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -18,7 +19,11 @@ const ApplicationStepIndexPage = (application: Application) => {
   const { push } = useRouter()
   const methods = useForm({
     defaultValues: application.answers as { [x: string]: any },
-    // resolver: zodResolver(generateApplicationSchema(questions)),
+    resolver: zodResolver(
+      z.object({
+        legals: z.array(z.string()).min(legals.length),
+      })
+    ),
   })
 
   const onSubmit = async values => {
@@ -28,6 +33,8 @@ const ApplicationStepIndexPage = (application: Application) => {
     })
     if (res.ok) push(`/applications/${application.raceId}/steps/pay`)
   }
+
+  const error = methods.formState.errors["legals"]
 
   return (
     <>
@@ -46,6 +53,13 @@ const ApplicationStepIndexPage = (application: Application) => {
         <form onSubmit={methods.handleSubmit(onSubmit)} className="form">
           <fieldset>
             <legend>Please confirm the following:</legend>
+
+            {error && (
+              <p role="alert" className="error">
+                {error.message.toString()}
+              </p>
+            )}
+
             {legals.map(legal => (
               <GroupField
                 name="legals"
@@ -57,14 +71,22 @@ const ApplicationStepIndexPage = (application: Application) => {
             ))}
           </fieldset>
 
-          <Link href={`/applications/${application.raceId}/steps`}>
-            Go back
-          </Link>
+          <div className="form__footer">
+            {!methods.formState.isValid &&
+              methods.formState.submitCount > 0 && (
+                <p role="alert" className="error">
+                  There are errors with your application
+                </p>
+              )}
 
-          <button disabled={methods.formState.isSubmitting}>
-            {methods.formState.isSubmitting && <Loader />}
-            Continue
-          </button>
+            <Link href={`/applications/${application.raceId}/steps`}>
+              Go back
+            </Link>
+            <button disabled={methods.formState.isSubmitting}>
+              {methods.formState.isSubmitting && <Loader />}
+              Save
+            </button>
+          </div>
         </form>
       </FormProvider>
     </>

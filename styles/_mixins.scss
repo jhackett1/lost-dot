@@ -6,8 +6,14 @@
   }
 }
 
-@mixin container {
+@mixin wide-container {
   max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin mid-container {
+  max-width: 950px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -16,4 +22,48 @@
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@mixin error-text {
+  color: $red;
+  font-weight: 600;
+}
+
+@mixin button {
+  display: inline-block;
+  position: relative;
+  padding: 0.75rem 4rem;
+  font-size: 1.2rem;
+  background: $teal;
+  font-weight: 600;
+  color: $white;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+
+  &:hover {
+    background: darken($teal, 2);
+  }
+
+  &:focus,
+  &:active {
+    outline: 3px solid $yellow;
+  }
+
+  @media screen and (min-width: $breakpoint-m) {
+    width: auto;
+  }
+
+  // loader
+  svg {
+    height: 1.4rem;
+    width: 1.4rem;
+    position: absolute;
+    left: 1rem;
+    margin-top: 2.5px;
+    animation: spin 0.75s linear infinite;
+  }
 }

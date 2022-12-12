@@ -1,6 +1,11 @@
 .container {
-  @include container;
+  @include wide-container;
 }
+
+.narrow-container {
+  @include narrow-container;
+}
+
 
 .side-by-side {
   @media screen and (min-width: $breakpoint-m) {
@@ -15,8 +20,7 @@
 }
 
 .error {
-  color: $red;
-  font-weight: 600;
+  @include error-text;
 }
 
 .form {
@@ -51,4 +55,8 @@
 
 .centred {
   text-align: center;
+}
+
+.button {
+  @include button;
 }

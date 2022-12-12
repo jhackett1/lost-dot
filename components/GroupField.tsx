@@ -12,14 +12,12 @@ const GroupField = ({ label, name, hint, required, type, ...props }: Props) => {
     formState: { errors },
   } = useFormContext()
 
-  const error = errors?.[name]?.message
-
   let id = name
   if (props.value) id = `${name}-${props.value}`
 
   return (
     <div
-      className={`group-field${required ? " field--required" : ""}${
+      className={`group-field${required ? " group-field--required" : ""}${
         type === "checkbox" ? " group-field--checkbox" : ""
       }${type === "radio" ? " group-field--radio" : ""}`}
     >
@@ -32,17 +30,13 @@ const GroupField = ({ label, name, hint, required, type, ...props }: Props) => {
         {...props}
       />
 
-      <label className="field__label" htmlFor={id}>
+      <label className="group-field__label" htmlFor={id}>
         {label}
       </label>
+
       {hint && (
-        <p className="field__hint" id={`${id}-hint`}>
+        <p className="group-field__hint" id={`${id}-hint`}>
           {hint}
-        </p>
-      )}
-      {error && (
-        <p role="alert" className="field__error">
-          {error?.toString()}
         </p>
       )}
     </div>

@@ -73,7 +73,7 @@ model User {
   onboardedAt    DateTime?
   // associations
   Document       Document[]
-  Payment        Payment[]
+  // Payment        Payment[]
   Application    Application[]
 }
 

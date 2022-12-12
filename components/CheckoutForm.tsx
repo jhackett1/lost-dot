@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import { Layout, LayoutObject } from "@stripe/stripe-js"
 
 const CheckoutForm = () => {
   const stripe = useStripe()
@@ -67,7 +68,7 @@ const CheckoutForm = () => {
   }
 
   const paymentElementOptions = {
-    layout: "tabs",
+    layout: "tabs" as Layout,
   }
 
   return (

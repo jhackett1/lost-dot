@@ -1,6 +1,6 @@
 .skip-link {
   position: absolute;
-  // opacity: 0;
+  opacity: 0;
 
   &:focus {
     position: relative;
@@ -12,5 +12,6 @@
     text-decoration: none;
     text-align: center;
     outline: none;
+    opacity: 1;
   }
 }

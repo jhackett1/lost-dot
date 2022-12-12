@@ -1,13 +1,17 @@
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import Stripe from "stripe"
 import AppNav from "../components/AppNav"
+import PageHeader from "../components/PageHeader"
 
 const PaymentsPage = (
   charges: Stripe.Response<Stripe.ApiList<Stripe.Charge>>
 ) => (
   <>
-    <h1 className="page-header__heading">Hi x</h1>
-    <AppNav />
+    <Head>
+      <title>Payments | Lost Dot</title>
+    </Head>
+    <PageHeader />
     <table>
       <thead>
         <tr>

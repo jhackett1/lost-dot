@@ -21,8 +21,8 @@ const NavLink = props => {
 const AppNav = () => (
   <nav className="app-nav">
     <NavLink href="/">Profile</NavLink>
-    <NavLink href="/applications">Applications</NavLink>
-    <NavLink href="/past-applications">Applications</NavLink>
+    <NavLink href="/applications">Active applications</NavLink>
+    <NavLink href="/past-applications">Past applications</NavLink>
     <NavLink href="/documents">Documents</NavLink>
     <NavLink href="/payments">Payments</NavLink>
   </nav>

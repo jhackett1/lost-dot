@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/router"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
+import RaceBanner from "../../../../components/RaceBanner"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -31,25 +32,28 @@ const ApplicationStepAboutYouPage = (application: Application) => {
 
   return (
     <>
-      <h1>Apply to ride</h1>
-      <p className="caption">{race?.title || "Unknown race"}</p>
+      <div className="narrow-container centred">
+        <h1>Apply to ride</h1>
+        <p className="caption">{race?.title || "Unknown race"}</p>
 
-      <h2>About you</h2>
-      <p>
-        First we'd like a little more information about you, your history with
-        the race or ultra endurance racing and your experience. Transcontinental
-        is not all about qualifying but if you have done some big things before
-        or if you look like you could win it we want to know. Here's your chance
-        to tell us. Please be kind and keep your answers short, sweet and
-        relevant.
-      </p>
+        <h2>About you</h2>
+
+        <p className="centred">
+          First we'd like a little more information about you, your history with
+          the race or ultra endurance racing and your experience.
+          Transcontinental is not all about qualifying but if you have done some
+          big things before or if you look like you could win it we want to
+          know. Here's your chance to tell us. Please be kind and keep your
+          answers short, sweet and relevant.
+        </p>
+      </div>
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="form">
           {questions.map(question => {
             if (question.options)
               return (
-                <fieldset>
+                <fieldset className="fieldset">
                   <legend>{question.label}</legend>
                   {question.options.map(option => (
                     <GroupField
@@ -66,10 +70,18 @@ const ApplicationStepAboutYouPage = (application: Application) => {
             return <Field {...question} key={question.name} />
           })}
 
-          <button disabled={methods.formState.isSubmitting}>
-            {methods.formState.isSubmitting && <Loader />}
-            Continue
-          </button>
+          <div className="form__footer">
+            {!methods.formState.isValid &&
+              methods.formState.submitCount > 0 && (
+                <p role="alert" className="error">
+                  There are errors with your application
+                </p>
+              )}
+            <button disabled={methods.formState.isSubmitting}>
+              {methods.formState.isSubmitting && <Loader />}
+              Save
+            </button>
+          </div>
         </form>
       </FormProvider>
     </>

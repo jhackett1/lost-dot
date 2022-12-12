@@ -4,6 +4,9 @@ import { HTMLProps } from "react"
 export interface Race {
   id: string
   title: string
+  hashtag: string
+  date: string
+  logoUrl: string
   costs: {
     [kind in PaymentType]?: number
   }

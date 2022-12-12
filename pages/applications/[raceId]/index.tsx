@@ -6,11 +6,11 @@ import Link from "next/link"
 const ApplicationPage = (application: Application) => (
   <>
     <h1>Application detail page</h1>
-    <pre>
-      <code>{JSON.stringify(application)}</code>
-    </pre>
-    <Link href={`/applications/${application.raceId}/steps`}>
-      Resume application
+
+    <div>{JSON.stringify(application, null, 2)}</div>
+
+    <Link href={`/applications/${application.raceId}/steps`} className="button">
+      Continue
     </Link>
   </>
 )

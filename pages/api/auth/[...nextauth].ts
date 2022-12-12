@@ -13,6 +13,7 @@ export const authOptions = {
   callbacks: {
     async session({ session, user }) {
       session.user.id = (user as User).id
+      session.user.firstName = (user as User).firstName
 
       return session
     },

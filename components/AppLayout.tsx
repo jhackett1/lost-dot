@@ -1,10 +1,12 @@
-import s from "./Layout.module.scss"
 import Link from "next/link"
-import logo from "./logo.svg"
 import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/router"
+import RaceBanner from "./RaceBanner"
+import { getRaceById } from "../lib/races"
 
-const Layout = ({ children }) => {
+const AppLayout = ({ children }) => {
   const session = useSession()
+  const { asPath, query } = useRouter()
 
   const signedIn = session.status === "authenticated"
 
@@ -46,6 +48,10 @@ const Layout = ({ children }) => {
         </div>
       </header>
 
+      {asPath.includes("/steps") && (
+        <RaceBanner race={getRaceById(query.raceId as string)} />
+      )}
+
       <main id="main-content">
         <div className="container">{children}</div>
       </main>
@@ -75,4 +81,4 @@ const Layout = ({ children }) => {
   )
 }
 
-export default Layout
+export default AppLayout

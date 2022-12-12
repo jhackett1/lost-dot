@@ -5,6 +5,7 @@ import CheckoutForm from "../../../../components/CheckoutForm"
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
+import { getRaceById } from "../../../../lib/races"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
