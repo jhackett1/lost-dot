@@ -51,7 +51,7 @@ const ApplicationStepIndexPage = (application: Application) => {
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="form">
-          <fieldset>
+          <fieldset className="fieldset">
             <legend>Please confirm the following:</legend>
 
             {error && (
