@@ -1,12 +1,34 @@
 import { GetServerSideProps } from "next"
 import Stripe from "stripe"
+import AppNav from "../components/AppNav"
 
-const PaymentsPage = charges => (
-  <ul>
-    {charges.data.map(charge => (
-      <li>{JSON.stringify(charge)}</li>
-    ))}
-  </ul>
+const PaymentsPage = (
+  charges: Stripe.Response<Stripe.ApiList<Stripe.Charge>>
+) => (
+  <>
+    <h1 className="page-header__heading">Hi x</h1>
+    <AppNav />
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Payment</th>
+          <th scope="col">Date</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Customer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {charges.data.map(charge => (
+          <tr key={charge.id}>
+            <td scope="row">{charge.description}</td>
+            <td>{new Date(charge.created * 1000).toDateString()}</td>
+            <td>{charge.amount}</td>
+            <td>{charge.customer.toString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </>
 )
 
 export default PaymentsPage

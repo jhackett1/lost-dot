@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 
 const NavLink = props => {
   const { asPath } = useRouter()
-  const active = asPath.includes(props.href)
+  const active = asPath === props.href
 
   return (
     <Link
