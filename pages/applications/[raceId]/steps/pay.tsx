@@ -6,11 +6,14 @@ import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import { getRaceById } from "../../../../lib/races"
+import { formatCurrency } from "../../../../lib/formatters"
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const ApplicationPayPage = (application: Application) => {
   const [clientSecret, setClientSecret] = useState<string>("")
+
+  const race = getRaceById(application.raceId)
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -27,20 +30,41 @@ const ApplicationPayPage = (application: Application) => {
     clientSecret,
     appearance: {
       theme: "none",
+      variables: {
+        colorPrimary: "#01636A",
+        colorBackground: "#ffffff",
+        colorText: "#0b0c0c",
+        colorDanger: "#921414",
+        fontFamily: "'Open Sans', sans-serif",
+        // fontSizeBase: "17px",
+        spacingUnit: "5px",
+        borderRadius: "5px",
+        focusOutline: "#dda437",
+        focusBoxShadow: "#dda437",
+      },
     },
   }
 
   return (
-    <>
+    <div className="narrow-container">
       <h1>
         You will need to study the race manual to complete your application
       </h1>
+
+      <p>
+        We take a small payment of{" "}
+        <strong>{formatCurrency(race.costs.expressionOfInterest)}</strong> to
+        provide you with the race manual.
+      </p>
+
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm
+            goBackLink={`/applications/${application.raceId}/steps/legals`}
+          />
         </Elements>
       )}
-    </>
+    </div>
   )
 }
 

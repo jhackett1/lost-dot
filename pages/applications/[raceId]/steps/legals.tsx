@@ -5,7 +5,10 @@ import races from "../../../../data/races.json"
 import legals from "../../../../data/legals.json"
 import Field from "../../../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
-import { generateApplicationSchema } from "../../../../lib/validators"
+import {
+  generateApplicationSchema,
+  legalsSchema,
+} from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import Loader from "../../../../components/Loader"
@@ -19,11 +22,7 @@ const ApplicationStepIndexPage = (application: Application) => {
   const { push } = useRouter()
   const methods = useForm({
     defaultValues: application.answers as { [x: string]: any },
-    resolver: zodResolver(
-      z.object({
-        legals: z.array(z.string()).min(legals.length),
-      })
-    ),
+    resolver: zodResolver(legalsSchema),
   })
 
   const onSubmit = async values => {

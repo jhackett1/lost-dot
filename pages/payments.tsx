@@ -12,22 +12,23 @@ const PaymentsPage = (
       <title>Payments | Lost Dot</title>
     </Head>
     <PageHeader />
+
     <table>
       <thead>
         <tr>
-          <th scope="col">Payment</th>
-          <th scope="col">Date</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Customer</th>
+          {Object.keys(charges.data[0]).map(key => (
+            <th scope="col" key={key}>
+              {key}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {charges.data.map(charge => (
-          <tr key={charge.id}>
-            <td scope="row">{charge.description}</td>
-            <td>{new Date(charge.created * 1000).toDateString()}</td>
-            <td>{charge.amount}</td>
-            <td>{charge.customer.toString()}</td>
+        {charges.data.map(user => (
+          <tr key={user.id}>
+            {Object.values(user).map(value => (
+              <td key={value?.toString()}>{value?.toString()}</td>
+            ))}
           </tr>
         ))}
       </tbody>

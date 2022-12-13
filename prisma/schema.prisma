@@ -52,6 +52,7 @@ model User {
   image          String? // url to profile picture
   accounts       Account[]
   sessions       Session[]
+  customerId     String? // stripe identifier
   // biography
   firstName      String?
   lastName       String?

@@ -86,7 +86,7 @@ const UserForm = ({ user }: Props) => {
         />
 
         <fieldset className="fieldset">
-          <legend>Next of kin</legend>
+          <legend className="fieldset__big-legend">Next of kin</legend>
           <p>Who should we contact in an emergency?</p>
           <p>
             We will email this person as part of the application process, so
@@ -106,7 +106,7 @@ const UserForm = ({ user }: Props) => {
         </fieldset>
 
         <fieldset className="fieldset">
-          <legend>Contact preferences</legend>
+          <legend className="fieldset__big-legend">Contact preferences</legend>
           <p>Let us know what emails you'd like to receive.</p>
           {Object.entries(marketingPrefs).map(opt => (
             <GroupField

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Layout, LayoutObject } from "@stripe/stripe-js"
+import Link from "next/link"
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ goBackLink }: { goBackLink: string }) => {
   const stripe = useStripe()
   const elements = useElements()
 
@@ -72,13 +73,26 @@ const CheckoutForm = () => {
   }
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form
+      id="payment-form"
+      className="form form--payment"
+      onSubmit={handleSubmit}
+    >
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
+
+      <div className="form__footer">
+        <Link href={goBackLink}>Go back</Link>
+
+        <button disabled={isLoading || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isLoading ? (
+              <div className="spinner" id="spinner"></div>
+            ) : (
+              "Pay now"
+            )}
+          </span>
+        </button>
+      </div>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>

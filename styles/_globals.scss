@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: $p-stack;
 }
 
 body {
@@ -18,9 +18,8 @@ h1,
 h2,
 h3,
 h4,
-h5,
-legend {
-  font-family: "Futura";
+h5 {
+  font-family: $h-stack;
   margin-bottom: 0;
 }
 
@@ -44,11 +43,6 @@ fieldset {
   border: none;
   padding: 0;
   margin: 0;
-}
-
-legend {
-  font-weight: bold;
-  font-size: 1.3rem;
 }
 
 main {

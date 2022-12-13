@@ -19,7 +19,9 @@ const GroupField = ({ label, name, hint, required, type, ...props }: Props) => {
     <div
       className={`group-field${required ? " group-field--required" : ""}${
         type === "checkbox" ? " group-field--checkbox" : ""
-      }${type === "radio" ? " group-field--radio" : ""}`}
+      }${type === "radio" ? " group-field--radio" : ""} ${
+        hint ? " group-field--with-hint" : ""
+      }`}
     >
       <input
         {...register(name)}

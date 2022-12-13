@@ -7,7 +7,6 @@
   padding-left: 4rem;
 
   &__label {
-    font-weight: 600;
     cursor: pointer;
   }
 
@@ -110,6 +109,12 @@
           border-radius: 100%;
         }
       }
+    }
+  }
+
+  &--with-hint {
+    label {
+      font-weight: 600;
     }
   }
 }
