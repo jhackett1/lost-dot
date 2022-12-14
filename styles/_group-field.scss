@@ -6,6 +6,10 @@
   position: relative;
   padding-left: 4rem;
 
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+
   &__label {
     cursor: pointer;
   }
@@ -113,8 +117,12 @@
   }
 
   &--with-hint {
+    margin-top: 1rem;
+
     label {
       font-weight: 600;
     }
+
+
   }
 }

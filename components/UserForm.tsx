@@ -9,6 +9,7 @@ import marketingPrefs from "../data/marketing-preferences.json"
 import ethnicities from "../data/ethnicities.json"
 import Loader from "./Loader"
 import GroupField from "./GroupField"
+import ErrorSummary from "./ErrorSummary"
 
 interface Props {
   user: User
@@ -121,12 +122,12 @@ const UserForm = ({ user }: Props) => {
 
         {formStatus && <p role="alert">{formStatus}</p>}
 
+        <ErrorSummary>
+          There are errors with your profile—answer all the required questions
+          and try again.
+        </ErrorSummary>
+
         <div className="form__footer">
-          {!methods.formState.isValid && methods.formState.submitCount > 0 && (
-            <p role="alert" className="error">
-              There are errors with your profile
-            </p>
-          )}
           <button disabled={methods.formState.isSubmitting}>
             {methods.formState.isSubmitting && <Loader />}
             Save

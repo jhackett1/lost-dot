@@ -46,59 +46,54 @@ model VerificationToken {
 }
 
 model User {
-  id             String        @id @default(cuid())
-  email          String?       @unique
-  emailVerified  DateTime?
-  image          String? // url to profile picture
-  accounts       Account[]
-  sessions       Session[]
-  customerId     String? // stripe identifier
+  id                String        @id @default(cuid())
+  email             String?       @unique
+  emailVerified     DateTime?
+  image             String? // url to profile picture
+  accounts          Account[]
+  sessions          Session[]
+  customerId        String? // stripe identifier
   // biography
-  firstName      String?
-  lastName       String?
-  dateOfBirth    DateTime?
-  gender         String?
-  ethnicity      String?
-  nationality    String?
-  firstLang      String?
+  firstName         String?
+  lastName          String?
+  dateOfBirth       DateTime?
+  gender            String?
+  ethnicity         String?
+  nationality       String?
+  firstLang         String?
   // next of kin
-  nextOfKinName  String?
-  nextOfKinEmail String?
-  nextOfKinPhone String?
+  nextOfKinName     String?
+  nextOfKinEmail    String?
+  nextOfKinPhone    String?
   // marketing
-  contactPrefs   String[]
-  admin          Boolean       @default(false) // can the user administer other users?
+  contactPrefs      String[]
+  admin             Boolean       @default(false) // can the user administer other users?
   // meta
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  onboardedAt    DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  onboardedAt       DateTime?
   // associations
-  Document       Document[]
+  OwnedDocuments    Document[]    @relation("owner")
+  UploadedDocuments Document[]    @relation("uploader")
   // Payment        Payment[]
-  Application    Application[]
+  Application       Application[]
 }
 
 model Document {
-  id        String   @id @default(cuid())
-  raceId    String?
+  id         String   @id @default(cuid())
+  raceId     String?
   // associations
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ownedBy    String
+  user       User     @relation("owner", fields: [ownedBy], references: [id], onDelete: Cascade)
+  uploadedBy String
+  uploader   User     @relation("uploader", fields: [uploadedBy], references: [id], onDelete: Cascade)
   // meta
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum PaymentType {
-  expressionOfInterest
-  acceptance
-  remainder
-  other
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 // model Payment {
 //   id        String      @id @default(cuid())
-//   type      PaymentType
 //   amount    Float
 //   raceId    String?
 //   // associations

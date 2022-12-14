@@ -26,11 +26,13 @@ export const UserInputSchema = z.object({
 })
 
 export const SignInSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("That doesn't look like a valid email"),
 })
 
 export const LegalApplicationSchema = z.object({
-  legals: z.array(z.string()).min(legals.length),
+  legals: z
+    .array(z.string())
+    .min(legals.length, "You need to accept all the terms before continuing"),
 })
 
 export const generateApplicationSchema = (questions: Question[]) => {
@@ -38,7 +40,9 @@ export const generateApplicationSchema = (questions: Question[]) => {
 
   questions.forEach(question => {
     if (question.required) {
-      schema[question.name] = z.string().min(1)
+      schema[question.name] = z
+        .string({ invalid_type_error: "This is a required question" })
+        .min(1, "This is a required question")
     } else {
       schema[question.name] = z.string()
     }
@@ -46,7 +50,3 @@ export const generateApplicationSchema = (questions: Question[]) => {
 
   return z.object(schema)
 }
-
-export const legalsSchema = z.object({
-  legals: z.array(z.string()).min(legals.length),
-})

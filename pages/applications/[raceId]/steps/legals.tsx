@@ -5,16 +5,14 @@ import races from "../../../../data/races.json"
 import legals from "../../../../data/legals.json"
 import Field from "../../../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
-import {
-  generateApplicationSchema,
-  legalsSchema,
-} from "../../../../lib/validators"
+import { LegalApplicationSchema } from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
 import { useRouter } from "next/router"
 import { z } from "zod"
+import ErrorSummary from "../../../../components/ErrorSummary"
 
 const ApplicationStepIndexPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -22,7 +20,7 @@ const ApplicationStepIndexPage = (application: Application) => {
   const { push } = useRouter()
   const methods = useForm({
     defaultValues: application.answers as { [x: string]: any },
-    resolver: zodResolver(legalsSchema),
+    resolver: zodResolver(LegalApplicationSchema),
   })
 
   const onSubmit = async values => {
@@ -70,14 +68,11 @@ const ApplicationStepIndexPage = (application: Application) => {
             ))}
           </fieldset>
 
-          <div className="form__footer">
-            {!methods.formState.isValid &&
-              methods.formState.submitCount > 0 && (
-                <p role="alert" className="error">
-                  There are errors with your application
-                </p>
-              )}
+          <ErrorSummary>
+            You need to accept all the terms before continuing.
+          </ErrorSummary>
 
+          <div className="form__footer">
             <Link href={`/applications/${application.raceId}/steps`}>
               Go back
             </Link>

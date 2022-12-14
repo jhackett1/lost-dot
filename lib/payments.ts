@@ -21,3 +21,6 @@ export const getPaymentsByCustomerAndRace = async (
 
   return charges.data.filter(charge => charge.metadata["raceId"] === raceId)
 }
+
+/** create a new blank customer for us to attribute payments to */
+export const createCustomer = async () => await stripe.customers.create({})

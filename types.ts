@@ -1,5 +1,11 @@
-import { PaymentType, User } from "@prisma/client"
+import { User } from "@prisma/client"
 import { HTMLProps } from "react"
+
+export enum PaymentType {
+  expressionOfInterest = "expressionOfInterest",
+  acceptance = "acceptance",
+  remainder = "remainder",
+}
 
 export interface Race {
   id: string
@@ -8,7 +14,7 @@ export interface Race {
   date: string
   logoUrl: string
   costs: {
-    [kind in PaymentType]?: number
+    [type in PaymentType]: number
   }
 }
 

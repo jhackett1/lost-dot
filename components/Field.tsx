@@ -52,6 +52,7 @@ const Field = ({
             className="field__input"
             aria-describedby={hint ? `${id}-hint` : ""}
             id={id}
+            rows={3}
           ></textarea>
         ) : type === "select" ? (
           //@ts-ignore

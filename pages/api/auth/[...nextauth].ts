@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { User } from "@prisma/client"
 import NextAuth from "next-auth"
 import EmailProvider from "next-auth/providers/email"
+import { createCustomer } from "../../../lib/payments"
 import prisma from "../../../lib/prisma"
 
 export const authOptions = {
@@ -11,14 +12,35 @@ export const authOptions = {
     verifyRequest: "/auth/check-email",
   },
   callbacks: {
-    async session({ session, user }) {
+    session: async ({ session, user }) => {
       const u: User = user
 
       session.user.id = u.id
       session.user.firstName = u.firstName
       session.user.admin = u.admin
+      session.user.customerId = u.customerId
 
       return session
+    },
+
+    signIn: async ({ user, account, profile, email, credentials }) => {
+      const u: User = user
+
+      // if the customer doesn't have an id, give them one
+      if (!u.customerId) {
+        const customer = await createCustomer()
+
+        await prisma.user.update({
+          where: {
+            id: u.id,
+          },
+          data: {
+            customerId: customer.id,
+          },
+        })
+      }
+
+      return true
     },
   },
   providers: [

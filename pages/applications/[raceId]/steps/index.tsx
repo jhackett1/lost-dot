@@ -12,6 +12,7 @@ import { useRouter } from "next/router"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
 import RaceBanner from "../../../../components/RaceBanner"
+import ErrorSummary from "../../../../components/ErrorSummary"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -55,6 +56,15 @@ const ApplicationStepAboutYouPage = (application: Application) => {
               return (
                 <fieldset className="fieldset">
                   <legend>{question.label}</legend>
+
+                  {methods.formState.errors[question.name] && (
+                    <p role="alert" className="error">
+                      {methods.formState.errors[
+                        question.name
+                      ].message.toString()}
+                    </p>
+                  )}
+
                   {question.options.map(option => (
                     <GroupField
                       name={question.name}
@@ -70,13 +80,12 @@ const ApplicationStepAboutYouPage = (application: Application) => {
             return <Field {...question} key={question.name} />
           })}
 
+          <ErrorSummary>
+            There are errors with your application—answer all the required
+            questions and try again.
+          </ErrorSummary>
+
           <div className="form__footer">
-            {!methods.formState.isValid &&
-              methods.formState.submitCount > 0 && (
-                <p role="alert" className="error">
-                  There are errors with your application
-                </p>
-              )}
             <button disabled={methods.formState.isSubmitting}>
               {methods.formState.isSubmitting && <Loader />}
               Save

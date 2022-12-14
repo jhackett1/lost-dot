@@ -6,6 +6,7 @@ import { authOptions } from "../../auth/[...nextauth]"
 const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
+      // handle saving application answers
       case "PUT":
         const { raceId } = req.query
         const data = JSON.parse(req.body)
