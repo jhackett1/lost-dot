@@ -30,11 +30,14 @@ export const authOptions = {
       if (!u.customerId) {
         const customer = await createCustomer()
 
-        await prisma.user.update({
+        await prisma.user.upsert({
           where: {
-            id: u.id,
+            email: u.email,
           },
-          data: {
+          create: {
+            customerId: customer.id,
+          },
+          update: {
             customerId: customer.id,
           },
         })
