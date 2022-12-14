@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/jhackett1/lost-dot#readme",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.231.0",
     "@hookform/resolvers": "^2.9.10",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.7.0",
