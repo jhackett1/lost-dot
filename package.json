@@ -26,6 +26,7 @@
     "@hookform/resolvers": "^2.9.10",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "@stripe/react-stripe-js": "^1.16.0",
     "@stripe/stripe-js": "^1.46.0",
     "luxon": "^3.1.1",

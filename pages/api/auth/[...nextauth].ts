@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { User } from "@prisma/client"
 import NextAuth from "next-auth"
 import EmailProvider from "next-auth/providers/email"
+import { sendMagicLink } from "../../../lib/emails"
 import { createCustomer } from "../../../lib/payments"
 import prisma from "../../../lib/prisma"
 
@@ -48,18 +49,12 @@ export const authOptions = {
   },
   providers: [
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
       from: process.env.EMAIL_FROM,
-      sendVerificationRequest({ url }) {
+      sendVerificationRequest: async ({ url, ...args }) => {
         if (process.env.NODE_ENV === "development")
-          console.log(`Sign in URL: ${url}`)
+          console.log(`Sign in URL: ${url}`) // for local dev
+
+        await sendMagicLink({ url, ...args })
       },
     }),
   ],
