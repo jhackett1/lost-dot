@@ -10,6 +10,7 @@ import ethnicities from "../data/ethnicities.json"
 import Loader from "./Loader"
 import GroupField from "./GroupField"
 import ErrorSummary from "./ErrorSummary"
+import { useRouter } from "next/router"
 
 interface Props {
   user: User
@@ -17,22 +18,27 @@ interface Props {
 
 const UserForm = ({ user }: Props) => {
   const [formStatus, setFormStatus] = useState<string>("")
+  const { replace } = useRouter()
 
   const methods = useForm<UserInput>({
     defaultValues: {
       ...user,
-      dateOfBirth: new Date(user.dateOfBirth).toISOString().slice(0, 10),
+      dateOfBirth: user.dateOfBirth
+        ? new Date(user.dateOfBirth).toISOString().slice(0, 10)
+        : "",
     },
     resolver: zodResolver(UserInputSchema),
   })
 
   const onSubmit = async values => {
-    console.log(values)
-
     const res = await fetch(`/api/profile`, {
       method: "PUT",
       body: JSON.stringify(values),
     })
+    if (res.ok)
+      replace("/", null, {
+        scroll: true,
+      })
   }
 
   return (

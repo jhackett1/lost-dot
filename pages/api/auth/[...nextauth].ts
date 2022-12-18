@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { User } from "@prisma/client"
-import NextAuth from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import { sendMagicLink } from "../../../lib/emails"
 import { createCustomer } from "../../../lib/payments"

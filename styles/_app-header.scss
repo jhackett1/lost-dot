@@ -12,16 +12,10 @@
     display: none;
 
     @media screen and (min-width: $breakpoint-m) {
-      display: block;
-    }
-
-    *+* {
-      display: block;
-
-      @media screen and (min-width: $breakpoint-m) {
-        display: inline-block;
-        margin-left: 1rem;
-      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.25rem;
     }
   }
 
@@ -30,7 +24,6 @@
     font-weight: bold;
     text-decoration: none;
     color: $white;
-
 
     &:hover {
       color: darken($white, 10);
@@ -64,6 +57,14 @@
       align-items: center;
 
     }
+  }
+
+  &__avatar {
+    border-radius: 100%;
+    width: 50px;
+    height: auto;
+    border: 3px solid transparentize($white, 0.75);
+    // object-fit: 110%
   }
 
 }

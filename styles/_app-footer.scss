@@ -1,31 +1,53 @@
 .app-footer {
   @include standard-padding;
+  padding: 2rem 1rem;
   background: $black;
   color: $white;
 
-  @media screen and (min-width: $breakpoint-m) {
+  @media screen and (min-width: $breakpoint-l) {
     padding: 4rem 2rem;
   }
 
   &__inner {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
-    @media screen and (min-width: $breakpoint-m) {
-      grid-template-columns: 1fr 2fr 1fr;
-      gap: 2rem;
+    @media screen and (min-width: $breakpoint-l) {
+      flex-direction: row;
+      justify-content: space-between;
     }
+
   }
 
   &__statement {
     font-size: 1.3rem;
+    font-family: $h-stack;
+
+    @media screen and (min-width: $breakpoint-l) {
+      font-size: 1.5rem;
+    }
   }
 
-  nav {
-    display: flex;
-    flex-direction: column;
-    columns: 2;
-    column-fill: balance;
+  &__nav {
+    @media screen and (min-width: $breakpoint-l) {
+      columns: 2;
+      column-fill: balance;
+      column-gap: 2rem;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      column-span: none;
+      max-width: 12rem;
+    }
+
+
   }
 
   a {
@@ -42,6 +64,38 @@
       background: $yellow;
       outline: 3px solid $yellow;
     }
+  }
 
+  &__social {
+    display: flex;
+    gap: 1rem;
+
+    @media screen and (min-width: $breakpoint-l) {
+      display: grid;
+      justify-content: end;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    a {
+      border: 1px solid $white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0;
+      padding: 0.5rem;
+      border-radius: $border-radius;
+      width: 3.5rem;
+      height: 3.5rem;
+
+      &:focus,
+      &:active {
+        border-color: $yellow;
+        outline: 0;
+
+        svg path {
+          fill: $black
+        }
+      }
+    }
   }
 }

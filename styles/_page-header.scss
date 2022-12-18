@@ -1,6 +1,10 @@
 .page-header {
   padding-top: 2rem;
   padding-bottom: 3rem;
+  text-align: center;
+  @include narrow-container;
+
+
 
   @media screen and (min-width: $breakpoint-m) {
     padding-bottom: 4rem;
@@ -28,6 +32,25 @@
     @media screen and (min-width: $breakpoint-m) {
       font-size: 1.4rem;
       margin-top: 0.75rem;
+    }
+  }
+
+  &__body {
+    margin: 0;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 1.2rem;
+      margin-top: 1.25rem;
+    }
+
+    &:first-of-type {
+      margin-top: 1.5rem;
+
+      @media screen and (min-width: $breakpoint-m) {
+        margin-top: 2rem;
+      }
     }
   }
 }

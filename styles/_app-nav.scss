@@ -2,6 +2,10 @@
   text-align: center;
   margin-top: 1rem;
   width: 100%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1rem;
 
   &__admin {
     margin-top: 1rem;
@@ -9,8 +13,7 @@
 
   &__link {
     font-family: $h-stack;
-    margin-top: 0.5rem;
-    margin-left: 1rem;
+    margin-top: 0rem;
     display: inline-block;
     font-size: 1.1rem;
     text-decoration: none;
@@ -21,7 +24,6 @@
       color: lighten($black, 20);
     }
 
-
     &--active {
       color: $teal;
 
@@ -30,7 +32,6 @@
       }
     }
 
-
     &:focus,
     &:active {
       background: $yellow;
@@ -38,13 +39,8 @@
       color: $black;
     }
 
-    &:first-child {
-      margin-left: 0;
-    }
-
     @media screen and (min-width: $breakpoint-m) {
       font-size: 1.2rem;
-      margin-left: 2rem;
     }
   }
 

@@ -59,6 +59,13 @@
       padding: 2rem;
     }
   }
+
+  &--sign-in {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .fieldset {
