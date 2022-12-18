@@ -4,17 +4,106 @@
   border-radius: $border-radius;
   @include mid-container;
 
+  @media screen and (min-width: $breakpoint-m) {
+    padding: 2rem;
+  }
+
   * {
     margin: 0;
   }
 
   &__headline {}
 
-  &__deadline {}
+  &__deadline {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+  }
 
-  &__body {}
+  &__body {
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
 
-  &__completion-meter {}
+    @media screen and (min-width: $breakpoint-m) {
+      grid-template-columns: 1fr 3fr;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 1.5rem;
+      gap: 2rem;
+    }
+  }
 
-  &__timeline {}
+  // &__completion-meter {}
+
+  &__timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 2rem;
+    counter-reset: count 0;
+  }
+
+  $separation: 2rem;
+
+  &__timeline-task {
+    position: relative;
+    margin-top: $separation;
+    padding-top: 0.4rem;
+    padding-left: 3.5rem;
+    counter-increment: count 1;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 17.5px;
+      height: calc(100% + $separation);
+      border-left: 2px solid $teal;
+      border-radius: $border-radius;
+    }
+
+    &:last-child:before {
+      display: none;
+    }
+
+    &:after {
+      content: counter(count);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $teal;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2rem;
+      width: 2rem;
+      border: 2px solid $teal;
+      background-color: $white;
+      border-radius: $border-radius;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &--complete:after {
+      content: "";
+      background-color: $teal;
+      background-image: url("data:image/svg+xml,%3Csvg width='26' height='19' viewBox='0 0 26 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M25.0607 0.43934C25.6464 1.02513 25.6464 1.97487 25.0607 2.56066L9.56066 18.0607C8.97487 18.6464 8.02513 18.6464 7.43934 18.0607L0.93934 11.5607C0.353553 10.9749 0.353553 10.0251 0.93934 9.43934C1.52513 8.85355 2.47487 8.85355 3.06066 9.43934L8.5 14.8787L22.9393 0.43934C23.5251 -0.146447 24.4749 -0.146447 25.0607 0.43934Z' fill='white'/%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 1rem;
+    }
+
+    a {
+      display: block;
+    }
+  }
+
+  &__timeline-complete {
+    font-size: 0;
+  }
 }

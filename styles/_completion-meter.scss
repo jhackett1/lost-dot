@@ -1,0 +1,26 @@
+.completion-meter {
+  text-anchor: middle;
+
+  circle:first-of-type {
+    stroke: transparentize($teal, 0.5);
+  }
+
+  circle:last-of-type {
+    stroke: $teal;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+  }
+
+  text {
+    fill: $teal;
+  }
+
+  text:first-of-type {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  text:last-of-type {
+    // font-size: 0.9rem;
+  }
+}
