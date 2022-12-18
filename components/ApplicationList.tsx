@@ -17,7 +17,8 @@ const ApplicationList = ({ applications }: Props) => (
           </h2>
           <p>
             <>
-              Submitted: {new Date(application.updatedAt).toLocaleDateString()}
+              {/* TODO: fix this */}
+              Submitted: XX/XX/XXXX
             </>
           </p>
         </div>

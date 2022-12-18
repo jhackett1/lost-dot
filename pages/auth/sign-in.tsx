@@ -1,9 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GetServerSideProps } from "next"
-import { getCsrfToken, getSession, signIn } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 import { FormProvider, useForm } from "react-hook-form"
 import Field from "../../components/Field"
-import useNotSignedIn from "../../hooks/useNotSignedIn"
 import { SignInSchema } from "../../lib/validators"
 
 const SignInPage = () => {

@@ -25,20 +25,22 @@ const AppNav = () => {
   const isAdmin = session?.data?.user?.admin
 
   return (
-    <nav className="app-nav">
-      <NavLink href="/">Profile</NavLink>
-      <NavLink href="/applications">Active applications</NavLink>
-      <NavLink href="/past-applications">Past applications</NavLink>
-      <NavLink href="/documents">Documents</NavLink>
-      <NavLink href="/payments">Payments</NavLink>
+    <>
+      <nav className="app-nav">
+        <NavLink href="/">Profile</NavLink>
+        <NavLink href="/applications">Active applications</NavLink>
+        <NavLink href="/past-applications">Past applications</NavLink>
+        <NavLink href="/documents">Documents</NavLink>
+        <NavLink href="/payments">Payments</NavLink>
+      </nav>
 
       {isAdmin && (
-        <div className="app-nav__admin">
+        <nav className="app-nav">
           <NavLink href="/admin/applications">Applications</NavLink>
           <NavLink href="/admin/users">Users</NavLink>
-        </div>
+        </nav>
       )}
-    </nav>
+    </>
   )
 }
 

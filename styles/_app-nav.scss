@@ -7,8 +7,8 @@
   justify-content: center;
   gap: 0.5rem 1rem;
 
-  &__admin {
-    margin-top: 1rem;
+  @media screen and (min-width: $breakpoint-m) {
+    gap: 0.5rem 2rem;
   }
 
   &__link {

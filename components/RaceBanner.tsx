@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { formatDate } from "../lib/formatters"
 import { Race } from "../types"
 
 interface Props {
@@ -14,9 +15,7 @@ const RaceBanner = ({ race }: Props) => {
 
           <Image src={race.logoUrl} alt={race.title} width={150} height={150} />
 
-          <span className="race-banner__date">
-            {new Date(race.date).toDateString()}
-          </span>
+          <span className="race-banner__date">{formatDate(race.date)}</span>
         </div>
       </header>
     )

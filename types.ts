@@ -12,6 +12,7 @@ export interface Race {
   title: string
   hashtag: string
   date: string
+  deadline: string
   logoUrl: string
   costs: {
     [type in PaymentType]: number

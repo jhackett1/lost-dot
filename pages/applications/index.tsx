@@ -5,6 +5,7 @@ import Link from "next/link"
 import ApplicationList from "../../components/ApplicationList"
 import PageHeader from "../../components/PageHeader"
 import { getRaceById } from "../../lib/races"
+import races from "../../data/races.json"
 
 const ApplicationsPage = ({ applications }) => (
   <>
@@ -14,7 +15,33 @@ const ApplicationsPage = ({ applications }) => (
 
     <PageHeader />
 
-    <ApplicationList applications={applications} />
+    {applications.length > 0 ? (
+      <ApplicationList applications={applications} />
+    ) : (
+      <p className="no-results">You have no active applications</p>
+    )}
+
+    <form method="get" action="/applications/new">
+      <div className="field">
+        <label htmlFor="race_id" className="field__label">
+          Choose a race
+        </label>
+        <select name="race_id" id="race_id" className="field__input">
+          {races
+            .filter(
+              race =>
+                !applications
+                  .map(application => application.raceId)
+                  .includes(race.id)
+            )
+            .map(race => (
+              <option value={race.id}>{race.title}</option>
+            ))}
+        </select>
+      </div>
+
+      <button>Start application</button>
+    </form>
   </>
 )
 

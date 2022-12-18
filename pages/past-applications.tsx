@@ -19,7 +19,11 @@ const PastApplicationsPage = ({
 
     <PageHeader />
 
-    <ApplicationList applications={applications} />
+    {applications.length > 0 ? (
+      <ApplicationList applications={applications} />
+    ) : (
+      <p className="no-results">You have no past applications</p>
+    )}
   </>
 )
 

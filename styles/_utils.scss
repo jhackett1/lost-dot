@@ -94,3 +94,13 @@
 .button {
   @include button;
 }
+
+.no-results {
+  text-align: center;
+  margin: 2rem 0 2rem 0;
+  font-size: 1.1rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    font-size: 1.2rem;
+  }
+}

@@ -2,9 +2,7 @@
   padding-top: 2rem;
   padding-bottom: 3rem;
   text-align: center;
-  @include narrow-container;
-
-
+  @include wide-container;
 
   @media screen and (min-width: $breakpoint-m) {
     padding-bottom: 4rem;
