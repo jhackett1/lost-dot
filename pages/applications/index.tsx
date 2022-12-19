@@ -1,11 +1,10 @@
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import Head from "next/head"
-import Link from "next/link"
 import ApplicationList from "../../components/ApplicationList"
 import PageHeader from "../../components/PageHeader"
-import { getRaceById } from "../../lib/races"
 import races from "../../data/races.json"
+import prisma from "../../lib/prisma"
 
 const ApplicationsPage = ({ applications }) => (
   <>

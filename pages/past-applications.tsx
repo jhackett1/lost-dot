@@ -2,10 +2,9 @@ import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import Head from "next/head"
-import Link from "next/link"
 import ApplicationList from "../components/ApplicationList"
 import PageHeader from "../components/PageHeader"
-import { getRaceById } from "../lib/races"
+import prisma from "../lib/prisma"
 
 const PastApplicationsPage = ({
   applications,

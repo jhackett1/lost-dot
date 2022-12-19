@@ -1,9 +1,9 @@
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
-import ApplicationList from "../../components/ApplicationList"
 import PageHeader from "../../components/PageHeader"
 import races from "../../data/races.json"
+import prisma from "../../lib/prisma"
 
 const AdminApplicationsPage = ({
   applications,
