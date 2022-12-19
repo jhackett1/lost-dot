@@ -17,17 +17,17 @@ const CompletionMeter = ({ completion }) => {
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke-width={thickness}
+        strokeWidth={thickness}
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke-width={thickness}
+        strokeWidth={thickness}
         strokeLinecap="round"
-        stroke-dasharray={circumference}
-        stroke-dashoffset={strokeOffset}
+        strokeDasharray={circumference}
+        strokeDashoffset={strokeOffset}
       />
       <text x={size / 2} y={(size / 2) * 1.05}>
         {Math.round(completion * 100)}%

@@ -34,7 +34,9 @@ const ApplicationsPage = ({ applications }) => (
                   .includes(race.id)
             )
             .map(race => (
-              <option value={race.id}>{race.title}</option>
+              <option value={race.id} key={race.id}>
+                {race.title}
+              </option>
             ))}
         </select>
       </div>
