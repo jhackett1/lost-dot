@@ -5,6 +5,7 @@ import Head from "next/head"
 import ApplicationBox from "../../../components/ApplicationBox"
 import PageHeader from "../../../components/PageHeader"
 import { getRaceById } from "../../../lib/races"
+import prisma from "../../../lib/prisma"
 
 const ApplicationPage = (application: Application) => {
   const race = getRaceById(application.raceId)

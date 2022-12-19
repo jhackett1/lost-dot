@@ -5,14 +5,13 @@ import races from "../../../../data/races.json"
 import questions from "../../../../data/about-you.json"
 import Field from "../../../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
-import { authOptions } from "../../../api/auth/[...nextauth]"
 import { generateApplicationSchema } from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/router"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
-import RaceBanner from "../../../../components/RaceBanner"
 import ErrorSummary from "../../../../components/ErrorSummary"
+import prisma from "../../../../lib/prisma"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)

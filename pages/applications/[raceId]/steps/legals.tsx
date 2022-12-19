@@ -3,7 +3,6 @@ import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import races from "../../../../data/races.json"
 import legals from "../../../../data/legals.json"
-import Field from "../../../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
 import { LegalApplicationSchema } from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,8 +10,8 @@ import Link from "next/link"
 import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
 import { useRouter } from "next/router"
-import { z } from "zod"
 import ErrorSummary from "../../../../components/ErrorSummary"
+import prisma from "../../../../lib/prisma"
 
 const ApplicationStepIndexPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)

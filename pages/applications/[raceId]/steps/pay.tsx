@@ -1,12 +1,13 @@
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
-import { EffectCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import CheckoutForm from "../../../../components/CheckoutForm"
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import { getRaceById } from "../../../../lib/races"
 import { formatCurrency } from "../../../../lib/formatters"
+import prisma from "../../../../lib/prisma"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
