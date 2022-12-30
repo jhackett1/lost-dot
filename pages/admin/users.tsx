@@ -1,4 +1,3 @@
-import { User } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import PageHeader from "../../components/PageHeader"
@@ -6,9 +5,18 @@ import prisma from "../../lib/prisma"
 import GroupField from "../../components/GroupField"
 import Field from "../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
+import useSWR from "swr"
+import { UserWithApplications } from "../../types"
 
-const AdminApplicationsPage = ({ users }: { users: User[] }) => {
+const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
   const helpers = useForm()
+
+  const { data, mutate } = useSWR<UserWithApplications[]>(
+    `/api/admin/users?${new URLSearchParams(helpers.getValues())}`,
+    {
+      fallbackData: users,
+    }
+  )
 
   return (
     <>
@@ -23,7 +31,7 @@ const AdminApplicationsPage = ({ users }: { users: User[] }) => {
       <p>Showing {users.length} results</p>
 
       <FormProvider {...helpers}>
-        <form>
+        <form onSubmit={helpers.handleSubmit(() => mutate())}>
           <Field
             label="Search"
             name="search"
@@ -55,19 +63,33 @@ const AdminApplicationsPage = ({ users }: { users: User[] }) => {
       <table>
         <thead>
           <tr>
-            {Object.keys(users[0]).map(key => (
-              <th scope="col" key={key}>
-                {key}
-              </th>
-            ))}
+            <th scope="col">User</th>
+            <th scope="col">Their applications</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              {Object.values(user).map(value => (
-                <td key={value?.toString()}>{value?.toString()}</td>
-              ))}
+          {data.map(user => (
+            <tr key={user.id} aria-expanded={false}>
+              <td scope="row">
+                <strong>
+                  {user.firstName} {user.lastName}
+                </strong>
+                <p>
+                  {user.email}{" "}
+                  {user.admin && <span className="tag">Admin</span>}
+                </p>
+              </td>
+              <td>
+                <ul>
+                  {user.applications.map(application => (
+                    <li>{application.id}</li>
+                  ))}
+                </ul>
+              </td>
+              <td>
+                <button>+ See more</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -76,10 +98,14 @@ const AdminApplicationsPage = ({ users }: { users: User[] }) => {
   )
 }
 
-export default AdminApplicationsPage
+export default AdminUsersPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const users = await prisma.user.findMany()
+  const users = await prisma.user.findMany({
+    include: {
+      applications: true,
+    },
+  })
 
   return {
     props: {

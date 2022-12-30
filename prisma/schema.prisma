@@ -73,10 +73,9 @@ model User {
   updatedAt         DateTime      @updatedAt
   onboardedAt       DateTime?
   // associations
-  OwnedDocuments    Document[]    @relation("owner")
-  UploadedDocuments Document[]    @relation("uploader")
-  // Payment        Payment[]
-  Application       Application[]
+  ownedDocuments    Document[]    @relation("owner")
+  uploadedDocuments Document[]    @relation("uploader")
+  applications      Application[]
 }
 
 model Document {

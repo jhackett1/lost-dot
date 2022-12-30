@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+import { Prisma, User } from "@prisma/client"
 import { HTMLProps } from "react"
 
 export enum PaymentType {
@@ -30,3 +30,11 @@ export interface UserInput
 export interface Question extends HTMLProps<HTMLInputElement> {
   options?: string[]
 }
+
+const userWithApplications = Prisma.validator<Prisma.UserArgs>()({
+  include: { applications: true },
+})
+
+export type UserWithApplications = Prisma.UserGetPayload<
+  typeof userWithApplications
+>
