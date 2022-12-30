@@ -6,6 +6,8 @@ import PageHeader from "../components/PageHeader"
 import { getPaymentsByCustomer } from "../lib/payments"
 import { formatCurrency, formatDate } from "../lib/formatters"
 import { authOptions } from "./api/auth/[...nextauth]"
+import Link from "next/link"
+import { getRaceById } from "../lib/races"
 
 const PaymentsPage = (
   charges: Stripe.Response<Stripe.ApiList<Stripe.Charge>>
@@ -15,6 +17,8 @@ const PaymentsPage = (
       <title>Payments | Lost Dot</title>
     </Head>
     <PageHeader />
+
+    {console.log(charges)}
 
     <h1>Your payments</h1>
 
@@ -31,12 +35,13 @@ const PaymentsPage = (
         {charges.data.map(charge => (
           <tr key={charge.id}>
             <td scope="row">
-              <strong>{JSON.stringify(charge.metadata)}</strong>
+              <strong>{getRaceById(charge.metadata["raceId"]).title}</strong>
+              <p>{charge.metadata["type"]}</p>
             </td>
             <td>{formatCurrency(charge.amount / 100)}</td>
             <td>{formatDate(charge.created * 1000)}</td>
             <td>
-              <button>View</button>
+              <Link href={charge.receipt_url}>View receipt</Link>
             </td>
           </tr>
         ))}

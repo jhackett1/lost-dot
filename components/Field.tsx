@@ -7,6 +7,7 @@ export interface Props
   > {
   label: string
   hint?: string
+  dontShowOptional?: boolean
 }
 
 const Field = ({
@@ -16,6 +17,7 @@ const Field = ({
   required,
   type,
   children,
+  dontShowOptional,
   ...props
 }: Props) => {
   const {
@@ -32,7 +34,9 @@ const Field = ({
     <div className={`field${required ? " field--required" : ""}`}>
       <label className="field__label" htmlFor={id}>
         {label}
-        {required || <span className="field__optional">optional</span>}
+        {!required && !dontShowOptional && (
+          <span className="field__optional">optional</span>
+        )}
       </label>
       {hint && (
         <p className="field__hint" id={`${id}-hint`}>
