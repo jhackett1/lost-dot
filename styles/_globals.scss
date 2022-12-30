@@ -34,8 +34,6 @@ a {
   color: $teal;
 }
 
-
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -60,3 +58,18 @@ main {
 button {
   @include button;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+tr {
+  border-top: 2px solid $grey2;
+}
+
+td {}

@@ -1,7 +1,6 @@
 import { NextApiHandler } from "next"
 import { getRaceById } from "../../../../lib/races"
 import Stripe from "stripe"
-import { getSession } from "next-auth/react"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../auth/[...nextauth]"
 import { PaymentType } from "../../../../types"
@@ -28,14 +27,13 @@ const handler: NextApiHandler = async (req, res) => {
       metadata: {
         raceId: race.id,
         type: paymentType,
+        userId: session.user.id,
       },
     },
     {
       idempotencyKey: `${race.id}-${session.user.customerId}-${paymentType}`,
     }
   )
-
-  console.log(paymentIntent)
 
   res.send({
     clientSecret: paymentIntent.client_secret,

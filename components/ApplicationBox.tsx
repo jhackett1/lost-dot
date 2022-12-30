@@ -16,7 +16,9 @@ const ApplicationBox = ({
   return (
     <div className="application-box">
       <h1 className="application-box__headline">
-        Finish your {race.hashtag} application using the race manual
+        {application.submittedAt
+          ? `Finish your ${race.hashtag} application using the race manual`
+          : `Start by making an expression of interest`}
       </h1>
 
       <strong className="application-box__deadline">
@@ -34,10 +36,18 @@ const ApplicationBox = ({
               </span>
               Create a Lost Dot profile
             </li>
-            <li className="application-box__timeline-task application-box__timeline-task--complete">
-              <span className="application-box__timeline-complete">
-                Complete:
-              </span>
+            <li
+              className={`application-box__timeline-task ${
+                application.submittedAt
+                  ? "application-box__timeline-task--complete"
+                  : ""
+              }`}
+            >
+              {application.submittedAt && (
+                <span className="application-box__timeline-complete">
+                  Complete:
+                </span>
+              )}
               Answer a few questions and pay for the race manual
             </li>
             <li className="application-box__timeline-task">

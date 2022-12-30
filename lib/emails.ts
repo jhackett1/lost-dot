@@ -36,7 +36,7 @@ export const sendConfirmationEmail = async (
         to,
         dynamicTemplateData: {
           race: getRaceById(application.raceId).title || application.raceId,
-          url: `${process.env.NEXTAUTH_URL}/applications/${application.raceId}`,
+          url: `${process.env.PUBLIC_URL}/applications/${application.raceId}`,
         },
       },
     ],

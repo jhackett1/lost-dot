@@ -1,8 +1,11 @@
 import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
 import Head from "next/head"
 import Stripe from "stripe"
-import AppNav from "../components/AppNav"
 import PageHeader from "../components/PageHeader"
+import { getPaymentsByCustomer } from "../lib/payments"
+import { formatCurrency, formatDate } from "../lib/formatters"
+import { authOptions } from "./api/auth/[...nextauth]"
 
 const PaymentsPage = (
   charges: Stripe.Response<Stripe.ApiList<Stripe.Charge>>
@@ -13,22 +16,28 @@ const PaymentsPage = (
     </Head>
     <PageHeader />
 
+    <h1>Your payments</h1>
+
     <table>
       <thead>
         <tr>
-          {Object.keys(charges.data[0]).map(key => (
-            <th scope="col" key={key}>
-              {key}
-            </th>
-          ))}
+          <th scope="col">Charge</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Made</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        {charges.data.map(user => (
-          <tr key={user.id}>
-            {Object.values(user).map(value => (
-              <td key={value?.toString()}>{value?.toString()}</td>
-            ))}
+        {charges.data.map(charge => (
+          <tr key={charge.id}>
+            <td scope="row">
+              <strong>{JSON.stringify(charge.metadata)}</strong>
+            </td>
+            <td>{formatCurrency(charge.amount / 100)}</td>
+            <td>{formatDate(charge.created * 1000)}</td>
+            <td>
+              <button>View</button>
+            </td>
           </tr>
         ))}
       </tbody>
@@ -38,14 +47,10 @@ const PaymentsPage = (
 
 export default PaymentsPage
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2022-11-15",
-  })
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
 
-  const charges = await stripe.charges.list({
-    limit: 10,
-  })
+  const charges = await getPaymentsByCustomer(session.user.customerId)
 
   return {
     props: charges,

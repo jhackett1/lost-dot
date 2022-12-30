@@ -3,7 +3,13 @@ import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Layout, LayoutObject } from "@stripe/stripe-js"
 import Link from "next/link"
 
-const CheckoutForm = ({ goBackLink }: { goBackLink: string }) => {
+const CheckoutForm = ({
+  goBackLink,
+  completionLink,
+}: {
+  goBackLink: string
+  completionLink: string
+}) => {
   const stripe = useStripe()
   const elements = useElements()
 
@@ -22,16 +28,18 @@ const CheckoutForm = ({ goBackLink }: { goBackLink: string }) => {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded!")
+          setMessage("Your payment succeeded")
           break
         case "processing":
-          setMessage("Your payment is processing.")
+          setMessage("Your payment is processing")
           break
         case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.")
+          setMessage("Your payment was not successful, please try again")
           break
         default:
-          setMessage("Something went wrong.")
+          setMessage(
+            "Something went wrong. Please refresh the page and try again."
+          )
           break
       }
     })
@@ -50,7 +58,7 @@ const CheckoutForm = ({ goBackLink }: { goBackLink: string }) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: completionLink,
       },
     })
 
@@ -94,7 +102,11 @@ const CheckoutForm = ({ goBackLink }: { goBackLink: string }) => {
         </button>
       </div>
       {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      {message && (
+        <div id="payment-message" className="error">
+          {message}
+        </div>
+      )}
     </form>
   )
 }
