@@ -1,13 +1,10 @@
 import Field from "./Field"
 import GroupField from "./GroupField"
 import throttle from "lodash.throttle"
+import debounce from "lodash.debounce"
 import { useEffect } from "react"
 
 const UserFilters = ({ mutate, ...helpers }) => {
-  // const vals = helpers.watch()
-
-  // useEffect(() => helpers.handleSubmit(() => mutate()), [vals])
-
   return (
     <form onSubmit={helpers.handleSubmit(() => mutate())} className="filters">
       <Field

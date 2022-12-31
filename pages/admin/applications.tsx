@@ -55,61 +55,65 @@ const AdminApplicationsPage = ({
       </FormProvider>
 
       {data.data.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Race</th>
-              <th scope="col">Type</th>
-              <th scope="col">Applicant</th>
-              <th scope="col">Started</th>
-              <th scope="col">Status</th>
-              <th scope="col" className="visually-hidden">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.data.map(application => {
-              const open = expanded === application.id
+        <div className="table-holder">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Race</th>
+                <th scope="col">Type</th>
+                <th scope="col">Applicant</th>
+                <th scope="col">Started</th>
+                <th scope="col">Status</th>
+                <th scope="col" className="visually-hidden">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.data.map(application => {
+                const open = expanded === application.id
 
-              return (
-                <React.Fragment key={application.id}>
-                  <tr aria-expanded={open} id={application.id}>
-                    <td scope="row">
-                      {getRaceById(application.raceId)?.title || "Unknown race"}
-                    </td>
-                    <td>{application.type}</td>
-                    <td>
-                      <Link href={`/admin/users#${application.user.id}`}>
-                        {application.user.firstName} {application.user.lastName}
-                      </Link>
-                    </td>
-                    <td>{formatDate(application.createdAt)}</td>
-                    <td>
-                      <span className="tag">
-                        {prettyStatus(getStatus(application))}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          open
-                            ? setExpanded(false)
-                            : setExpanded(application.id)
-                        }
-                        className="link"
-                      >
-                        See {open ? "less" : "more"}
-                      </button>
-                    </td>
-                  </tr>
+                return (
+                  <React.Fragment key={application.id}>
+                    <tr aria-expanded={open} id={application.id}>
+                      <td scope="row">
+                        {getRaceById(application.raceId)?.title ||
+                          "Unknown race"}
+                      </td>
+                      <td>{application.type}</td>
+                      <td>
+                        <Link href={`/admin/users#${application.user.id}`}>
+                          {application.user.firstName}{" "}
+                          {application.user.lastName}
+                        </Link>
+                      </td>
+                      <td>{formatDate(application.createdAt)}</td>
+                      <td>
+                        <span className="tag">
+                          {prettyStatus(getStatus(application))}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            open
+                              ? setExpanded(false)
+                              : setExpanded(application.id)
+                          }
+                          className="link"
+                        >
+                          See {open ? "less" : "more"}
+                        </button>
+                      </td>
+                    </tr>
 
-                  {open && <ExpanderRow {...application} />}
-                </React.Fragment>
-              )
-            })}
-          </tbody>
-        </table>
+                    {open && <ExpanderRow {...application} />}
+                  </React.Fragment>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <p className="no-results">No results</p>
       )}

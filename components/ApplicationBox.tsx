@@ -1,5 +1,6 @@
 import { Application } from "@prisma/client"
 import Link from "next/link"
+import { getCompleteness } from "../lib/applications"
 import { formatDateAndTime } from "../lib/formatters"
 import { Race } from "../types"
 import CompletionMeter from "./CompletionMeter"
@@ -11,8 +12,6 @@ const ApplicationBox = ({
   application: Application
   race: Race
 }) => {
-  const completion = 0.5
-
   return (
     <div className="application-box">
       <h1 className="application-box__headline">
@@ -26,7 +25,7 @@ const ApplicationBox = ({
       </strong>
 
       <div className="application-box__body">
-        <CompletionMeter completion={completion} />
+        <CompletionMeter completion={getCompleteness(application)} />
 
         <div>
           <ol className="application-box__timeline">
@@ -53,6 +52,7 @@ const ApplicationBox = ({
             <li className="application-box__timeline-task">
               Use the race manual to answer some specific questions to complete
               your application
+              <br />
               <a href="#">View race manual</a>
             </li>
           </ol>

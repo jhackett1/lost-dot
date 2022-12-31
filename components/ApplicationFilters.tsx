@@ -5,10 +5,6 @@ import { ApplicationType } from "@prisma/client"
 import { useEffect } from "react"
 
 const ApplicationFilters = ({ mutate, ...helpers }) => {
-  // const vals = helpers.watch()
-
-  // useEffect(() => helpers.handleSubmit(() => mutate()), [vals])
-
   return (
     <form onSubmit={helpers.handleSubmit(() => mutate())} className="filters">
       <Field

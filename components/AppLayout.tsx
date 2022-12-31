@@ -38,8 +38,10 @@ const AppLayout = ({ children }) => {
           </Link>
 
           <nav className="app-header__nav">
-            <Link href="/">Our races</Link>
-            <Link href="/">Past races</Link>
+            <Link href="https://www.transcontinental.cc/">Our races</Link>
+            <Link href="https://www.transcontinental.cc/past-races">
+              Past races
+            </Link>
             {signedIn ? (
               <>
                 <img

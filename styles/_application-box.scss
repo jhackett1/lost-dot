@@ -29,7 +29,7 @@
       grid-template-columns: 1fr 3fr;
       justify-content: flex-start;
       align-items: flex-start;
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       gap: 2rem;
     }
   }
@@ -99,7 +99,8 @@
     }
 
     a {
-      display: block;
+      margin-top: 0.5rem;
+      display: inline-block;
     }
   }
 
