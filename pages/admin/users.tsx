@@ -44,7 +44,7 @@ const AdminUsersPage = ({
           </p>
         </div>
 
-        <Link href="/api/users/export" className="button">
+        <Link href="/api/admin/users/export" className="button">
           Export CSV
         </Link>
       </header>

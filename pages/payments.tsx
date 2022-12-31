@@ -18,42 +18,47 @@ const PaymentsPage = (
     </Head>
     <PageHeader />
 
-    {console.log(charges)}
+    <div className="payments">
+      <header className="admin-header">
+        <h1>Your payments</h1>
+      </header>
 
-    <header className="admin-header">
-      <h1>Your payments</h1>
-    </header>
-
-    <table>
-      <thead>
-        <tr>
-          <th scope="col" className="visually-hidden">
-            Charge
-          </th>
-          <th scope="col">Amount</th>
-          <th scope="col">Made</th>
-          <th scope="col" className="visually-hidden">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {charges.data.map(charge => (
-          <tr key={charge.id}>
-            <td scope="row">
-              <strong>{getRaceById(charge.metadata["raceId"]).title}</strong>
-              <br />
-              {prettyKey(charge.metadata["type"])}
-            </td>
-            <td>{formatCurrency(charge.amount / 100)}</td>
-            <td>{formatDate(charge.created * 1000)}</td>
-            <td>
-              <Link href={charge.receipt_url}>View receipt</Link>
-            </td>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" className="visually-hidden">
+              Charge
+            </th>
+            <th scope="col">Amount</th>
+            <th scope="col">Made</th>
+            <th scope="col" className="visually-hidden">
+              Actions
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {charges.data.map(charge => (
+            <tr key={charge.id}>
+              <td scope="row">
+                <strong>
+                  {getRaceById(charge.metadata["raceId"])?.title ||
+                    "Unknown race"}
+                </strong>
+                <br />
+                <span className="secondary-text">
+                  {prettyKey(charge.metadata["type"])}
+                </span>
+              </td>
+              <td>{formatCurrency(charge.amount / 100)}</td>
+              <td>{formatDate(charge.created * 1000)}</td>
+              <td>
+                <Link href={charge.receipt_url}>View receipt</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   </>
 )
 
@@ -61,7 +66,6 @@ export default PaymentsPage
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions)
-
   const charges = await getPaymentsByCustomer(session.user.customerId)
 
   return {

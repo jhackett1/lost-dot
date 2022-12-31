@@ -41,16 +41,20 @@
   border-radius: $border-radius;
   cursor: pointer;
   width: 100%;
-  text-decoration: none;
   text-align: center;
+  text-decoration: none;
 
   &:hover {
     background: darken($teal, 2);
+    text-decoration: none;
+    color: $white;
   }
 
   &:focus,
   &:active {
+    text-decoration: none;
     outline: 3px solid $yellow;
+    color: $white;
   }
 
   @media screen and (min-width: $breakpoint-m) {

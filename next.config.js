@@ -11,4 +11,26 @@ module.exports = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/api/admin/applications/export",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/csv",
+          },
+        ],
+      },
+      {
+        source: "/api/admin/users/export",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/csv",
+          },
+        ],
+      },
+    ]
+  },
 }

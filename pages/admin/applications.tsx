@@ -45,7 +45,7 @@ const AdminApplicationsPage = ({
           </p>
         </div>
 
-        <Link href="/api/applications/export" className="button">
+        <Link href="/api/admin/applications/export" className="button">
           Export CSV
         </Link>
       </header>

@@ -2,10 +2,10 @@ import { ApplicationType } from "@prisma/client"
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
 import { unstable_getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
-import prisma from "../../../lib/prisma"
-import { UserInputSchema } from "../../../lib/validators"
-import { ApplicationAdminFilters, UserAdminFilters } from "../../../types"
-import { authOptions } from "../auth/[...nextauth]"
+import prisma from "../../../../lib/prisma"
+import { UserInputSchema } from "../../../../lib/validators"
+import { ApplicationAdminFilters, UserAdminFilters } from "../../../../types"
+import { authOptions } from "../../auth/[...nextauth]"
 
 const handler: NextApiHandler = async (req, res) => {
   try {

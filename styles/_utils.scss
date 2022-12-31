@@ -170,3 +170,10 @@
     align-items: flex-end;
   }
 }
+
+.secondary-text {
+  color: $grey;
+  display: inline-block;
+  margin-top: 0.25rem;
+  // font-size: 0.95rem;
+}
