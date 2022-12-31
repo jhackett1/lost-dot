@@ -2,11 +2,21 @@ import type { NextApiHandler } from "next"
 import prisma from "../../lib/prisma"
 import { sendConfirmationEmail } from "../../lib/emails"
 import Stripe from "stripe"
+import { Readable } from "node:stream"
+
+const buffer = async (readable: Readable) => {
+  const chunks = []
+  for await (const chunk of readable) {
+    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk)
+  }
+  return Buffer.concat(chunks)
+}
 
 const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
       case "POST":
+        const buf = await buffer(req)
         const sig = req.headers["stripe-signature"]
 
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -14,7 +24,7 @@ const handler: NextApiHandler = async (req, res) => {
         })
 
         const event = stripe.webhooks.constructEvent(
-          req.body,
+          buf,
           sig,
           process.env.STRIPE_WEBHOOK_SIGNING_SECRET
         )
@@ -33,10 +43,13 @@ const handler: NextApiHandler = async (req, res) => {
               data: {
                 submittedAt: new Date(),
               },
+              include: {
+                user: true,
+              },
             })
 
             await sendConfirmationEmail(
-              charge.metadata["userId"],
+              updatedApplication.user.email,
               updatedApplication
             )
 
@@ -45,7 +58,7 @@ const handler: NextApiHandler = async (req, res) => {
             throw "Unhandled webhook event type"
         }
 
-        res.status(200)
+        res.status(200).send()
         break
       default:
         throw "Method not allowed"
@@ -53,8 +66,16 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (e: any) {
     console.error(e)
+
+    console.log(e.response.body.errors)
     res.status(400).json({ error: e?.name || e })
   }
 }
 
 export default handler
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
