@@ -8,10 +8,10 @@
 
   &__dl {
     margin-top: 0;
+    display: grid;
+    gap: 1rem;
 
     @media screen and (min-width: $breakpoint-m) {
-      display: grid;
-      gap: 1rem;
       grid-template-columns: 1fr 1fr 1fr;
     }
   }
@@ -26,5 +26,6 @@
     margin-left: 0;
     font-family: monospace;
     color: $black;
+    white-space: normal;
   }
 }

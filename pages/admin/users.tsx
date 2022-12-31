@@ -89,7 +89,9 @@ const AdminUsersPage = ({
                             : "Unknown"}
                         </strong>
                         <br />
-                        {user.email}{" "}
+                        <span className="secondary-text">
+                          {user.email}
+                        </span>{" "}
                         {user.admin && (
                           <span className="tag tag--yellow">Admin</span>
                         )}
