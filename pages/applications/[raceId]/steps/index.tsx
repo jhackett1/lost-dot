@@ -53,7 +53,11 @@ const ApplicationStepAboutYouPage = (application: Application) => {
           {questions.map(question => {
             if (question.options)
               return (
-                <fieldset className="fieldset">
+                <fieldset
+                  className={`fieldset ${
+                    question.required ? " field--required" : ""
+                  }`}
+                >
                   <legend>{question.label}</legend>
 
                   {methods.formState.errors[question.name] && (

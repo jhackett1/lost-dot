@@ -54,8 +54,13 @@
     padding-right: 3rem;
   }
 
-  &--required label:after {
-    content: "*";
-    color: $red;
+  &--required {
+
+    &>label:after,
+    legend:after {
+      content: "*";
+      color: $red;
+    }
+
   }
 }

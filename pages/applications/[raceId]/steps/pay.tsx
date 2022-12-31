@@ -61,7 +61,7 @@ const ApplicationPayPage = (application: Application) => {
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm
-            completionLink={`${process.env.PUBLIC_URL}/applications/${application.raceId}`}
+            completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}`}
             goBackLink={`/applications/${application.raceId}/steps/legals`}
           />
         </Elements>

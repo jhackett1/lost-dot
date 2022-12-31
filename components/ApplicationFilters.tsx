@@ -31,8 +31,8 @@ const ApplicationFilters = ({ mutate, ...helpers }) => {
         dontShowOptional
       >
         <option value="">All applications</option>
-        <option value={ApplicationType.Racing}>Racing only</option>
-        <option value={ApplicationType.Volunteering}>Volunteering only</option>
+        <option value={ApplicationType.Rider}>Riding only</option>
+        <option value={ApplicationType.Volunteer}>Volunteering only</option>
       </Field>
     </form>
   )
