@@ -1,0 +1,16 @@
+.admin-header {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.admin-table {
+  margin-bottom: 2rem;
+}

@@ -7,7 +7,6 @@
 
 // reusable components
 @import "_skip-link";
-@import "_admin-banner";
 @import "_app-header";
 @import "_race-banner";
 @import "_page-header";
@@ -18,3 +17,7 @@
 @import "_field";
 @import "_group-field";
 @import "_app-footer";
+
+// admin-side
+@import "_admin-banner";
+@import "_admin";

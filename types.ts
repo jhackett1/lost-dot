@@ -50,7 +50,7 @@ export type ApplicationWithUser = Prisma.ApplicationGetPayload<
 export interface ApplicationAdminFilters {
   search: string
   race_id?: string
-  application_type?: string
+  type?: string
   [key: string]: any
 }
 
@@ -65,4 +65,9 @@ export enum ApplicationStatus {
   InProgress,
   Submitted,
   Completed,
+}
+
+export interface AdminAPIResponse<T> {
+  count: number
+  data: T
 }

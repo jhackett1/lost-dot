@@ -60,9 +60,7 @@
   }
 
   &__avatar {
-    border-radius: 100%;
-    width: 50px;
-    height: auto;
+    @include avatar;
     border: 3px solid transparentize($white, 0.75);
     // object-fit: 110%
   }

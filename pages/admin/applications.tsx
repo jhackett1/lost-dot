@@ -1,4 +1,4 @@
-import { Application } from "@prisma/client"
+import { Application, ApplicationType } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { FormProvider, useForm } from "react-hook-form"
@@ -8,23 +8,43 @@ import races from "../../data/races.json"
 import prisma from "../../lib/prisma"
 import useSWR from "swr"
 import { getRaceById } from "../../lib/races"
-import { ApplicationAdminFilters, ApplicationWithUser } from "../../types"
-import { formatDate } from "../../lib/formatters"
+import {
+  AdminAPIResponse,
+  ApplicationAdminFilters,
+  ApplicationStatus,
+  ApplicationWithUser,
+} from "../../types"
+import { formatDate, prettyKey, prettyStatus } from "../../lib/formatters"
 import { getStatus } from "../../lib/applications"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import Link from "next/link"
+import { removeFalsy } from "../../lib/helpers"
+import useUrlHash from "../../hooks/useUrlHash"
 
 const AdminApplicationsPage = ({
-  applications,
+  initialApplications,
 }: {
-  applications: ApplicationWithUser[]
+  initialApplications: ApplicationWithUser[]
 }) => {
   const helpers = useForm<ApplicationAdminFilters>()
 
-  const { data, mutate } = useSWR<ApplicationWithUser[]>(
-    `/api/admin/applications?${new URLSearchParams(helpers.getValues())}`,
+  const {
+    data: { data },
+    mutate,
+  } = useSWR<AdminAPIResponse<ApplicationWithUser[]>>(
+    `/api/admin/applications?${new URLSearchParams(
+      removeFalsy(helpers.getValues())
+    )}`,
     {
-      fallbackData: applications,
+      fallbackData: {
+        count: initialApplications.length,
+        data: initialApplications,
+      },
     }
   )
+
+  const [expanded, setExpanded] = useUrlHash()
 
   return (
     <>
@@ -34,9 +54,16 @@ const AdminApplicationsPage = ({
 
       <PageHeader />
 
-      <h2>All applications</h2>
+      <header className="admin-header">
+        <div>
+          <h1>All applications</h1>
+          <p className="result-count">Showing {data.length} results</p>
+        </div>
 
-      <p>Showing {data.length} results</p>
+        <Link href="/api/applications/export" className="button">
+          Export CSV
+        </Link>
+      </header>
 
       <FormProvider {...helpers}>
         <form
@@ -52,9 +79,11 @@ const AdminApplicationsPage = ({
           />
 
           <Field type="select" label="Races" name="race_id" dontShowOptional>
-            <option>All races</option>
+            <option value="">All races</option>
             {races.map(race => (
-              <option key={race.id}>{race.title} only</option>
+              <option key={race.id} value={race.id}>
+                {race.title} only
+              </option>
             ))}
           </Field>
 
@@ -64,14 +93,16 @@ const AdminApplicationsPage = ({
             name="application_type"
             dontShowOptional
           >
-            <option>All applications</option>
-            <option>Racing only</option>
-            <option>Volunteering only</option>
+            <option value="">All applications</option>
+            <option value={ApplicationType.Racing}>Racing only</option>
+            <option value={ApplicationType.Volunteering}>
+              Volunteering only
+            </option>
           </Field>
         </form>
       </FormProvider>
 
-      <table>
+      <table className="admin-table">
         <thead>
           <tr>
             <th scope="col">Race</th>
@@ -82,21 +113,66 @@ const AdminApplicationsPage = ({
             <th scope="col">Started</th>
 
             <th scope="col">Status</th>
-            <th scope="col">Actions</th>
+            <th scope="col" className="visually-hidden">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
-          {applications.map(application => (
-            <tr key={application.id}>
-              <td scope="row">{getRaceById(application.raceId).title}</td>
-              <td>Race</td>
-              <td>
-                {application.user.firstName} {application.user.lastName}
-              </td>
-              <td>{formatDate(application.createdAt)}</td>
-              <td>{getStatus(application)}</td>
-            </tr>
-          ))}
+          {data.map(application => {
+            const open = expanded === application.id
+
+            return (
+              <>
+                <tr
+                  key={application.id}
+                  aria-expanded={open}
+                  id={application.id}
+                >
+                  <td scope="row">
+                    {getRaceById(application.raceId)?.title || "Unknown race"}
+                  </td>
+                  <td>{application.type}</td>
+                  <td>
+                    <Link href={`/admin/users#${application.user.id}`}>
+                      {application.user.firstName} {application.user.lastName}
+                    </Link>
+                  </td>
+                  <td>{formatDate(application.createdAt)}</td>
+                  <td>
+                    <span className="tag">
+                      {prettyStatus(getStatus(application))}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() =>
+                        open ? setExpanded(false) : setExpanded(application.id)
+                      }
+                      className="link"
+                    >
+                      See {open ? "less" : "more"}
+                    </button>
+                  </td>
+                </tr>
+
+                {open && (
+                  <tr className="expanded-row">
+                    <td colSpan={6}>
+                      <dl>
+                        {Object.entries(application).map(entry => (
+                          <div>
+                            <dt>{prettyKey(entry[0])}</dt>
+                            <dd>{JSON.stringify(entry[1], null, 2)}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </td>
+                  </tr>
+                )}
+              </>
+            )
+          })}
         </tbody>
       </table>
     </>
@@ -114,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      applications: applications.map(application =>
+      initialApplications: applications.map(application =>
         JSON.parse(JSON.stringify(application))
       ),
     },

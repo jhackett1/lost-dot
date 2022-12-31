@@ -25,10 +25,14 @@ const PaymentsPage = (
     <table>
       <thead>
         <tr>
-          <th scope="col">Charge</th>
+          <th scope="col" className="visually-hidden">
+            Charge
+          </th>
           <th scope="col">Amount</th>
           <th scope="col">Made</th>
-          <th scope="col">Actions</th>
+          <th scope="col" className="visually-hidden">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>

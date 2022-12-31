@@ -62,16 +62,58 @@ button {
 table {
   border-collapse: collapse;
   width: 100%;
+  border-bottom: 2px solid $grey2;
 }
 
-th {
-  text-align: left;
-}
-
-tr {
+tbody tr {
   border-top: 2px solid $grey2;
 }
 
 td {
-  padding: 1rem 0;
+  padding: 1rem 2rem 1rem 0;
+  text-align: left;
+
+  &:last-child:not(:first-child) {
+    text-align: right;
+    padding: 1rem 0;
+  }
+}
+
+th {
+  padding: 0 2rem 0.5rem 0;
+  text-align: left;
+
+  &:last-child:not(:first-child) {
+    text-align: right;
+    padding: 0 0 0.5rem 0;
+  }
+}
+
+dl {
+  margin-top: 0;
+
+  @media screen and (min-width: $breakpoint-m) {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+
+dt {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: $grey;
+}
+
+dd {
+  margin-left: 0;
+  font-family: monospace;
+  color: $black;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

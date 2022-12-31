@@ -92,16 +92,22 @@ model Document {
   updatedAt  DateTime @updatedAt
 }
 
+enum ApplicationType {
+  Racing
+  Volunteering
+}
+
 model Application {
-  id        String   @id @default(cuid())
+  id        String          @id @default(cuid())
+  type      ApplicationType @default(Racing)
   answers   Json?
   raceId    String
   // associations
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   // meta
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 
   submittedAt DateTime? // initial expression of interest has been made
   completedAt DateTime? // additional questions have been finished

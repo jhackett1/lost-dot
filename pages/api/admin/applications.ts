@@ -1,3 +1,4 @@
+import { ApplicationType } from "@prisma/client"
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
 import { unstable_getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
@@ -10,35 +11,49 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
       case "GET":
-        const { search, application_type, race_id } =
-          req.query as ApplicationAdminFilters
+        const { search, type, race_id } = req.query as ApplicationAdminFilters
 
         const applications = await prisma.application.findMany({
           where: {
             raceId: race_id,
-            user: {
-              OR: [
-                {
+            type: type as ApplicationType,
+
+            OR: [
+              {
+                user: {
                   firstName: {
                     contains: search,
+                    mode: "insensitive",
                   },
                 },
-                {
+              },
+              {
+                user: {
                   lastName: {
                     contains: search,
+                    mode: "insensitive",
                   },
                 },
-                {
+              },
+              {
+                user: {
                   email: {
                     contains: search,
+                    mode: "insensitive",
                   },
                 },
-              ],
-            },
+              },
+            ],
+          },
+          include: {
+            user: true,
           },
         })
 
-        res.status(200).json(applications)
+        res.status(200).json({
+          count: applications.length,
+          data: applications,
+        })
         break
       default:
         throw "Method not allowed"
