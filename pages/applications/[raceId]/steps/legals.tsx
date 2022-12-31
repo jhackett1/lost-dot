@@ -35,7 +35,7 @@ const ApplicationStepIndexPage = (application: Application) => {
   return (
     <>
       <h1>Apply to ride</h1>
-      <p className="caption">{race?.title || "Unknown race"}</p>
+      <p className="caption">{race?.title || application.raceId}</p>
 
       <h2>Legals</h2>
       <p>

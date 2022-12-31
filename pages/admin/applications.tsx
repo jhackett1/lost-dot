@@ -78,7 +78,7 @@ const AdminApplicationsPage = ({
                     <tr aria-expanded={open} id={application.id}>
                       <td scope="row">
                         {getRaceById(application.raceId)?.title ||
-                          "Unknown race"}
+                          application.raceId}
                       </td>
                       <td>{application.type}</td>
                       <td>

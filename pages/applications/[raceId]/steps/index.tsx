@@ -34,7 +34,7 @@ const ApplicationStepAboutYouPage = (application: Application) => {
     <>
       <div className="narrow-container centred">
         <h1>Apply to ride</h1>
-        <p className="caption">{race?.title || "Unknown race"}</p>
+        <p className="caption">{race?.title || application.raceId}</p>
 
         <h2>About you</h2>
 

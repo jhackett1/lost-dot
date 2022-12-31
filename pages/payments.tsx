@@ -43,7 +43,7 @@ const PaymentsPage = (
                 <td scope="row">
                   <strong>
                     {getRaceById(charge.metadata["raceId"])?.title ||
-                      "Unknown race"}
+                      charge.metadata["raceId"]}
                   </strong>
                   <br />
                   <span className="secondary-text">

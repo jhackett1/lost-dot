@@ -110,7 +110,7 @@ const AdminUsersPage = ({
                                 href={`/admin/applications#${application.id}`}
                               >
                                 {getRaceById(application.raceId)?.title ||
-                                  "Unknown race"}
+                                  application.raceId}
                               </Link>
                             </li>
                           ))}

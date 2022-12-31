@@ -13,6 +13,18 @@ const handler: NextApiHandler = async (req, res) => {
 
         const session = await unstable_getServerSession(req, res, authOptions)
 
+        const existingApplication = await prisma.application.findUnique({
+          where: {
+            raceId_userId: {
+              raceId: raceId as string,
+              userId: session.user.id,
+            },
+          },
+          select: {
+            answers: true,
+          },
+        })
+
         const result = await prisma.application.update({
           where: {
             raceId_userId: {
@@ -21,7 +33,10 @@ const handler: NextApiHandler = async (req, res) => {
             },
           },
           data: {
-            answers: data,
+            answers: {
+              ...(existingApplication.answers as object),
+              ...data,
+            },
           },
         })
 
