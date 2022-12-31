@@ -6,10 +6,12 @@ import GroupField from "../../components/GroupField"
 import Field from "../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
 import useSWR from "swr"
-import { UserWithApplications } from "../../types"
+import { UserAdminFilters, UserWithApplications } from "../../types"
+import { getRaceById } from "../../lib/races"
+import { useState } from "react"
 
 const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
-  const helpers = useForm()
+  const helpers = useForm<UserAdminFilters>()
 
   const { data, mutate } = useSWR<UserWithApplications[]>(
     `/api/admin/users?${new URLSearchParams(helpers.getValues())}`,
@@ -31,7 +33,10 @@ const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
       <p>Showing {users.length} results</p>
 
       <FormProvider {...helpers}>
-        <form onSubmit={helpers.handleSubmit(() => mutate())}>
+        <form
+          onSubmit={helpers.handleSubmit(() => mutate())}
+          className="filters"
+        >
           <Field
             label="Search"
             name="search"
@@ -69,29 +74,42 @@ const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(user => (
-            <tr key={user.id} aria-expanded={false}>
-              <td scope="row">
-                <strong>
-                  {user.firstName} {user.lastName}
-                </strong>
-                <p>
-                  {user.email}{" "}
-                  {user.admin && <span className="tag">Admin</span>}
-                </p>
-              </td>
-              <td>
-                <ul>
-                  {user.applications.map(application => (
-                    <li>{application.id}</li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <button>+ See more</button>
-              </td>
-            </tr>
-          ))}
+          {data.map(user => {
+            const [expanded, setExpanded] = useState<boolean>(false)
+
+            return (
+              <>
+                <tr key={user.id} aria-expanded={expanded}>
+                  <td scope="row">
+                    <strong>
+                      {user.firstName} {user.lastName}
+                    </strong>
+                    <p>
+                      {user.email}{" "}
+                      {user.admin && <span className="tag">Admin</span>}
+                    </p>
+                  </td>
+                  <td>
+                    <ul>
+                      {user.applications.map(application => (
+                        <li>{getRaceById(application.raceId).title}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>
+                    <button onClick={() => setExpanded(!expanded)}>
+                      See {expanded ? "less" : "more"}
+                    </button>
+                  </td>
+                </tr>
+                {expanded && (
+                  <tr>
+                    <td colSpan={4}>More deets here</td>
+                  </tr>
+                )}
+              </>
+            )
+          })}
         </tbody>
       </table>
     </>

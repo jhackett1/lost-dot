@@ -1,5 +1,6 @@
 import { Application } from "@prisma/client"
 import Link from "next/link"
+import { formatDate } from "../lib/formatters"
 import { getRaceById } from "../lib/races"
 
 interface Props {
@@ -17,8 +18,9 @@ const ApplicationList = ({ applications }: Props) => (
           </h2>
           <p>
             <>
-              {/* TODO: fix this */}
-              Submitted: XX/XX/XXXX
+              {application.submittedAt
+                ? `Submitted: ${formatDate(application.submittedAt)}`
+                : `Started: ${formatDate(application.createdAt)}`}
             </>
           </p>
         </div>

@@ -50,14 +50,9 @@
   }
 
   &--payment {
-    background: lighten($grey2, 11);
+    @include panel;
     border: 2px solid $grey2;
-    border-radius: $border-radius;
-    padding: 1rem;
 
-    @media screen and (min-width: $breakpoint-m) {
-      padding: 2rem;
-    }
   }
 
   &--sign-in {
@@ -111,4 +106,21 @@
   padding: 1px 5px;
   color: darken($teal, 5);
   border-radius: 5px;
+}
+
+.filters {
+  @include panel;
+  margin-bottom: 1rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    margin-bottom: 2rem;
+  }
+
+  &>*+* {
+    margin-top: 1.5rem;
+  }
+
+  input {
+    width: 50rem;
+  }
 }

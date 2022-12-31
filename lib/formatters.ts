@@ -7,9 +7,9 @@ let formatter = Intl.NumberFormat("en-GB", {
 export const formatCurrency = (raw: number): string => formatter.format(raw)
 
 /** take a raw date and format it nice, works with unix timestamps * 1000 too */
-export const formatDate = (raw: number | string): string =>
+export const formatDate = (raw: number | string | Date): string =>
   new Date(raw).toDateString()
 
 /** take a raw date and time and format it nice, works with unix timestamps * 1000 too */
-export const formatDateAndTime = (raw: number | string): string =>
+export const formatDateAndTime = (raw: number | string | Date): string =>
   new Date(raw).toUTCString()

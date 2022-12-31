@@ -6,13 +6,25 @@ import Field from "../../components/Field"
 import PageHeader from "../../components/PageHeader"
 import races from "../../data/races.json"
 import prisma from "../../lib/prisma"
+import useSWR from "swr"
+import { getRaceById } from "../../lib/races"
+import { ApplicationAdminFilters, ApplicationWithUser } from "../../types"
+import { formatDate } from "../../lib/formatters"
+import { getStatus } from "../../lib/applications"
 
 const AdminApplicationsPage = ({
   applications,
 }: {
-  applications: Application[]
+  applications: ApplicationWithUser[]
 }) => {
-  const helpers = useForm()
+  const helpers = useForm<ApplicationAdminFilters>()
+
+  const { data, mutate } = useSWR<ApplicationWithUser[]>(
+    `/api/admin/applications?${new URLSearchParams(helpers.getValues())}`,
+    {
+      fallbackData: applications,
+    }
+  )
 
   return (
     <>
@@ -24,10 +36,13 @@ const AdminApplicationsPage = ({
 
       <h2>All applications</h2>
 
-      <p>Showing {applications.length} results</p>
+      <p>Showing {data.length} results</p>
 
       <FormProvider {...helpers}>
-        <form>
+        <form
+          onSubmit={helpers.handleSubmit(() => mutate())}
+          className="filters"
+        >
           <Field
             label="Search"
             name="search"
@@ -36,7 +51,7 @@ const AdminApplicationsPage = ({
             dontShowOptional
           />
 
-          <Field type="select" label="Races" name="races" dontShowOptional>
+          <Field type="select" label="Races" name="race_id" dontShowOptional>
             <option>All races</option>
             {races.map(race => (
               <option key={race.id}>{race.title} only</option>
@@ -59,19 +74,27 @@ const AdminApplicationsPage = ({
       <table>
         <thead>
           <tr>
-            {Object.keys(applications[0]).map(key => (
-              <th scope="col" key={key}>
-                {key}
-              </th>
-            ))}
+            <th scope="col">Race</th>
+            <th scope="col">Type</th>
+
+            <th scope="col">Applicant</th>
+
+            <th scope="col">Started</th>
+
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {applications.map(user => (
-            <tr key={user.id}>
-              {Object.values(user).map(value => (
-                <td key={value?.toString()}>{value?.toString()}</td>
-              ))}
+          {applications.map(application => (
+            <tr key={application.id}>
+              <td scope="row">{getRaceById(application.raceId).title}</td>
+              <td>Race</td>
+              <td>
+                {application.user.firstName} {application.user.lastName}
+              </td>
+              <td>{formatDate(application.createdAt)}</td>
+              <td>{getStatus(application)}</td>
             </tr>
           ))}
         </tbody>
@@ -83,7 +106,11 @@ const AdminApplicationsPage = ({
 export default AdminApplicationsPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const applications = await prisma.application.findMany()
+  const applications = await prisma.application.findMany({
+    include: {
+      user: true,
+    },
+  })
 
   return {
     props: {

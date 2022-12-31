@@ -38,3 +38,31 @@ const userWithApplications = Prisma.validator<Prisma.UserArgs>()({
 export type UserWithApplications = Prisma.UserGetPayload<
   typeof userWithApplications
 >
+
+const applicationWithUser = Prisma.validator<Prisma.ApplicationArgs>()({
+  include: { user: true },
+})
+
+export type ApplicationWithUser = Prisma.ApplicationGetPayload<
+  typeof applicationWithUser
+>
+
+export interface ApplicationAdminFilters {
+  search: string
+  race_id?: string
+  application_type?: string
+  [key: string]: any
+}
+
+export interface UserAdminFilters {
+  search: string
+  only_admins?: boolean
+  only_with_applications?: boolean
+  [key: string]: any
+}
+
+export enum ApplicationStatus {
+  InProgress,
+  Submitted,
+  Completed,
+}
