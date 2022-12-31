@@ -14,7 +14,7 @@ const ApplicationList = ({ applications }: Props) => (
         <div>
           <h2>
             {getRaceById(application?.raceId)?.title || application?.raceId}{" "}
-            rider application
+            {application.type.toLowerCase()} application
           </h2>
           <p>
             <>

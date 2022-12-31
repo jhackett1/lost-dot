@@ -1,0 +1,30 @@
+.expanded-row {
+  background: lighten($grey2, 11);
+  text-align: left;
+
+  td {
+    padding: 1rem;
+  }
+
+  &__dl {
+    margin-top: 0;
+
+    @media screen and (min-width: $breakpoint-m) {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  &__dt {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: $grey;
+  }
+
+  &__dd {
+    margin-left: 0;
+    font-family: monospace;
+    color: $black;
+  }
+}

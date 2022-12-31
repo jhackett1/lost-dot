@@ -1,3 +1,4 @@
+import React from "react"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { FormProvider, useForm } from "react-hook-form"
@@ -17,6 +18,7 @@ import { removeFalsy } from "../../lib/helpers"
 import useUrlHash from "../../hooks/useUrlHash"
 import ApplicationFilters from "../../components/ApplicationFilters"
 import { useApplications } from "../../hooks/useAdminData"
+import ExpanderRow from "../../components/ExpanderRow"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -38,7 +40,9 @@ const AdminApplicationsPage = ({
       <header className="admin-header">
         <div>
           <h1>All applications</h1>
-          <p className="result-count">Showing {data.count} results</p>
+          <p className="result-count">
+            Showing {data.count} result{data.count !== 1 && "s"}
+          </p>
         </div>
 
         <Link href="/api/applications/export" className="button">
@@ -50,76 +54,65 @@ const AdminApplicationsPage = ({
         <ApplicationFilters {...helpers} mutate={mutate} />
       </FormProvider>
 
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th scope="col">Race</th>
-            <th scope="col">Type</th>
-            <th scope="col">Applicant</th>
-            <th scope="col">Started</th>
-            <th scope="col">Status</th>
-            <th scope="col" className="visually-hidden">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.data.map(application => {
-            const open = expanded === application.id
+      {data.data.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Race</th>
+              <th scope="col">Type</th>
+              <th scope="col">Applicant</th>
+              <th scope="col">Started</th>
+              <th scope="col">Status</th>
+              <th scope="col" className="visually-hidden">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.data.map(application => {
+              const open = expanded === application.id
 
-            return (
-              <>
-                <tr
-                  key={application.id}
-                  aria-expanded={open}
-                  id={application.id}
-                >
-                  <td scope="row">
-                    {getRaceById(application.raceId)?.title || "Unknown race"}
-                  </td>
-                  <td>{application.type}</td>
-                  <td>
-                    <Link href={`/admin/users#${application.user.id}`}>
-                      {application.user.firstName} {application.user.lastName}
-                    </Link>
-                  </td>
-                  <td>{formatDate(application.createdAt)}</td>
-                  <td>
-                    <span className="tag">
-                      {prettyStatus(getStatus(application))}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() =>
-                        open ? setExpanded(false) : setExpanded(application.id)
-                      }
-                      className="link"
-                    >
-                      See {open ? "less" : "more"}
-                    </button>
-                  </td>
-                </tr>
-
-                {open && (
-                  <tr className="expanded-row">
-                    <td colSpan={6}>
-                      <dl>
-                        {Object.entries(application).map(entry => (
-                          <div>
-                            <dt>{prettyKey(entry[0])}</dt>
-                            <dd>{JSON.stringify(entry[1], null, 2)}</dd>
-                          </div>
-                        ))}
-                      </dl>
+              return (
+                <React.Fragment key={application.id}>
+                  <tr aria-expanded={open} id={application.id}>
+                    <td scope="row">
+                      {getRaceById(application.raceId)?.title || "Unknown race"}
+                    </td>
+                    <td>{application.type}</td>
+                    <td>
+                      <Link href={`/admin/users#${application.user.id}`}>
+                        {application.user.firstName} {application.user.lastName}
+                      </Link>
+                    </td>
+                    <td>{formatDate(application.createdAt)}</td>
+                    <td>
+                      <span className="tag">
+                        {prettyStatus(getStatus(application))}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          open
+                            ? setExpanded(false)
+                            : setExpanded(application.id)
+                        }
+                        className="link"
+                      >
+                        See {open ? "less" : "more"}
+                      </button>
                     </td>
                   </tr>
-                )}
-              </>
-            )
-          })}
-        </tbody>
-      </table>
+
+                  {open && <ExpanderRow {...application} />}
+                </React.Fragment>
+              )
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <p className="no-results">No results</p>
+      )}
     </>
   )
 }

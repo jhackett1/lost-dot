@@ -83,3 +83,29 @@
   width: 50px;
   height: auto;
 }
+
+@mixin link {
+  color: $teal;
+  background: none;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+  font-weight: normal;
+  border-radius: 0;
+  text-align: left;
+  display: inline;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    background: none;
+    border: none;
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+    background-color: $yellow;
+    color: $black;
+  }
+}

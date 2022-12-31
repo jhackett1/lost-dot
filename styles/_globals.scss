@@ -31,7 +31,7 @@ h5 {
 }
 
 a {
-  color: $teal;
+  @include link;
 }
 
 @keyframes spin {
@@ -53,6 +53,11 @@ fieldset {
 main {
   @include standard-padding;
   background: $white;
+  padding-bottom: 3rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    padding-bottom: 6rem;
+  }
 }
 
 button {
@@ -87,29 +92,6 @@ th {
     text-align: right;
     padding: 0 0 0.5rem 0;
   }
-}
-
-dl {
-  margin-top: 0;
-
-  @media screen and (min-width: $breakpoint-m) {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-
-dt {
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
-  color: $grey;
-}
-
-dd {
-  margin-left: 0;
-  font-family: monospace;
-  color: $black;
 }
 
 ul {

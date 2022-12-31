@@ -93,13 +93,13 @@ model Document {
 }
 
 enum ApplicationType {
-  Racing
-  Volunteering
+  Rider
+  Volunteer
 }
 
 model Application {
   id        String          @id @default(cuid())
-  type      ApplicationType @default(Racing)
+  type      ApplicationType @default(Rider)
   answers   Json?
   raceId    String
   // associations

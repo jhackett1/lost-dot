@@ -8,7 +8,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import useSWR from "swr"
 import { UserAdminFilters, UserWithApplications } from "../../types"
 import { getRaceById } from "../../lib/races"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { prettyKey } from "../../lib/formatters"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react"
 import useUrlHash from "../../hooks/useUrlHash"
 import UserFilters from "../../components/UserFilters"
 import { useUsers } from "../../hooks/useAdminData"
+import ExpanderRow from "../../components/ExpanderRow"
 
 const AdminUsersPage = ({
   initialUsers,
@@ -38,7 +39,9 @@ const AdminUsersPage = ({
       <header className="admin-header">
         <div>
           <h1>All users</h1>
-          <p className="result-count">Showing {data.count} results</p>
+          <p className="result-count">
+            Showing {data.count} result{data.count !== 1 && "s"}
+          </p>
         </div>
 
         <Link href="/api/users/export" className="button">
@@ -50,89 +53,86 @@ const AdminUsersPage = ({
         <UserFilters {...helpers} mutate={mutate} />
       </FormProvider>
 
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th scope="col" className="visually-hidden">
-              Avatar
-            </th>
-            <th scope="col">User</th>
-            <th scope="col">Applications</th>
-            <th scope="col" className="visually-hidden">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.data.map(user => {
-            const open = expanded === user.id
+      {data.data.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" className="visually-hidden">
+                Avatar
+              </th>
+              <th scope="col">User</th>
+              <th scope="col">Applications</th>
+              <th scope="col" className="visually-hidden">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.data.map(user => {
+              const open = expanded === user.id
 
-            return (
-              <>
-                <tr key={user.id} aria-expanded={open} id={user.id}>
-                  <td>
-                    <img className="avatar" src="/mystery-person.svg" alt="" />
-                  </td>
-                  <td scope="row">
-                    <strong>
-                      {user.onboardedAt
-                        ? `${user.firstName} ${user.lastName}`
-                        : "Unknown"}
-                    </strong>
-                    <br />
-                    {user.email}{" "}
-                    {user.admin && (
-                      <span className="tag tag--yellow">Admin</span>
-                    )}
-                    {!user.onboardedAt && (
-                      <span className="tag tag--grey">Not yet onboarded</span>
-                    )}
-                    {user.id === session?.data?.user?.id && (
-                      <span className="tag">You</span>
-                    )}
-                  </td>
-                  <td>
-                    <ul>
-                      {user.applications.map(application => (
-                        <li>
-                          <Link href={`/admin/applications#${application.id}`}>
-                            {getRaceById(application.raceId)?.title ||
-                              "Unknown race"}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() =>
-                        open ? setExpanded(false) : setExpanded(user.id)
-                      }
-                      className="link"
-                    >
-                      See {open ? "less" : "more"}
-                    </button>
-                  </td>
-                </tr>
-                {open && (
-                  <tr className="expanded-row">
-                    <td colSpan={4}>
-                      <dl>
-                        {Object.entries(user).map(entry => (
-                          <div>
-                            <dt>{prettyKey(entry[0])}</dt>
-                            <dd>{JSON.stringify(entry[1], null, 2)}</dd>
-                          </div>
+              return (
+                <React.Fragment key={user.id}>
+                  <tr aria-expanded={open} id={user.id}>
+                    <td>
+                      <img
+                        className="avatar"
+                        src="/mystery-person.svg"
+                        alt=""
+                      />
+                    </td>
+                    <td scope="row">
+                      <strong>
+                        {user.onboardedAt
+                          ? `${user.firstName} ${user.lastName}`
+                          : "Unknown"}
+                      </strong>
+                      <br />
+                      {user.email}{" "}
+                      {user.admin && (
+                        <span className="tag tag--yellow">Admin</span>
+                      )}
+                      {!user.onboardedAt && (
+                        <span className="tag tag--grey">Not yet onboarded</span>
+                      )}
+                      {user.id === session?.data?.user?.id && (
+                        <span className="tag">You</span>
+                      )}
+                    </td>
+                    <td>
+                      <ul>
+                        {user.applications.map(application => (
+                          <li key={application.id}>
+                            <Link
+                              href={`/admin/applications#${application.id}`}
+                            >
+                              {getRaceById(application.raceId)?.title ||
+                                "Unknown race"}
+                            </Link>
+                          </li>
                         ))}
-                      </dl>
+                      </ul>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          open ? setExpanded(false) : setExpanded(user.id)
+                        }
+                        className="link"
+                      >
+                        See {open ? "less" : "more"}
+                      </button>
                     </td>
                   </tr>
-                )}
-              </>
-            )
-          })}
-        </tbody>
-      </table>
+                  {open && <ExpanderRow {...user} />}
+                </React.Fragment>
+              )
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <p className="no-results">No results</p>
+      )}
     </>
   )
 }

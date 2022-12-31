@@ -19,8 +19,10 @@ export const useApplications = (helpers, initialData) =>
     }
   )
 
-export const useUsers = (helpers, initialData) =>
-  useSWR<AdminAPIResponse<UserWithApplications[]>>(
+export const useUsers = (helpers, initialData) => {
+  console.log(removeFalsy(helpers.getValues()))
+
+  return useSWR<AdminAPIResponse<UserWithApplications[]>>(
     `/api/admin/users?${new URLSearchParams(removeFalsy(helpers.getValues()))}`,
     {
       fallbackData: {
@@ -29,3 +31,4 @@ export const useUsers = (helpers, initialData) =>
       },
     }
   )
+}

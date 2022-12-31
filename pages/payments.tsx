@@ -4,7 +4,7 @@ import Head from "next/head"
 import Stripe from "stripe"
 import PageHeader from "../components/PageHeader"
 import { getPaymentsByCustomer } from "../lib/payments"
-import { formatCurrency, formatDate } from "../lib/formatters"
+import { formatCurrency, formatDate, prettyKey } from "../lib/formatters"
 import { authOptions } from "./api/auth/[...nextauth]"
 import Link from "next/link"
 import { getRaceById } from "../lib/races"
@@ -20,7 +20,9 @@ const PaymentsPage = (
 
     {console.log(charges)}
 
-    <h1>Your payments</h1>
+    <header className="admin-header">
+      <h1>Your payments</h1>
+    </header>
 
     <table>
       <thead>
@@ -40,7 +42,8 @@ const PaymentsPage = (
           <tr key={charge.id}>
             <td scope="row">
               <strong>{getRaceById(charge.metadata["raceId"]).title}</strong>
-              <p>{charge.metadata["type"]}</p>
+              <br />
+              {prettyKey(charge.metadata["type"])}
             </td>
             <td>{formatCurrency(charge.amount / 100)}</td>
             <td>{formatDate(charge.created * 1000)}</td>
