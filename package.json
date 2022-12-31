@@ -31,6 +31,8 @@
     "@stripe/react-stripe-js": "^1.16.0",
     "@stripe/stripe-js": "^1.46.0",
     "inflection": "^2.0.1",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "luxon": "^3.1.1",
     "next": "^13.0.5",
     "next-auth": "^4.17.0",

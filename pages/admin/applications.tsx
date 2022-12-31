@@ -1,26 +1,22 @@
-import { Application, ApplicationType } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 import { FormProvider, useForm } from "react-hook-form"
-import Field from "../../components/Field"
 import PageHeader from "../../components/PageHeader"
-import races from "../../data/races.json"
 import prisma from "../../lib/prisma"
 import useSWR from "swr"
 import { getRaceById } from "../../lib/races"
 import {
   AdminAPIResponse,
   ApplicationAdminFilters,
-  ApplicationStatus,
   ApplicationWithUser,
 } from "../../types"
 import { formatDate, prettyKey, prettyStatus } from "../../lib/formatters"
 import { getStatus } from "../../lib/applications"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
 import Link from "next/link"
 import { removeFalsy } from "../../lib/helpers"
 import useUrlHash from "../../hooks/useUrlHash"
+import ApplicationFilters from "../../components/ApplicationFilters"
+import { useApplications } from "../../hooks/useAdminData"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -28,22 +24,7 @@ const AdminApplicationsPage = ({
   initialApplications: ApplicationWithUser[]
 }) => {
   const helpers = useForm<ApplicationAdminFilters>()
-
-  const {
-    data: { data },
-    mutate,
-  } = useSWR<AdminAPIResponse<ApplicationWithUser[]>>(
-    `/api/admin/applications?${new URLSearchParams(
-      removeFalsy(helpers.getValues())
-    )}`,
-    {
-      fallbackData: {
-        count: initialApplications.length,
-        data: initialApplications,
-      },
-    }
-  )
-
+  const { data, mutate } = useApplications(helpers, initialApplications)
   const [expanded, setExpanded] = useUrlHash()
 
   return (
@@ -57,7 +38,7 @@ const AdminApplicationsPage = ({
       <header className="admin-header">
         <div>
           <h1>All applications</h1>
-          <p className="result-count">Showing {data.length} results</p>
+          <p className="result-count">Showing {data.count} results</p>
         </div>
 
         <Link href="/api/applications/export" className="button">
@@ -66,40 +47,7 @@ const AdminApplicationsPage = ({
       </header>
 
       <FormProvider {...helpers}>
-        <form
-          onSubmit={helpers.handleSubmit(() => mutate())}
-          className="filters"
-        >
-          <Field
-            label="Search"
-            name="search"
-            type="search"
-            placeholder="Search by name or contact detail..."
-            dontShowOptional
-          />
-
-          <Field type="select" label="Races" name="race_id" dontShowOptional>
-            <option value="">All races</option>
-            {races.map(race => (
-              <option key={race.id} value={race.id}>
-                {race.title} only
-              </option>
-            ))}
-          </Field>
-
-          <Field
-            type="select"
-            label="Application type"
-            name="application_type"
-            dontShowOptional
-          >
-            <option value="">All applications</option>
-            <option value={ApplicationType.Racing}>Racing only</option>
-            <option value={ApplicationType.Volunteering}>
-              Volunteering only
-            </option>
-          </Field>
-        </form>
+        <ApplicationFilters {...helpers} mutate={mutate} />
       </FormProvider>
 
       <table className="admin-table">
@@ -107,11 +55,8 @@ const AdminApplicationsPage = ({
           <tr>
             <th scope="col">Race</th>
             <th scope="col">Type</th>
-
             <th scope="col">Applicant</th>
-
             <th scope="col">Started</th>
-
             <th scope="col">Status</th>
             <th scope="col" className="visually-hidden">
               Actions
@@ -119,7 +64,7 @@ const AdminApplicationsPage = ({
           </tr>
         </thead>
         <tbody>
-          {data.map(application => {
+          {data.data.map(application => {
             const open = expanded === application.id
 
             return (

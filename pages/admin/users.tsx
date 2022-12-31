@@ -14,19 +14,17 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
 import useUrlHash from "../../hooks/useUrlHash"
+import UserFilters from "../../components/UserFilters"
+import { useUsers } from "../../hooks/useAdminData"
 
-const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
+const AdminUsersPage = ({
+  initialUsers,
+}: {
+  initialUsers: UserWithApplications[]
+}) => {
   const helpers = useForm<UserAdminFilters>()
-
   const session = useSession()
-
-  const { data, mutate } = useSWR<UserWithApplications[]>(
-    `/api/admin/users?${new URLSearchParams(helpers.getValues())}`,
-    {
-      fallbackData: users,
-    }
-  )
-
+  const { data, mutate } = useUsers(helpers, initialUsers)
   const [expanded, setExpanded] = useUrlHash()
 
   return (
@@ -40,7 +38,7 @@ const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
       <header className="admin-header">
         <div>
           <h1>All users</h1>
-          <p className="result-count">Showing {users.length} results</p>
+          <p className="result-count">Showing {data.count} results</p>
         </div>
 
         <Link href="/api/users/export" className="button">
@@ -49,36 +47,7 @@ const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
       </header>
 
       <FormProvider {...helpers}>
-        <form
-          onSubmit={helpers.handleSubmit(() => mutate())}
-          className="filters"
-        >
-          <Field
-            label="Search"
-            name="search"
-            type="search"
-            placeholder="Search by name or contact detail..."
-            dontShowOptional
-          />
-
-          <fieldset className="fieldset">
-            <legend>Only show</legend>
-
-            <GroupField
-              label="Administrators"
-              value={1}
-              name="only_admins"
-              type="checkbox"
-            />
-
-            <GroupField
-              label="Users with applications"
-              value={1}
-              name="only_with_applications"
-              type="checkbox"
-            />
-          </fieldset>
-        </form>
+        <UserFilters {...helpers} mutate={mutate} />
       </FormProvider>
 
       <table className="admin-table">
@@ -95,7 +64,7 @@ const AdminUsersPage = ({ users }: { users: UserWithApplications[] }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(user => {
+          {data.data.map(user => {
             const open = expanded === user.id
 
             return (
@@ -186,7 +155,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      users: users.map(users => JSON.parse(JSON.stringify(users))),
+      initialUsers: users.map(users => JSON.parse(JSON.stringify(users))),
     },
   }
 }

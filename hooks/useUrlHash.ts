@@ -1,8 +1,11 @@
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 /** useState, but synced to url hash state */
-const useUrlHash = () => {
+const useUrlHash = (): [
+  string | false,
+  Dispatch<SetStateAction<string | false>>
+] => {
   const { asPath, replace } = useRouter()
   const [state, setState] = useState<string | false>(false)
 
