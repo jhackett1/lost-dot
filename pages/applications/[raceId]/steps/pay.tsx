@@ -10,6 +10,7 @@ import { formatCurrency } from "../../../../lib/formatters"
 import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
+import Head from "next/head"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -50,6 +51,10 @@ const ApplicationPayPage = (application: Application) => {
 
   return (
     <div className="narrow-container">
+      <Head>
+        <title>Apply to ride | Lost Dot</title>
+      </Head>
+
       <h1>
         You will need to study the race manual to complete your application
       </h1>

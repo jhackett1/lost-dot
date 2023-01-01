@@ -14,6 +14,7 @@ import ErrorSummary from "../../../../components/ErrorSummary"
 import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
+import Head from "next/head"
 
 const ApplicationStepIndexPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -43,6 +44,10 @@ const ApplicationStepIndexPage = (application: Application) => {
 
   return (
     <>
+      <Head>
+        <title>Apply to ride | Lost Dot</title>
+      </Head>
+
       <h1>Apply to ride</h1>
       <p className="caption">{race?.title || application.raceId}</p>
 

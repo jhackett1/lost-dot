@@ -15,6 +15,7 @@ import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
 import FlexibleFormFields from "../../../../components/FlexibleFormFields"
+import Head from "next/head"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -35,6 +36,10 @@ const ApplicationStepAboutYouPage = (application: Application) => {
 
   return (
     <>
+      <Head>
+        <title>Apply to ride | Lost Dot</title>
+      </Head>
+
       <div className="narrow-container centred">
         <h1>Apply to ride</h1>
         <p className="caption">{race?.title || application.raceId}</p>

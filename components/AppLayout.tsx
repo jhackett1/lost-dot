@@ -38,6 +38,7 @@ const AppLayout = ({ children }) => {
                 fill="white"
               />
             </svg>
+            <span className="visually-hidden">Lost Dot</span>
           </Link>
 
           <nav className="app-header__nav">
@@ -48,7 +49,9 @@ const AppLayout = ({ children }) => {
             {signedIn ? (
               <>
                 <img
-                  className="app-header__avatar"
+                  className={`app-header__avatar ${
+                    session.data.user.admin ? "app-header__avatar--admin" : ""
+                  }`}
                   src="/mystery-person.svg"
                   // TODO: why is user name not available?
                   alt={session.data.user.firstName}

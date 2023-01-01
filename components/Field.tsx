@@ -27,8 +27,9 @@ const Field = ({
 
   const error = errors?.[name]?.message
 
-  let id = name
-  if (props.value) id = `${name}-${props.value}`
+  let id = name.replaceAll(" ", "").toLowerCase()
+  if (props.value)
+    id += `-${props.value.toString().replaceAll(" ", "").toLowerCase()}`
 
   return (
     <div className={`field${required ? " field--required" : ""}`}>

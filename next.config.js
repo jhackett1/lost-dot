@@ -1,8 +1,9 @@
-// next.config.js
 module.exports = {
-  // ... rest of the configuration.
   output: "standalone",
-
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
   images: {
     remotePatterns: [
       {

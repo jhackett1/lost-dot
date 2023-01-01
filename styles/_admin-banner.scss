@@ -1,8 +1,10 @@
 .admin-banner {
   display: block;
   padding: 1rem;
-  background: $black;
-  color: $white;
+  // background: $black;
+  // color: $white;
+  background: lighten($yellow, 20);
+  color: darken($yellow, 30);
   font-weight: 600;
   text-decoration: none;
   text-align: center;
