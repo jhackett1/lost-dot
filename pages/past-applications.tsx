@@ -6,27 +6,36 @@ import Head from "next/head"
 import ApplicationList from "../components/ApplicationList"
 import PageHeader from "../components/PageHeader"
 import prisma from "../lib/prisma"
+import { getRaceById } from "../lib/races"
 import { authOptions } from "./api/auth/[...nextauth]"
 
 const PastApplicationsPage = ({
   applications,
 }: {
   applications: Application[]
-}) => (
-  <>
-    <Head>
-      <title>Past applications | Lost Dot</title>
-    </Head>
+}) => {
+  const pastApplications = applications.filter(application => {
+    const race = getRaceById(application.raceId)
+    if (!race) return true
+    return new Date(race.date) < new Date()
+  })
 
-    <PageHeader />
+  return (
+    <>
+      <Head>
+        <title>Past applications | Lost Dot</title>
+      </Head>
 
-    {applications.length > 0 ? (
-      <ApplicationList applications={applications} />
-    ) : (
-      <p className="no-results">You have no past applications</p>
-    )}
-  </>
-)
+      <PageHeader />
+
+      {pastApplications.length > 0 ? (
+        <ApplicationList applications={pastApplications} />
+      ) : (
+        <p className="no-results">You have no past applications</p>
+      )}
+    </>
+  )
+}
 
 export default PastApplicationsPage
 

@@ -6,6 +6,7 @@ import ApplicationList from "../../components/ApplicationList"
 import PageHeader from "../../components/PageHeader"
 import races from "../../data/races.json"
 import prisma from "../../lib/prisma"
+import { getRaceById } from "../../lib/races"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 const ApplicationsPage = ({ applications }) => {
@@ -13,6 +14,12 @@ const ApplicationsPage = ({ applications }) => {
     race =>
       !applications.map(application => application.raceId).includes(race.id)
   )
+
+  const activeApplications = applications.filter(application => {
+    const race = getRaceById(application.raceId)
+    if (!race) return false
+    return !(new Date(race.date) < new Date())
+  })
 
   return (
     <>
@@ -22,8 +29,8 @@ const ApplicationsPage = ({ applications }) => {
 
       <PageHeader />
 
-      {applications.length > 0 ? (
-        <ApplicationList applications={applications} />
+      {activeApplications.length > 0 ? (
+        <ApplicationList applications={activeApplications} />
       ) : (
         <p className="no-results">You have no active applications</p>
       )}
