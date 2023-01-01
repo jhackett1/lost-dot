@@ -111,6 +111,14 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     }
 
+  if (application.submittedAt)
+    return {
+      redirect: {
+        destination: `/applications/${application.raceId}`,
+        permanent: false,
+      },
+    }
+
   return {
     props: JSON.parse(JSON.stringify(application)),
   }
