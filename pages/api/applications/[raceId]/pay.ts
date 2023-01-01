@@ -10,34 +10,44 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 })
 
 const handler: NextApiHandler = async (req, res) => {
-  const race = getRaceById(req.query.raceId as string)
-  const session = await unstable_getServerSession(req, res, authOptions)
+  try {
+    const race = getRaceById(req.query.raceId as string)
 
-  const paymentType = PaymentType.expressionOfInterest // TODO: make this dynamic
+    if (!race) throw "Unknown race ID"
 
-  const paymentIntent = await stripe.paymentIntents.create(
-    {
-      amount: race.costs[paymentType] * 100,
-      currency: "gbp",
-      receipt_email: session.user.email,
-      automatic_payment_methods: {
-        enabled: true,
+    const session = await unstable_getServerSession(req, res, authOptions)
+
+    if (!session) throw "Unauthorised"
+
+    const paymentType = PaymentType.expressionOfInterest // TODO: make this dynamic
+
+    const paymentIntent = await stripe.paymentIntents.create(
+      {
+        amount: race.costs[paymentType] * 100,
+        currency: "gbp",
+        receipt_email: session.user.email,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        customer: session.user.customerId,
+        metadata: {
+          raceId: race.id,
+          type: paymentType,
+          userId: session.user.id,
+        },
       },
-      customer: session.user.customerId,
-      metadata: {
-        raceId: race.id,
-        type: paymentType,
-        userId: session.user.id,
-      },
-    },
-    {
-      idempotencyKey: `${race.id}-${session.user.customerId}-${paymentType}`,
-    }
-  )
+      {
+        idempotencyKey: `${race.id}-${session.user.customerId}-${paymentType}`,
+      }
+    )
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  })
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    })
+  } catch (e: any) {
+    console.error(e)
+    res.status(400).json({ error: e?.name || e })
+  }
 }
 
 export default handler

@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
       case "GET":
         const session = await unstable_getServerSession(req, res, authOptions)
 
-        if (!session.user.admin) throw "Unauthorised"
+        if (!session || !session.user.admin) throw "Unauthorised"
 
         const applications = await prisma.application.findMany()
         const data = csv.toCSV(applications)

@@ -13,6 +13,8 @@ const handler: NextApiHandler = async (req, res) => {
 
         const session = await unstable_getServerSession(req, res, authOptions)
 
+        if (!session) throw "Unauthorised"
+
         const existingApplication = await prisma.application.findUnique({
           where: {
             raceId_userId: {

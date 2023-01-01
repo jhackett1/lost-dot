@@ -1,16 +1,17 @@
-import { ApplicationType } from "@prisma/client"
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
+import type { NextApiHandler } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { getSession } from "next-auth/react"
 import prisma from "../../../../lib/prisma"
-import { UserInputSchema } from "../../../../lib/validators"
-import { ApplicationAdminFilters, UserAdminFilters } from "../../../../types"
+import { UserAdminFilters } from "../../../../types"
 import { authOptions } from "../../auth/[...nextauth]"
 
 const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
       case "GET":
+        const session = await unstable_getServerSession(req, res, authOptions)
+
+        if (!session || !session.user.admin) throw "Unauthorised"
+
         const { search, only_admins, only_with_applications } =
           req.query as UserAdminFilters
 

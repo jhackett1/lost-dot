@@ -12,6 +12,9 @@ const handler: NextApiHandler = async (req, res) => {
         const data = JSON.parse(req.body)
         UserInputSchema.parse(data)
         const session = await unstable_getServerSession(req, res, authOptions)
+
+        if (!session) throw "Unauthorised"
+
         const result = await prisma.user.update({
           where: {
             email: session.user.email,
@@ -22,8 +25,6 @@ const handler: NextApiHandler = async (req, res) => {
             onboardedAt: new Date(), // the first time the user edits their profile, they become onboarded
           },
         })
-
-        req.cookies
 
         res.status(200).json(result)
         break

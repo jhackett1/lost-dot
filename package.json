@@ -30,7 +30,6 @@
     "@sendgrid/mail": "^7.7.0",
     "@stripe/react-stripe-js": "^1.16.0",
     "@stripe/stripe-js": "^1.46.0",
-    "csv": "^6.2.5",
     "csvjson": "^5.1.0",
     "inflection": "^2.0.1",
     "lodash.debounce": "^4.0.8",

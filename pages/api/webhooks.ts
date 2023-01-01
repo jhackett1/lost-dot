@@ -66,8 +66,6 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (e: any) {
     console.error(e)
-
-    console.log(e.response.body.errors)
     res.status(400).json({ error: e?.name || e })
   }
 }

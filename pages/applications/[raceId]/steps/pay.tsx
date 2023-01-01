@@ -23,7 +23,7 @@ const ApplicationPayPage = (application: Application) => {
     fetch(`/api/applications/${application.raceId}/pay`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      // body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
     })
       .then(res => res.json())
       .then(data => setClientSecret(data.clientSecret))
@@ -54,19 +54,23 @@ const ApplicationPayPage = (application: Application) => {
         You will need to study the race manual to complete your application
       </h1>
 
-      <p>
-        We take a small payment of{" "}
-        <strong>{formatCurrency(race.costs.expressionOfInterest)}</strong> to
-        provide you with the race manual.
-      </p>
+      {race && (
+        <>
+          <p>
+            We take a small payment of{" "}
+            <strong>{formatCurrency(race?.costs?.expressionOfInterest)}</strong>{" "}
+            to provide you with the race manual.
+          </p>
 
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm
-            completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}?success=true`}
-            goBackLink={`/applications/${application.raceId}/steps/legals`}
-          />
-        </Elements>
+          {clientSecret && (
+            <Elements options={options} stripe={stripePromise}>
+              <CheckoutForm
+                completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}?success=true`}
+                goBackLink={`/applications/${application.raceId}/steps/legals`}
+              />
+            </Elements>
+          )}
+        </>
       )}
     </div>
   )
