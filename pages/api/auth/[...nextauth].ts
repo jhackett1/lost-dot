@@ -20,13 +20,9 @@ export const authOptions = {
       session.user.firstName = u.firstName
       session.user.admin = u.admin
       session.user.customerId = u.customerId
+      session.user.onboardedAt = u.onboardedAt
 
       return session
-    },
-
-    redirect: async (...args) => {
-      console.log("REDIRECT CALLBACK TRIGGERED WITH: ", args)
-      return "/fake-path"
     },
 
     signIn: async ({ user, account, profile, email, credentials }) => {

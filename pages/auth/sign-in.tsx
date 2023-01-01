@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GetServerSideProps } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { getSession, signIn } from "next-auth/react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/router"
 import { FormProvider, useForm } from "react-hook-form"
 import Field from "../../components/Field"
 import { SignInSchema } from "../../lib/validators"
@@ -12,8 +13,13 @@ const SignInPage = () => {
     resolver: zodResolver(SignInSchema),
   })
 
+  const { query } = useRouter()
+
   const onSubmit = async values => {
-    const res = await signIn("email", values)
+    const res = await signIn("email", {
+      ...values,
+      callbackUrl: query.callbackUrl || "/",
+    })
   }
 
   return (
@@ -49,7 +55,7 @@ export default SignInPage
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions)
 
-  // disallow access if user is signed in
+  // disallow access if user is already signed in
   if (session)
     return {
       redirect: {

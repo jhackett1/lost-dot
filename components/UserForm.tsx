@@ -2,7 +2,7 @@ import { User } from "@prisma/client"
 import { useForm, FormProvider } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Field from "./Field"
-import { UserInput } from "../types"
+import { UserInput, UserWithApplications } from "../types"
 import { UserInputSchema } from "../lib/validators"
 import { useState } from "react"
 import marketingPrefs from "../data/marketing-preferences.json"
@@ -18,7 +18,7 @@ interface Props {
 
 const UserForm = ({ user }: Props) => {
   const [formStatus, setFormStatus] = useState<string>("")
-  const { replace } = useRouter()
+  const { replace, push } = useRouter()
 
   const methods = useForm<UserInput>({
     defaultValues: {
@@ -35,10 +35,17 @@ const UserForm = ({ user }: Props) => {
       method: "PUT",
       body: JSON.stringify(values),
     })
-    if (res.ok)
-      replace("/", null, {
-        scroll: true,
-      })
+    if (res.ok) {
+      if (user.onboardedAt) {
+        // keep the user on the same page
+        replace("/", null, {
+          scroll: true,
+        })
+        // send a newly onboarded user over to applications
+      } else {
+        push("/applications")
+      }
+    }
   }
 
   return (

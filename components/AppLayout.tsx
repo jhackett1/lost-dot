@@ -54,12 +54,19 @@ const AppLayout = ({ children }) => {
                   alt={session.data.user.firstName}
                   title={session.data.user.firstName}
                 />
-                <a href="#" onClick={() => signOut()}>
+                <a
+                  href="#"
+                  onClick={() =>
+                    signOut({
+                      callbackUrl: `/auth/sign-in`,
+                    })
+                  }
+                >
                   Sign out
                 </a>
               </>
             ) : (
-              <Link href="/api/auth/signin">Sign in</Link>
+              <Link href="/auth/sign-in">Sign in</Link>
             )}
           </nav>
         </div>

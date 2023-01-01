@@ -30,7 +30,7 @@ export default CheckEmailPage
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions)
 
-  // disallow access if user is signed in
+  // disallow access if user is already signed in
   if (session)
     return {
       redirect: {

@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (!session)
     return {
       redirect: {
-        destination: `/auth/sign-in`,
+        destination: `/auth/sign-in?callbackUrl=${req.url}`,
         permanent: false,
       },
     }
@@ -53,10 +53,21 @@ export const getServerSideProps: GetServerSideProps = async ({
     update: {},
   })
 
-  return {
-    redirect: {
-      destination: `/applications/${application.raceId}/steps`,
-      permanent: false,
-    },
+  if (session.user.onboardedAt) {
+    // if the user is onboarded, take them to their new application
+    return {
+      redirect: {
+        destination: `/applications/${application.raceId}/steps`,
+        permanent: false,
+      },
+    }
+  } else {
+    // otherwise, take them to onboarding/profile page
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+    }
   }
 }
