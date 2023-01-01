@@ -1,10 +1,12 @@
 import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 import Head from "next/head"
 import ApplicationList from "../../components/ApplicationList"
 import PageHeader from "../../components/PageHeader"
 import races from "../../data/races.json"
 import prisma from "../../lib/prisma"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 const ApplicationsPage = ({ applications }) => {
   const appliableRaces = races.filter(
@@ -54,8 +56,16 @@ const ApplicationsPage = ({ applications }) => {
 
 export default ApplicationsPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
 
   const applications = await prisma.application.findMany({
     where: {

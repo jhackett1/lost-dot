@@ -136,7 +136,22 @@
     margin-bottom: 2rem;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1.5rem;
+
+    &--users {
+      grid-template-columns: 1fr 1fr;
+
+      fieldset {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      legend {
+        grid-column: 1/3;
+      }
+    }
   }
+
 }
 
 .visually-hidden {

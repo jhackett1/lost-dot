@@ -4,12 +4,15 @@ import { useRouter } from "next/router"
 import RaceBanner from "./RaceBanner"
 import { getRaceById } from "../lib/races"
 import Head from "next/head"
+import useProtected from "../hooks/useProtected"
 
 const AppLayout = ({ children }) => {
   const session = useSession()
   const { asPath, query } = useRouter()
 
   const signedIn = session.status === "authenticated"
+
+  useProtected()
 
   return (
     <>

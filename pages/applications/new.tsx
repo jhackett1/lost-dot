@@ -1,12 +1,18 @@
 import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 const NewApplicationPage = () => null
 
 export default NewApplicationPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const race_id = context.query?.race_id
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
+  const race_id = query?.race_id
 
   if (!race_id)
     return {
@@ -16,12 +22,12 @@ export const getServerSideProps: GetServerSideProps = async context => {
       },
     }
 
-  const session = await getSession(context)
+  const session = await unstable_getServerSession(req, res, authOptions)
 
   if (!session)
     return {
       redirect: {
-        destination: "/404",
+        destination: `/auth/sign-in`,
         permanent: false,
       },
     }

@@ -23,6 +23,8 @@ const handler: NextApiHandler = async (req, res) => {
           },
         })
 
+        req.cookies
+
         res.status(200).json(result)
         break
       default:

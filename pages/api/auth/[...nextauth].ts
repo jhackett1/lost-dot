@@ -24,6 +24,11 @@ export const authOptions = {
       return session
     },
 
+    redirect: async (...args) => {
+      console.log("REDIRECT CALLBACK TRIGGERED WITH: ", args)
+      return "/fake-path"
+    },
+
     signIn: async ({ user, account, profile, email, credentials }) => {
       const u: User = user
 

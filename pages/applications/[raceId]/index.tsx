@@ -6,6 +6,9 @@ import ApplicationBox from "../../../components/ApplicationBox"
 import PageHeader from "../../../components/PageHeader"
 import { getRaceById } from "../../../lib/races"
 import prisma from "../../../lib/prisma"
+import { useEffect } from "react"
+import { authOptions } from "../../api/auth/[...nextauth]"
+import { unstable_getServerSession } from "next-auth"
 
 const ApplicationPage = (application: Application) => {
   const race = getRaceById(application.raceId)
@@ -13,7 +16,9 @@ const ApplicationPage = (application: Application) => {
   return (
     <>
       <Head>
-        <title>Your {race.title} application | Lost Dot</title>
+        <title>
+          Your {race?.title || application.raceId} application | Lost Dot
+        </title>
       </Head>
 
       <PageHeader />
@@ -25,9 +30,21 @@ const ApplicationPage = (application: Application) => {
 
 export default ApplicationPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const { raceId } = context.params
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  params,
+}) => {
+  const { raceId } = params
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
 
   const application = await prisma.application.findUnique({
     where: {

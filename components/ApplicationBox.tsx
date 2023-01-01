@@ -1,5 +1,6 @@
 import { Application } from "@prisma/client"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { getCompleteness } from "../lib/applications"
 import { formatDateAndTime } from "../lib/formatters"
 import { Race } from "../types"
@@ -10,19 +11,25 @@ const ApplicationBox = ({
   race,
 }: {
   application: Application
-  race: Race
+  race?: Race
 }) => {
+  const { query } = useRouter()
+
   return (
     <div className="application-box">
       <h1 className="application-box__headline">
         {application.submittedAt
-          ? `Finish your ${race.hashtag} application using the race manual`
+          ? `Finish your ${
+              race.hashtag || application.raceId
+            } application using the race manual`
           : `Start by making an expression of interest`}
       </h1>
 
-      <strong className="application-box__deadline">
-        Deadline: {formatDateAndTime(race.deadline)}
-      </strong>
+      {race && (
+        <strong className="application-box__deadline">
+          Deadline: {formatDateAndTime(race.deadline)}
+        </strong>
+      )}
 
       <div className="application-box__body">
         <CompletionMeter completion={getCompleteness(application)} />
@@ -37,12 +44,12 @@ const ApplicationBox = ({
             </li>
             <li
               className={`application-box__timeline-task ${
-                application.submittedAt
+                application.submittedAt || query.success
                   ? "application-box__timeline-task--complete"
                   : ""
               }`}
             >
-              {application.submittedAt && (
+              {(application.submittedAt || query.success) && (
                 <span className="application-box__timeline-complete">
                   Complete:
                 </span>

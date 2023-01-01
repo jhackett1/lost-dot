@@ -6,7 +6,10 @@ import { useEffect } from "react"
 
 const UserFilters = ({ mutate, ...helpers }) => {
   return (
-    <form onSubmit={helpers.handleSubmit(() => mutate())} className="filters">
+    <form
+      onSubmit={helpers.handleSubmit(() => mutate())}
+      className="filters filters--users"
+    >
       <Field
         label="Search"
         name="search"

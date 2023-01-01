@@ -1,16 +1,14 @@
 import UserForm from "../components/UserForm"
-import useProtected from "../hooks/useProtected"
 import prisma from "../lib/prisma"
 import { getSession } from "next-auth/react"
 import { GetServerSideProps } from "next"
 import { User } from "@prisma/client"
-import AppNav from "../components/AppNav"
 import PageHeader from "../components/PageHeader"
 import Head from "next/head"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "./api/auth/[...nextauth]"
 
 const ProfilePage = (user?: User) => {
-  useProtected()
-
   return (
     <div>
       <Head>
@@ -37,8 +35,8 @@ const ProfilePage = (user?: User) => {
 
 export default ProfilePage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
 
   const user = await prisma.user.findFirst({
     where: {
@@ -46,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     },
   })
 
-  if (!user)
+  if (!session || !user)
     return {
       redirect: {
         destination: "/auth/sign-in",

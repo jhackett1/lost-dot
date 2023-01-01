@@ -1,7 +1,9 @@
 import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
 import { getCsrfToken, getSession, signIn } from "next-auth/react"
 import { FormProvider, useForm } from "react-hook-form"
 import Field from "../../components/Field"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 const CheckEmailPage = () => {
   const methods = useForm()
@@ -25,8 +27,8 @@ const CheckEmailPage = () => {
 
 export default CheckEmailPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
 
   // disallow access if user is signed in
   if (session)

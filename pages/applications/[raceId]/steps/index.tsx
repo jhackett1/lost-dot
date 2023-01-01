@@ -12,6 +12,8 @@ import Loader from "../../../../components/Loader"
 import GroupField from "../../../../components/GroupField"
 import ErrorSummary from "../../../../components/ErrorSummary"
 import prisma from "../../../../lib/prisma"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../../../api/auth/[...nextauth]"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -102,9 +104,21 @@ const ApplicationStepAboutYouPage = (application: Application) => {
 
 export default ApplicationStepAboutYouPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const { raceId } = context.params
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  params,
+}) => {
+  const { raceId } = params
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
 
   const application = await prisma.application.findUnique({
     where: {

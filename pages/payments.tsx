@@ -68,6 +68,15 @@ export default PaymentsPage
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
+
   const charges = await getPaymentsByCustomer(session.user.customerId)
 
   return {

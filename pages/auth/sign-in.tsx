@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GetServerSideProps } from "next"
+import { unstable_getServerSession } from "next-auth"
 import { getSession, signIn } from "next-auth/react"
 import { FormProvider, useForm } from "react-hook-form"
 import Field from "../../components/Field"
 import { SignInSchema } from "../../lib/validators"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 const SignInPage = () => {
   const methods = useForm({
@@ -44,8 +46,8 @@ const SignInPage = () => {
 
 export default SignInPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
 
   // disallow access if user is signed in
   if (session)

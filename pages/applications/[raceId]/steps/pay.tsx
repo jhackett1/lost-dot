@@ -8,6 +8,8 @@ import { getSession } from "next-auth/react"
 import { getRaceById } from "../../../../lib/races"
 import { formatCurrency } from "../../../../lib/formatters"
 import prisma from "../../../../lib/prisma"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../../../api/auth/[...nextauth]"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -61,7 +63,7 @@ const ApplicationPayPage = (application: Application) => {
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm
-            completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}`}
+            completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}?success=true`}
             goBackLink={`/applications/${application.raceId}/steps/legals`}
           />
         </Elements>
@@ -72,9 +74,21 @@ const ApplicationPayPage = (application: Application) => {
 
 export default ApplicationPayPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const { raceId } = context.params
-  const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  params,
+}) => {
+  const { raceId } = params
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
 
   const application = await prisma.application.findUnique({
     where: {
