@@ -58,7 +58,7 @@ const handler: NextApiHandler = async (req, res) => {
             throw "Unhandled webhook event type"
         }
 
-        res.status(200).send()
+        res.status(200).end()
         break
       default:
         throw "Method not allowed"
