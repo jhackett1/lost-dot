@@ -5,7 +5,7 @@ export interface Props
   extends HTMLProps<
     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
   > {
-  label: string
+  label?: string
   hint?: string
   dontShowOptional?: boolean
 }

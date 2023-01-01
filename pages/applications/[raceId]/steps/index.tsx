@@ -14,6 +14,7 @@ import ErrorSummary from "../../../../components/ErrorSummary"
 import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
+import FlexibleFormFields from "../../../../components/FlexibleFormFields"
 
 const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
@@ -52,38 +53,7 @@ const ApplicationStepAboutYouPage = (application: Application) => {
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="form">
-          {questions.map(question => {
-            if (question.options)
-              return (
-                <fieldset
-                  className={`fieldset ${
-                    question.required ? " field--required" : ""
-                  }`}
-                >
-                  <legend>{question.label}</legend>
-
-                  {methods.formState.errors[question.name] && (
-                    <p role="alert" className="error">
-                      {methods.formState.errors[
-                        question.name
-                      ].message.toString()}
-                    </p>
-                  )}
-
-                  {question.options.map(option => (
-                    <GroupField
-                      name={question.name}
-                      label={option}
-                      key={option}
-                      type={question.type}
-                      value={option}
-                    />
-                  ))}
-                </fieldset>
-              )
-
-            return <Field {...question} key={question.name} />
-          })}
+          <FlexibleFormFields questions={questions} />
 
           <ErrorSummary>
             There are errors with your application—answer all the required

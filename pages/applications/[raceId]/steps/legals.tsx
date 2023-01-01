@@ -29,7 +29,14 @@ const ApplicationStepIndexPage = (application: Application) => {
       method: "PUT",
       body: JSON.stringify(values),
     })
-    if (res.ok) push(`/applications/${application.raceId}/steps/pay`)
+    if (res.ok) {
+      if (application.submittedAt) {
+        // skip checkout page
+        push(`/applications/${application.raceId}`)
+      } else {
+        push(`/applications/${application.raceId}/steps/pay`)
+      }
+    }
   }
 
   const error = methods.formState.errors["legals"]

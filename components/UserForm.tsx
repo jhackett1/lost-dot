@@ -129,6 +129,7 @@ const UserForm = ({ user }: Props) => {
               name="contactPrefs"
               hint={opt[1]}
               type="checkbox"
+              key={opt[0]}
             />
           ))}
         </fieldset>
