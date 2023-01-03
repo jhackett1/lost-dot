@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next"
 import { unstable_getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 import { authOptions } from "../api/auth/[...nextauth]"
+import prisma from "../../lib/prisma"
 
 const NewApplicationPage = () => null
 
