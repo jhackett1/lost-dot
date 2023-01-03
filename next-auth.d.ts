@@ -6,6 +6,7 @@ declare module "next-auth" {
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface Session {
+    createdAt: string
     user: Pick<
       User,
       "id" | "firstName" | "admin" | "customerId" | "onboardedAt"
