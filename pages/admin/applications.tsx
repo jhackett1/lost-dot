@@ -19,6 +19,7 @@ import useUrlHash from "../../hooks/useUrlHash"
 import ApplicationFilters from "../../components/ApplicationFilters"
 import { useApplications } from "../../hooks/useAdminData"
 import ExpanderRow from "../../components/ExpanderRow"
+import { commonApplicationsQuery } from "../api/admin/applications"
 
 const AdminApplicationsPage = ({
   initialApplications,
