@@ -67,13 +67,18 @@ const ApplicationPayPage = (application: Application) => {
             to provide you with the race manual.
           </p>
 
-          {clientSecret && (
+          {clientSecret ? (
             <Elements options={options} stripe={stripePromise}>
               <CheckoutForm
                 completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}?success=true`}
                 goBackLink={`/applications/${application.raceId}/steps/legals`}
               />
             </Elements>
+          ) : (
+            <p className="error error--panel">
+              There was an error setting up your payment. Please refresh the
+              page or try again later.
+            </p>
           )}
         </>
       )}
@@ -116,13 +121,13 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     }
 
-  if (application.submittedAt)
-    return {
-      redirect: {
-        destination: `/applications/${application.raceId}`,
-        permanent: false,
-      },
-    }
+  // if (application.submittedAt)
+  //   return {
+  //     redirect: {
+  //       destination: `/applications/${application.raceId}`,
+  //       permanent: false,
+  //     },
+  //   }
 
   return {
     props: JSON.parse(JSON.stringify(application)),

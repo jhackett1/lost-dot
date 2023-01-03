@@ -64,7 +64,7 @@ const AdminUsersPage = ({
                 </th>
                 <th scope="col">User</th>
                 <th scope="col">Applications</th>
-                <th scope="col">Last seen</th>
+                <th scope="col">Last signed in</th>
                 <th scope="col" className="visually-hidden">
                   Actions
                 </th>
@@ -122,7 +122,7 @@ const AdminUsersPage = ({
                       </td>
                       <td>
                         {prettyTimeDiff(user?.sessions?.[0]?.createdAt) ||
-                          "Never signed in"}
+                          "Never"}
                       </td>
                       <td>
                         <button

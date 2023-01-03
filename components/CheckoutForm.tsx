@@ -88,25 +88,22 @@ const CheckoutForm = ({
     >
       <PaymentElement id="payment-element" options={paymentElementOptions} />
 
+      {message && (
+        <div id="payment-message" className="error error--panel">
+          {message}
+        </div>
+      )}
+
       <div className="form__footer">
         <Link href={goBackLink}>Go back</Link>
 
         <button disabled={isLoading || !stripe || !elements} id="submit">
           <span id="button-text">
-            {isLoading ? (
-              <div className="spinner" id="spinner"></div>
-            ) : (
-              "Pay now"
-            )}
+            {isLoading && <div className="spinner" id="spinner"></div>}
+            Pay now
           </span>
         </button>
       </div>
-      {/* Show any error or success messages */}
-      {message && (
-        <div id="payment-message" className="error">
-          {message}
-        </div>
-      )}
     </form>
   )
 }

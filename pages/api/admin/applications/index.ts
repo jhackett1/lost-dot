@@ -9,6 +9,9 @@ export const commonApplicationsQuery: Prisma.ApplicationFindManyArgs = {
   include: {
     user: true,
   },
+  orderBy: {
+    createdAt: "desc",
+  },
 }
 
 const handler: NextApiHandler = async (req, res) => {

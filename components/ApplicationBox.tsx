@@ -18,7 +18,7 @@ const ApplicationBox = ({
   return (
     <div className="application-box">
       <h1 className="application-box__headline">
-        {application.submittedAt
+        {application.submittedAt || query.success
           ? `Finish your ${
               race.hashtag || application.raceId
             } application using the race manual`

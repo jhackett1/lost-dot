@@ -1,14 +1,14 @@
 [
   {
     "label": "Remind us in a few words your history with the Transcontinental Race (just in case we've forgotten).",
-    "hint": "This may be racing or volunteering with us in the past. Please keep your answer to one short paragraph. Thank you :-)",
+    "hint": "This may be racing or volunteering with us in the past. Please keep your answer to one short paragraph.",
     "type": "textarea",
     "name": "your-history",
     "required": true
   },
   {
     "label": "Have you taken part in any self supported ultra-race before?",
-    "hint": "Please choose YES if you have competed in any UNSUPPORTED ultra distance race in any sport discipline. Thank you :-)",
+    "hint": "Choose yes if you have competed in any UNSUPPORTED ultra distance race in any sport discipline.",
     "type": "radio",
     "options": [
       "Yes",
@@ -19,7 +19,7 @@
   },
   {
     "label": "Have you taken part in any other kind of ultra-race before?",
-    "hint": "Please choose YES if you have competed in any ultra distance race in any sport discipline.",
+    "hint": "Choose yes if you have competed in any ultra distance race in any sport discipline.",
     "type": "radio",
     "options": [
       "Yes",
@@ -30,7 +30,7 @@
   },
   {
     "label": "Do you have experience of solo self supported travel or expeditions with or without a bike?",
-    "hint": "Please choose YES if you have completed any SOLO UNSUPPORTED adventure in any discipline.",
+    "hint": "Choose yes if you have completed any SOLO UNSUPPORTED adventure in any discipline.",
     "type": "radio",
     "options": [
       "Yes",
@@ -41,7 +41,7 @@
   },
   {
     "label": "Please give brief details of your most relevant experience.",
-    "hint": "We want to hear about your most relevant experience in any self supported ultra-race, or any other kind of ultra-race or any experience of solo (or pairs / small group) self supported travel or expeditions with or without a bike. We don't want to hear about your training or daily commute to work... Please keep your answer to a couple of short paragraphs maximum. Thank you :-)",
+    "hint": "We want to hear about your most relevant experience in any self supported ultra-race, or any other kind of ultra-race or any experience of solo (or pairs/small group) self supported travel or expeditions with or without a bike. We don't want to hear about your training or daily commute to work. Please keep your answer to a couple of short paragraphs maximum.",
     "type": "textarea",
     "name": "relevant-experience",
     "required": true
