@@ -19,6 +19,8 @@ const handler: NextApiHandler = async (req, res) => {
 
     if (!session) throw "Unauthorised"
 
+    if (!session.user.customerId) throw "No customer ID"
+
     const paymentType = PaymentType.expressionOfInterest // TODO: make this dynamic
 
     const paymentIntent = await stripe.paymentIntents.create(

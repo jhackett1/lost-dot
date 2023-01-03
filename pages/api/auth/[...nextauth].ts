@@ -16,6 +16,28 @@ export const authOptions = {
     session: async ({ session, user }) => {
       const u: User = user
 
+      console.log(`session hook called`)
+
+      // if the user doesn't have a customer id, give them one
+      if (!u.customerId) {
+        console.log(`user has no customer id`)
+
+        const customer = await createCustomer()
+
+        console.log(`customer ID IS ${customer.id}`)
+
+        await prisma.user.update({
+          where: {
+            email: u.email,
+          },
+          data: {
+            customerId: customer.id,
+          },
+        })
+
+        console.log(`user ${u.email} updated with customer ID ✅`)
+      }
+
       session.user.id = u.id
       session.user.firstName = u.firstName
       session.user.admin = u.admin
@@ -25,28 +47,13 @@ export const authOptions = {
       return session
     },
 
-    signIn: async ({ user, account, profile, email, credentials }) => {
-      const u: User = user
+    // signIn: async ({ user, account, profile, email, credentials }) => {
+    //   const u: User = user
 
-      // if the customer doesn't have an id, give them one
-      if (!u.customerId) {
-        const customer = await createCustomer()
+    //   console.log("firing signIn callback")
 
-        await prisma.user.upsert({
-          where: {
-            email: u.email,
-          },
-          create: {
-            customerId: customer.id,
-          },
-          update: {
-            customerId: customer.id,
-          },
-        })
-      }
-
-      return true
-    },
+    //   return true
+    // },
   },
   providers: [
     EmailProvider({
