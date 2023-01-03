@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { getSession } from "next-auth/react"
 import Head from "next/head"
 import PageHeader from "../components/PageHeader"
 import { authOptions } from "./api/auth/[...nextauth]"
+import prisma from "../lib/prisma"
 
 const DocumentsPage = () => (
   <>
