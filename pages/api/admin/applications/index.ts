@@ -1,9 +1,15 @@
-import { ApplicationType } from "@prisma/client"
+import { ApplicationType, Prisma } from "@prisma/client"
 import type { NextApiHandler } from "next"
 import { unstable_getServerSession } from "next-auth"
 import prisma from "../../../../lib/prisma"
 import { ApplicationAdminFilters } from "../../../../types"
 import { authOptions } from "../../auth/[...nextauth]"
+
+export const commonApplicationsQuery: Prisma.ApplicationFindManyArgs = {
+  include: {
+    user: true,
+  },
+}
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -49,9 +55,7 @@ const handler: NextApiHandler = async (req, res) => {
                 ]
               : undefined,
           },
-          include: {
-            user: true,
-          },
+          ...commonApplicationsQuery,
         })
 
         res.status(200).json({

@@ -3,6 +3,7 @@ import {
   AdminAPIResponse,
   ApplicationWithUser,
   UserWithApplications,
+  UserWithApplicationsAndSessions,
 } from "../types"
 import useSWR from "swr"
 
@@ -20,7 +21,7 @@ export const useApplications = (helpers, initialData) =>
   )
 
 export const useUsers = (helpers, initialData) =>
-  useSWR<AdminAPIResponse<UserWithApplications[]>>(
+  useSWR<AdminAPIResponse<UserWithApplicationsAndSessions[]>>(
     `/api/admin/users?${new URLSearchParams(removeFalsy(helpers.getValues()))}`,
     {
       fallbackData: {

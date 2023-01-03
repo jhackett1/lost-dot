@@ -47,6 +47,14 @@ export type ApplicationWithUser = Prisma.ApplicationGetPayload<
   typeof applicationWithUser
 >
 
+const userWithApplicationsAndSessions = Prisma.validator<Prisma.UserArgs>()({
+  include: { applications: true, sessions: true },
+})
+
+export type UserWithApplicationsAndSessions = Prisma.UserGetPayload<
+  typeof userWithApplicationsAndSessions
+>
+
 export interface ApplicationAdminFilters {
   search: string
   race_id?: string

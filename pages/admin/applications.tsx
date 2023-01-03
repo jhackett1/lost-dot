@@ -124,11 +124,9 @@ const AdminApplicationsPage = ({
 export default AdminApplicationsPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const applications = await prisma.application.findMany({
-    include: {
-      user: true,
-    },
-  })
+  const applications = await prisma.application.findMany(
+    commonApplicationsQuery
+  )
 
   return {
     props: {

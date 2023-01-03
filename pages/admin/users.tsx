@@ -6,10 +6,10 @@ import GroupField from "../../components/GroupField"
 import Field from "../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
 import useSWR from "swr"
-import { UserAdminFilters, UserWithApplications } from "../../types"
+import { UserAdminFilters, UserWithApplicationsAndSessions } from "../../types"
 import { getRaceById } from "../../lib/races"
 import React, { useEffect, useState } from "react"
-import { prettyKey } from "../../lib/formatters"
+import { prettyKey, prettyTimeDiff } from "../../lib/formatters"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
@@ -17,11 +17,12 @@ import useUrlHash from "../../hooks/useUrlHash"
 import UserFilters from "../../components/UserFilters"
 import { useUsers } from "../../hooks/useAdminData"
 import ExpanderRow from "../../components/ExpanderRow"
+import { commonUsersQuery } from "../api/admin/users"
 
 const AdminUsersPage = ({
   initialUsers,
 }: {
-  initialUsers: UserWithApplications[]
+  initialUsers: UserWithApplicationsAndSessions[]
 }) => {
   const helpers = useForm<UserAdminFilters>()
   const session = useSession()
@@ -63,6 +64,7 @@ const AdminUsersPage = ({
                 </th>
                 <th scope="col">User</th>
                 <th scope="col">Applications</th>
+                <th scope="col">Last seen</th>
                 <th scope="col" className="visually-hidden">
                   Actions
                 </th>
@@ -119,6 +121,10 @@ const AdminUsersPage = ({
                         </ul>
                       </td>
                       <td>
+                        {prettyTimeDiff(user?.sessions?.[0]?.createdAt) ||
+                          "Never signed in"}
+                      </td>
+                      <td>
                         <button
                           onClick={() =>
                             open ? setExpanded(false) : setExpanded(user.id)
@@ -146,18 +152,7 @@ const AdminUsersPage = ({
 export default AdminUsersPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const users = await prisma.user.findMany({
-    include: {
-      applications: true,
-      // grab most recent session
-      sessions: {
-        orderBy: {
-          expires: "desc",
-        },
-        take: 1,
-      },
-    },
-  })
+  const users = await prisma.user.findMany(commonUsersQuery)
 
   return {
     props: {

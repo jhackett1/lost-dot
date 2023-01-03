@@ -1,8 +1,24 @@
+import { Prisma } from "@prisma/client"
 import type { NextApiHandler } from "next"
 import { unstable_getServerSession } from "next-auth"
 import prisma from "../../../../lib/prisma"
 import { UserAdminFilters } from "../../../../types"
 import { authOptions } from "../../auth/[...nextauth]"
+
+export const commonUsersQuery: Prisma.UserFindManyArgs = {
+  include: {
+    applications: true,
+    sessions: {
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
+    },
+  },
+  orderBy: {
+    admin: "desc",
+  },
+}
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -23,7 +39,6 @@ const handler: NextApiHandler = async (req, res) => {
                   some: {},
                 }
               : undefined,
-
             OR: search
               ? [
                   {
@@ -47,9 +62,7 @@ const handler: NextApiHandler = async (req, res) => {
                 ]
               : undefined,
           },
-          include: {
-            applications: true,
-          },
+          ...commonUsersQuery,
         })
 
         res.status(200).json({
