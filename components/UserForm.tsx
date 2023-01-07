@@ -36,6 +36,9 @@ const UserForm = ({ user }: Props) => {
       body: JSON.stringify(values),
     })
     if (res.ok) {
+      // force session to update
+      document.dispatchEvent(new Event("visibilitychange"))
+
       if (user.onboardedAt) {
         // keep the user on the same page
         replace("/", null, {
