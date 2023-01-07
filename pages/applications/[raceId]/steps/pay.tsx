@@ -11,6 +11,7 @@ import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
 import Head from "next/head"
+import { submitApplication } from "../../../../lib/applications"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -121,13 +122,28 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     }
 
-  // if (application.submittedAt)
-  //   return {
-  //     redirect: {
-  //       destination: `/applications/${application.raceId}`,
-  //       permanent: false,
-  //     },
-  //   }
+  if (application.submittedAt)
+    return {
+      redirect: {
+        destination: `/applications/${application.raceId}`,
+        permanent: false,
+      },
+    }
+
+  const race = getRaceById(application.raceId)
+  const amount = race?.costs?.expressionOfInterest
+
+  // bypass checkout if the application takes no payment
+  if (amount === 0) {
+    await submitApplication(application.raceId, application.userId)
+
+    return {
+      redirect: {
+        destination: `/applications/${application.raceId}`,
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: JSON.parse(JSON.stringify(application)),

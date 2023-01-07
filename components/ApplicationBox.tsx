@@ -32,7 +32,9 @@ const ApplicationBox = ({
       )}
 
       <div className="application-box__body">
-        <CompletionMeter completion={getCompleteness(application)} />
+        <CompletionMeter
+          completion={query.success ? 0.66 : getCompleteness(application)}
+        />
 
         <div>
           <ol className="application-box__timeline">
@@ -60,16 +62,22 @@ const ApplicationBox = ({
               Use the race manual to answer some specific questions to complete
               your application
               <br />
-              <a href="#">View race manual</a>
+              {/* <a href="#">View race manual</a> */}
             </li>
           </ol>
 
-          <Link
-            href={`/applications/${application.raceId}/steps`}
-            className="button"
-          >
-            Continue
-          </Link>
+          {application.submittedAt ? (
+            <Link href={`/documents`} className="button">
+              View race manual
+            </Link>
+          ) : (
+            <Link
+              href={`/applications/${application.raceId}/steps`}
+              className="button"
+            >
+              Continue
+            </Link>
+          )}
         </div>
       </div>
     </div>

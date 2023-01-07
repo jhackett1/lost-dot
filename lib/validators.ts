@@ -51,6 +51,14 @@ export const generateApplicationSchema = (questions: Question[]) => {
       schema[question.name] = z
         .string({ invalid_type_error: "This is a required question" })
         .min(1, "This is a required question")
+
+      if (question.type === "textarea")
+        schema[question.name] = schema[question.name].refine(
+          val => val.length <= 300,
+          val => ({
+            message: `This question has a 300 character limit. Your answer has ${val.length} characters.`,
+          })
+        )
     } else {
       schema[question.name] = z.string()
     }

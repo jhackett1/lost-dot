@@ -9,6 +9,7 @@ import { getRaceById } from "../../lib/races"
 import {
   AdminAPIResponse,
   ApplicationAdminFilters,
+  ApplicationStatus,
   ApplicationWithUser,
 } from "../../types"
 import { formatDate, prettyKey, prettyStatus } from "../../lib/formatters"
@@ -27,7 +28,10 @@ const AdminApplicationsPage = ({
   initialApplications: ApplicationWithUser[]
 }) => {
   const helpers = useForm<ApplicationAdminFilters>()
-  const { data, mutate } = useApplications(helpers, initialApplications)
+  const { data, mutate, isLoading } = useApplications(
+    helpers,
+    initialApplications
+  )
   const [expanded, setExpanded] = useUrlHash()
 
   return (
@@ -57,12 +61,14 @@ const AdminApplicationsPage = ({
 
       {data.data.length > 0 ? (
         <div className="table-holder">
-          <table>
+          <table
+            className={`admin-table ${isLoading ? "admin-table--loading" : ""}`}
+          >
             <thead>
               <tr>
+                <th scope="col">Applicant</th>
                 <th scope="col">Race</th>
                 <th scope="col">Type</th>
-                <th scope="col">Applicant</th>
                 <th scope="col">Started</th>
                 <th scope="col">Status</th>
                 <th scope="col" className="visually-hidden">
@@ -74,24 +80,32 @@ const AdminApplicationsPage = ({
               {data.data.map(application => {
                 const open = expanded === application.id
 
+                const status = getStatus(application)
+
                 return (
                   <React.Fragment key={application.id}>
                     <tr aria-expanded={open} id={application.id}>
-                      <td scope="row">
-                        {getRaceById(application.raceId)?.title ||
-                          application.raceId}
-                      </td>
-                      <td>{application.type}</td>
                       <td>
                         <Link href={`/admin/users#${application.user.id}`}>
                           {application.user.firstName}{" "}
                           {application.user.lastName}
                         </Link>
                       </td>
+                      <td scope="row">
+                        {getRaceById(application.raceId)?.title ||
+                          application.raceId}
+                      </td>
+                      <td>{application.type}</td>
                       <td>{formatDate(application.createdAt)}</td>
                       <td>
-                        <span className="tag">
-                          {prettyStatus(getStatus(application))}
+                        <span
+                          className={`tag ${
+                            status === ApplicationStatus.InProgress
+                              ? "tag--yellow"
+                              : ""
+                          }`}
+                        >
+                          {prettyStatus(status)}
                         </span>
                       </td>
                       <td>

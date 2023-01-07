@@ -1,0 +1,18 @@
+.document-list {
+  display: grid;
+  gap: 1rem;
+
+  @media screen and (min-width: $breakpoint-m) {
+    gap: 0.5rem 2rem;
+  }
+
+  &__doc {
+    border-radius: 5px;
+    border: 1px solid $grey2;
+  }
+
+  &__link {
+    font-size: 1.1rem;
+  }
+
+}

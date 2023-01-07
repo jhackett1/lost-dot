@@ -3,6 +3,7 @@ import prisma from "../../lib/prisma"
 import { sendConfirmationEmail } from "../../lib/emails"
 import Stripe from "stripe"
 import { Readable } from "node:stream"
+import { submitApplication } from "../../lib/applications"
 
 const buffer = async (readable: Readable) => {
   const chunks = []
@@ -33,24 +34,9 @@ const handler: NextApiHandler = async (req, res) => {
           case "charge.succeeded":
             const charge = event.data.object as Stripe.Charge
 
-            const updatedApplication = await prisma.application.update({
-              where: {
-                raceId_userId: {
-                  raceId: charge.metadata["raceId"],
-                  userId: charge.metadata["userId"],
-                },
-              },
-              data: {
-                submittedAt: new Date(),
-              },
-              include: {
-                user: true,
-              },
-            })
-
-            await sendConfirmationEmail(
-              updatedApplication.user.email,
-              updatedApplication
+            await submitApplication(
+              charge.metadata["raceId"],
+              charge.metadata["userId"]
             )
 
             break

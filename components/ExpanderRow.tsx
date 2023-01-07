@@ -1,4 +1,5 @@
 import { prettyKey } from "../lib/formatters"
+import PrettyValue from "./PrettyValue"
 
 const ExpanderRow = data => (
   <tr className="expanded-row">
@@ -8,7 +9,7 @@ const ExpanderRow = data => (
           <div key={entry[0]}>
             <dt className="expanded-row__dt">{prettyKey(entry[0])}</dt>
             <dd className="expanded-row__dd">
-              {JSON.stringify(entry[1], null, 2)}
+              <PrettyValue rawKey={entry[0]} rawValue={entry[1]} />
             </dd>
           </div>
         ))}

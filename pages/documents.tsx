@@ -4,8 +4,10 @@ import Head from "next/head"
 import PageHeader from "../components/PageHeader"
 import { authOptions } from "./api/auth/[...nextauth]"
 import prisma from "../lib/prisma"
+import { Document } from "@prisma/client"
+import DocumentList from "../components/DocumentList"
 
-const DocumentsPage = () => (
+const DocumentsPage = ({ documents }: { documents: Document[] }) => (
   <>
     <Head>
       <title>Documents | Lost Dot</title>
@@ -16,7 +18,11 @@ const DocumentsPage = () => (
         <h1>Your documents</h1>
       </header>
 
-      <p className="no-results">No documents to show right now.</p>
+      {documents.length > 0 ? (
+        <DocumentList documents={documents} />
+      ) : (
+        <p className="no-results">No documents to show right now.</p>
+      )}
     </div>
   </>
 )

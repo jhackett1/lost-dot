@@ -15,17 +15,20 @@ const handler: NextApiHandler = async (req, res) => {
 
     if (!race) throw "Unknown race ID"
 
+    const paymentType = PaymentType.expressionOfInterest // TODO: make this dynamic
+    const amount = race.costs[paymentType] * 100
+
+    if (amount === 0) throw "Nothing to pay"
+
     const session = await unstable_getServerSession(req, res, authOptions)
 
     if (!session) throw "Unauthorised"
 
     if (!session.user.customerId) throw "No customer ID"
 
-    const paymentType = PaymentType.expressionOfInterest // TODO: make this dynamic
-
     const paymentIntent = await stripe.paymentIntents.create(
       {
-        amount: race.costs[paymentType] * 100,
+        amount,
         currency: "gbp",
         receipt_email: session.user.email,
         automatic_payment_methods: {

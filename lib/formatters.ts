@@ -18,8 +18,12 @@ export const formatDate = (raw: number | string | Date): string =>
 export const formatDateAndTime = (raw: number | string | Date): string =>
   new Date(raw).toUTCString()
 
-export const prettyKey = (raw: string) =>
-  inflection.humanize(inflection.underscore(raw))
+export const prettyKey = (raw: string) => {
+  if (raw === "id") return "ID"
+  if (raw === "customerId") return "Stripe customer ID"
+
+  return inflection.humanize(inflection.underscore(raw))
+}
 
 export const prettyStatus = (raw: ApplicationStatus): string =>
   prettyKey(
