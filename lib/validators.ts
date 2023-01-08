@@ -62,6 +62,8 @@ export const generateApplicationSchema = (questions: Question[]) => {
     } else {
       schema[question.name] = z.string()
     }
+
+    if (question.validates) schema[question.name] = question.validates
   })
 
   return z.object(schema)

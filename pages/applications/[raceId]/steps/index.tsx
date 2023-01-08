@@ -1,7 +1,7 @@
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import races from "../../../../data/races.json"
-import questions from "../../../../data/about-you.json"
+import questions from "../../../../data/about-you.js"
 import { FormProvider, useForm } from "react-hook-form"
 import { generateApplicationSchema } from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"

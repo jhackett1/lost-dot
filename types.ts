@@ -1,5 +1,6 @@
 import { Prisma, User } from "@prisma/client"
 import { HTMLProps } from "react"
+import { ZodAny } from "zod"
 
 export enum PaymentType {
   expressionOfInterest = "expressionOfInterest",
@@ -29,6 +30,8 @@ export interface UserInput
 
 export interface Question extends HTMLProps<HTMLInputElement> {
   options?: string[]
+  hint?: string
+  validates?: Zod.ZodEffects<Zod.ZodString, string, string> // custom validation logic
 }
 
 const userWithApplications = Prisma.validator<Prisma.UserArgs>()({
