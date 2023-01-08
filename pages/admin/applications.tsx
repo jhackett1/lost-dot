@@ -21,6 +21,10 @@ import ApplicationFilters from "../../components/ApplicationFilters"
 import { useApplications } from "../../hooks/useAdminData"
 import ExpanderRow from "../../components/ExpanderRow"
 import { commonApplicationsQuery } from "../api/admin/applications"
+import { useSession } from "next-auth/react"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]"
+import ApplicationColumns from "../../components/ApplicationColumns"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -32,6 +36,7 @@ const AdminApplicationsPage = ({
     helpers,
     initialApplications
   )
+  const { data: sessionData } = useSession()
   const [expanded, setExpanded] = useUrlHash()
 
   return (
@@ -68,9 +73,11 @@ const AdminApplicationsPage = ({
               <tr>
                 <th scope="col">Applicant</th>
                 <th scope="col">Race</th>
-                <th scope="col">Type</th>
-                <th scope="col">Started</th>
-                <th scope="col">Status</th>
+
+                {sessionData?.user?.preferences?.map(col => (
+                  <th scope="col">{col}</th>
+                ))}
+
                 <th scope="col" className="visually-hidden">
                   Actions
                 </th>
@@ -95,19 +102,14 @@ const AdminApplicationsPage = ({
                         {getRaceById(application.raceId)?.title ||
                           application.raceId}
                       </td>
-                      <td>{application.type}</td>
-                      <td>{formatDate(application.createdAt)}</td>
-                      <td>
-                        <span
-                          className={`tag ${
-                            status === ApplicationStatus.InProgress
-                              ? "tag--yellow"
-                              : ""
-                          }`}
-                        >
-                          {prettyStatus(status)}
-                        </span>
-                      </td>
+
+                      {sessionData?.user?.preferences?.map(col => (
+                        <ApplicationColumns
+                          col={col}
+                          application={application}
+                        />
+                      ))}
+
                       <td>
                         <button
                           onClick={() =>
@@ -138,7 +140,25 @@ const AdminApplicationsPage = ({
 
 export default AdminApplicationsPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
+
+  if (!session.user.admin)
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+    }
+
   const applications = await prisma.application.findMany(
     commonApplicationsQuery
   )

@@ -13,7 +13,9 @@ const ProfilePage = (user?: User) => {
     <div>
       <Head>
         <title>
-          {user.onboardedAt ? "Profile" : "Create a profile"} | Lost Dot
+          {user.onboardedAt
+            ? "Profile | Lost Dot"
+            : "Create a profile | Lost Dot"}
         </title>
       </Head>
 

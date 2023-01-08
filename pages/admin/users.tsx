@@ -18,6 +18,8 @@ import UserFilters from "../../components/UserFilters"
 import { useUsers } from "../../hooks/useAdminData"
 import ExpanderRow from "../../components/ExpanderRow"
 import { commonUsersQuery } from "../api/admin/users"
+import { unstable_getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]"
 
 const AdminUsersPage = ({
   initialUsers,
@@ -151,7 +153,25 @@ const AdminUsersPage = ({
 
 export default AdminUsersPage
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions)
+
+  if (!session)
+    return {
+      redirect: {
+        destination: `/auth/sign-in`,
+        permanent: false,
+      },
+    }
+
+  if (!session.user.admin)
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+    }
+
   const users = await prisma.user.findMany(commonUsersQuery)
 
   return {

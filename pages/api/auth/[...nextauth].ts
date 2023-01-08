@@ -35,6 +35,7 @@ export const authOptions = {
       session.user.admin = u.admin
       session.user.customerId = u.customerId
       session.user.onboardedAt = u.onboardedAt
+      session.user.preferences = u.preferences
 
       return session
     },

@@ -9,7 +9,12 @@ declare module "next-auth" {
     createdAt: string
     user: Pick<
       User,
-      "id" | "firstName" | "admin" | "customerId" | "onboardedAt"
+      | "id"
+      | "firstName"
+      | "admin"
+      | "customerId"
+      | "onboardedAt"
+      | "preferences"
     > &
       DefaultSession["user"]
   }

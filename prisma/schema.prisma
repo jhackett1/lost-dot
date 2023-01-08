@@ -62,6 +62,7 @@ model User {
   ethnicity         String?
   nationality       String?
   firstLang         String?
+  preferences       String[]
   // next of kin
   nextOfKinName     String?
   nextOfKinEmail    String?
