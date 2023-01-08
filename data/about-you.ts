@@ -73,9 +73,12 @@ const questions: Question[] = [
     name: "bike-type",
     required: true,
     validates: z
-      .string()
+      .string({
+        invalid_type_error: "This is a required question",
+        required_error: "This is a required question",
+      })
       .refine(
-        val => val !== "Standard upright bike",
+        val => val === "Standard upright bike",
         `We will need to know a bit more information from you to understand if this race is for you. Please email us on mail@lostdot.cc`
       ),
   },

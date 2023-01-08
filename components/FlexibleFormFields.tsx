@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import { Question } from "../types"
 import Field from "./Field"
 import GroupField from "./GroupField"
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const FlexibleFormFields = ({ questions }: Props) => {
-  const methods = useForm()
+  const methods = useFormContext()
 
   return (
     <>

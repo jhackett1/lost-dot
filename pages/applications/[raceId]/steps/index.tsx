@@ -1,7 +1,7 @@
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
 import races from "../../../../data/races.json"
-import questions from "../../../../data/about-you.js"
+import questions from "../../../../data/about-you"
 import { FormProvider, useForm } from "react-hook-form"
 import { generateApplicationSchema } from "../../../../lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -18,6 +18,7 @@ const ApplicationStepAboutYouPage = (application: Application) => {
   const race = races.find(race => race.id === application.raceId)
 
   const { push } = useRouter()
+
   const methods = useForm({
     defaultValues: application.answers as { [x: string]: any },
     resolver: zodResolver(generateApplicationSchema(questions)),
@@ -55,19 +56,21 @@ const ApplicationStepAboutYouPage = (application: Application) => {
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="form">
-          <FlexibleFormFields questions={questions} />
+          <>
+            <FlexibleFormFields questions={questions} />
 
-          <ErrorSummary>
-            There are errors with your application—answer all the required
-            questions and try again.
-          </ErrorSummary>
+            <ErrorSummary>
+              There are errors with your application—answer all the required
+              questions and try again.
+            </ErrorSummary>
 
-          <div className="form__footer">
-            <button disabled={methods.formState.isSubmitting}>
-              {methods.formState.isSubmitting && <Loader />}
-              Save
-            </button>
-          </div>
+            <div className="form__footer">
+              <button disabled={methods.formState.isSubmitting}>
+                {methods.formState.isSubmitting && <Loader />}
+                Save
+              </button>
+            </div>
+          </>
         </form>
       </FormProvider>
     </>
