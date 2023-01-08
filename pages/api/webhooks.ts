@@ -1,9 +1,7 @@
 import type { NextApiHandler } from "next"
-import prisma from "../../lib/prisma"
-import { sendConfirmationEmail } from "../../lib/emails"
 import Stripe from "stripe"
 import { Readable } from "node:stream"
-import { submitApplication } from "../../lib/applications"
+import { submitApplication } from "../../lib/applications.server"
 
 const buffer = async (readable: Readable) => {
   const chunks = []

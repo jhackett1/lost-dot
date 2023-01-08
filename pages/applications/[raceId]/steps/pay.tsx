@@ -4,14 +4,13 @@ import { useEffect, useState } from "react"
 import CheckoutForm from "../../../../components/CheckoutForm"
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
-import { getSession } from "next-auth/react"
 import { getRaceById } from "../../../../lib/races"
 import { formatCurrency } from "../../../../lib/formatters"
 import prisma from "../../../../lib/prisma"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]"
 import Head from "next/head"
-import { submitApplication } from "../../../../lib/applications"
+import { submitApplication } from "../../../../lib/applications.server"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 

@@ -4,14 +4,14 @@ import { SendVerificationRequestParams } from "next-auth/providers"
 import templates from "../data/email-templates.json"
 import { getRaceById } from "./races"
 
-sg.setApiKey(process.env.SENDGRID_API_KEY as string)
-
 export const sendMagicLink = async ({
   identifier,
   url,
   provider,
-}: SendVerificationRequestParams) =>
-  await sg.send({
+}: SendVerificationRequestParams) => {
+  sg.setApiKey(process.env.SENDGRID_API_KEY as string)
+
+  return await sg.send({
     from: provider.from,
     templateId: templates.signIn,
     personalizations: [
@@ -23,12 +23,15 @@ export const sendMagicLink = async ({
       },
     ],
   })
+}
 
 export const sendConfirmationEmail = async (
   to: string,
   application: Application
-) =>
-  await sg.send({
+) => {
+  sg.setApiKey(process.env.SENDGRID_API_KEY as string)
+
+  return await sg.send({
     from: process.env.EMAIL_FROM,
     templateId: templates.expressionOfInterestConfirmation,
     personalizations: [
@@ -41,3 +44,4 @@ export const sendConfirmationEmail = async (
       },
     ],
   })
+}

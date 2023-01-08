@@ -1,12 +1,10 @@
 import { Application } from "@prisma/client"
 import { GetServerSideProps } from "next"
-import { getSession } from "next-auth/react"
 import Head from "next/head"
 import ApplicationBox from "../../../components/ApplicationBox"
 import PageHeader from "../../../components/PageHeader"
 import { getRaceById } from "../../../lib/races"
 import prisma from "../../../lib/prisma"
-import { useEffect } from "react"
 import { authOptions } from "../../api/auth/[...nextauth]"
 import { unstable_getServerSession } from "next-auth"
 

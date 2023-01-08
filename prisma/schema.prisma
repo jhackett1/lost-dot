@@ -86,9 +86,9 @@ model Document {
   raceId     String?
   // associations
   ownedBy    String
-  user       User     @relation("owner", fields: [ownedBy], references: [id], onDelete: Cascade)
-  uploadedBy String
-  uploader   User     @relation("uploader", fields: [uploadedBy], references: [id], onDelete: Cascade)
+  owner      User     @relation("owner", fields: [ownedBy], references: [id], onDelete: Cascade)
+  uploadedBy String?
+  uploader   User?    @relation("uploader", fields: [uploadedBy], references: [id], onDelete: Cascade)
   // meta
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
