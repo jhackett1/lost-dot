@@ -18,13 +18,14 @@ import Link from "next/link"
 import { removeFalsy } from "../../lib/helpers"
 import useUrlHash from "../../hooks/useUrlHash"
 import ApplicationFilters from "../../components/ApplicationFilters"
-import { useApplications } from "../../hooks/useAdminData"
+import { useApplications, usePreferences } from "../../hooks/useAdminData"
 import ExpanderRow from "../../components/ExpanderRow"
 import { commonApplicationsQuery } from "../api/admin/applications"
 import { useSession } from "next-auth/react"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
 import ApplicationColumns from "../../components/ApplicationColumns"
+import ApplicationPreferenceControls from "../../components/ApplicationPreferenceControls"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -36,7 +37,7 @@ const AdminApplicationsPage = ({
     helpers,
     initialApplications
   )
-  const { data: sessionData } = useSession()
+  const { data: preferencesData } = usePreferences()
   const [expanded, setExpanded] = useUrlHash()
 
   return (
@@ -64,6 +65,8 @@ const AdminApplicationsPage = ({
         <ApplicationFilters {...helpers} mutate={mutate} />
       </FormProvider>
 
+      <ApplicationPreferenceControls />
+
       {data.data.length > 0 ? (
         <div className="table-holder">
           <table
@@ -74,7 +77,7 @@ const AdminApplicationsPage = ({
                 <th scope="col">Applicant</th>
                 <th scope="col">Race</th>
 
-                {sessionData?.user?.preferences?.map(col => (
+                {preferencesData?.preferences?.map(col => (
                   <th scope="col">{col}</th>
                 ))}
 
@@ -103,7 +106,7 @@ const AdminApplicationsPage = ({
                           application.raceId}
                       </td>
 
-                      {sessionData?.user?.preferences?.map(col => (
+                      {preferencesData?.preferences?.map(col => (
                         <ApplicationColumns
                           col={col}
                           application={application}

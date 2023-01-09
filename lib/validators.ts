@@ -31,6 +31,7 @@ export const UserInputSchema = z.object({
       "That doesn't look like a valid email"
     ),
   contactPrefs: z.array(z.string()),
+  preferences: z.array(z.string()),
 })
 
 export const SignInSchema = z.object({

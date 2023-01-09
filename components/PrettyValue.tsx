@@ -11,6 +11,8 @@ const PrettyValue = ({ rawKey, rawValue }) => {
   if (["email", "nextOfKinEmail"].includes(rawKey))
     return <Link href={`mailto:${rawValue}`}>{rawValue}</Link>
 
+  if (rawValue === null) return <>—</>
+
   return <>{JSON.stringify(rawValue, null, 2)}</>
 }
 

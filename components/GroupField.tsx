@@ -6,7 +6,15 @@ export interface Props extends HTMLProps<HTMLInputElement> {
   hint?: string
 }
 
-const GroupField = ({ label, name, hint, required, type, ...props }: Props) => {
+const GroupField = ({
+  label,
+  name,
+  hint,
+  required,
+  type,
+  className,
+  ...props
+}: Props) => {
   const {
     register,
     formState: { errors },
@@ -22,7 +30,7 @@ const GroupField = ({ label, name, hint, required, type, ...props }: Props) => {
         type === "checkbox" ? " group-field--checkbox" : ""
       }${type === "radio" ? " group-field--radio" : ""} ${
         hint ? " group-field--with-hint" : ""
-      }`}
+      } ${className}`}
     >
       <input
         {...register(name)}

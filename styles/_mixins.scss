@@ -61,14 +61,17 @@
     width: auto;
   }
 
-  // loader
-  svg {
+  &__icon {
     height: 1.4rem;
     width: 1.4rem;
     position: absolute;
     left: 1rem;
     margin-top: 2.5px;
-    animation: spin 0.75s linear infinite;
+
+    // loader
+    &--spin {
+      animation: spin 0.75s linear infinite;
+    }
   }
 }
 

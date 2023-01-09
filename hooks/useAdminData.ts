@@ -30,3 +30,5 @@ export const useUsers = (helpers, initialData) =>
       },
     }
   )
+
+export const usePreferences = () => useSWR(`/api/profile`)

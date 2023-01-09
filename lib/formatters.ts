@@ -11,12 +11,16 @@ let formatter = Intl.NumberFormat("en-GB", {
 export const formatCurrency = (raw: number): string => formatter.format(raw)
 
 /** take a raw date and format it nice, works with unix timestamps too if * by 1000 first */
-export const formatDate = (raw: number | string | Date): string =>
-  new Date(raw).toDateString()
+export const formatDate = (raw: number | string | Date): string => {
+  if (raw) return new Date(raw).toDateString()
+  return ""
+}
 
 /** take a raw date and time and format it nice, works with unix timestamps too if * by 1000 first */
-export const formatDateAndTime = (raw: number | string | Date): string =>
-  new Date(raw).toUTCString()
+export const formatDateAndTime = (raw: number | string | Date): string => {
+  if (raw) return new Date(raw).toUTCString()
+  return ""
+}
 
 export const prettyKey = (raw: string) => {
   if (raw === "id") return "ID"

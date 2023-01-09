@@ -88,6 +88,45 @@
 
 .button {
   @include button;
+
+  &--secondary {
+    background: $grey2;
+    color: $grey;
+
+    &:hover {
+      background: darken($grey2, 2);
+      color: $black;
+
+      svg path {
+        fill: $black
+      }
+    }
+
+    &:focus,
+    &:active {
+      background: $yellow;
+      color: $black;
+
+      svg path {
+        fill: $black
+      }
+    }
+  }
+
+  &--small {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
 }
 
 .no-results {

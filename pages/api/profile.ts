@@ -7,13 +7,20 @@ import { authOptions } from "./auth/[...nextauth]"
 
 const handler: NextApiHandler = async (req, res) => {
   try {
+    const session = await unstable_getServerSession(req, res, authOptions)
+
+    if (!session) throw "Unauthorised"
+
     switch (req.method) {
+      case "GET":
+        res.status(200).json({
+          preferences: session.user.preferences,
+        })
+
+        break
       case "PUT":
         const data = JSON.parse(req.body)
-        UserInputSchema.parse(data)
-        const session = await unstable_getServerSession(req, res, authOptions)
-
-        if (!session) throw "Unauthorised"
+        // UserInputSchema.nullable().optional().parse(data)
 
         const result = await prisma.user.update({
           where: {

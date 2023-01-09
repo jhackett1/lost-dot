@@ -116,7 +116,9 @@ const AppLayout = ({ children }) => {
       )}
 
       <main id="main-content">
-        <div className="container">{children}</div>
+        <div className={asPath.includes("/admin") ? "" : "container"}>
+          {children}
+        </div>
       </main>
 
       <footer className="app-footer">

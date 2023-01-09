@@ -1,5 +1,11 @@
 const Loader = () => (
-  <svg width="142" height="142" viewBox="0 0 142 142" fill="none">
+  <svg
+    className="button__icon button__icon--spin"
+    width="142"
+    height="142"
+    viewBox="0 0 142 142"
+    fill="none"
+  >
     <g clipPath="url(#clip0_541_343)">
       <path
         opacity="0.5"
