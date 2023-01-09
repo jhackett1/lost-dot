@@ -15,18 +15,22 @@ import { submitApplication } from "../../../../lib/applications.server"
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const ApplicationPayPage = (application: Application) => {
+  const [error, setError] = useState<boolean>(false)
   const [clientSecret, setClientSecret] = useState<string>("")
 
   const race = getRaceById(application.raceId)
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
+    // create PaymentIntent as soon as the page loads
     fetch(`/api/applications/${application.raceId}/pay`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) return setError(true)
+        return res.json()
+      })
       .then(data => setClientSecret(data.clientSecret))
   }, [])
 
@@ -66,21 +70,22 @@ const ApplicationPayPage = (application: Application) => {
             <strong>{formatCurrency(race?.costs?.expressionOfInterest)}</strong>{" "}
             to provide you with the race manual.
           </p>
-
-          {clientSecret ? (
+          {clientSecret && (
             <Elements options={options} stripe={stripePromise}>
               <CheckoutForm
                 completionLink={`${process.env.NEXT_PUBLIC_URL}/applications/${application.raceId}?success=true`}
                 goBackLink={`/applications/${application.raceId}/steps/legals`}
               />
             </Elements>
-          ) : (
-            <p className="error error--panel">
-              There was an error setting up your payment. Please refresh the
-              page or try again later.
-            </p>
           )}
         </>
+      )}
+
+      {error && (
+        <p className="error error--panel">
+          There was an error setting up your payment. Please refresh the page or
+          try again later. Contact us if the problem continues.
+        </p>
       )}
     </div>
   )
