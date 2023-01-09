@@ -1,22 +1,100 @@
 .dialog {
+  position: relative;
   background: $white;
   max-width: 50rem;
   margin: 0;
-  min-height: 100vh;
-  padding: 1rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 5px 5px transparentize($black, 0.75);
+
+  &:focus {
+    outline: 3px solid $yellow;
+  }
 
   @media screen and (min-width: $breakpoint-m) {
-    border: 1px solid lighten($grey2, 5);
-    margin: 2rem auto;
-    min-height: auto;
-    border-radius: $border-radius;
-    padding: 2rem;
-    max-height: 90vh;
+    max-width: 30rem;
+    border-left: 1px solid $grey2;
+  }
+
+  &__header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid $grey2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    * {
+      margin: 0;
+    }
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: normal;
+  }
+
+  &__close {
+    padding: 0.5rem;
+    background: none;
+    width: auto;
+    display: inline-flex;
+
+    &:hover {
+      background: none;
+    }
+
+    &:focus,
+    &:active {
+      background: $yellow;
+    }
+
+    svg path {
+      fill: $black;
+    }
+  }
+
+  &__body {
     overflow-y: auto;
-    box-shadow: 0px 2px 10px transparentize($color: $grey, $amount: 0.75);
+    height: auto;
+    padding: 1rem;
+    background: lighten($grey2, 11);
+
+    @media screen and (min-width: $breakpoint-m) {
+      padding: 2rem;
+    }
+  }
+
+  &__dl {
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  &__dt {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: $grey;
+  }
+
+  &__dd {
+    margin-left: 0;
+    font-family: monospace;
+    color: $black;
+    white-space: normal;
+    word-wrap: anywhere;
   }
 }
 
 .ReactModal__Body--open {
-  overflow: hidden;
+  // overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.ReactModal__Overlay {
+  background: none !important;
 }

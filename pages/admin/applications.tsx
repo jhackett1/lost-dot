@@ -95,7 +95,7 @@ const AdminApplicationsPage = ({
 
                 return (
                   <React.Fragment key={application.id}>
-                    <tr aria-expanded={open} id={application.id}>
+                    <tr aria-expanded={open}>
                       <td>
                         <Link href={`/admin/users#${application.user.id}`}>
                           {application.user.firstName}{" "}
@@ -121,9 +121,22 @@ const AdminApplicationsPage = ({
                               ? setExpanded(false)
                               : setExpanded(application.id)
                           }
-                          className="link"
+                          className="admin-table__see-more"
                         >
-                          See {open ? "less" : "more"}
+                          <svg
+                            width="13"
+                            height="18"
+                            viewBox="0 0 13 18"
+                            fill="none"
+                          >
+                            <path
+                              d="M2 1.5L9.5 9L2 16.5"
+                              stroke="white"
+                              stroke-width="4"
+                            />
+                          </svg>
+
+                          <span className="visually-hidden">See more</span>
                         </button>
                       </td>
                     </tr>

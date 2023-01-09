@@ -15,7 +15,7 @@ const AppLayout = ({ children }) => {
   useProtected()
 
   return (
-    <>
+    <div>
       <Head>
         <link rel="icon" href="/favicon.png" />
 
@@ -189,7 +189,9 @@ const AppLayout = ({ children }) => {
           </nav>
         </div>
       </footer>
-    </>
+
+      <div id="sidebar-portal" />
+    </div>
   )
 }
 

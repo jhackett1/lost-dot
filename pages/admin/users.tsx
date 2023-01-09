@@ -79,7 +79,7 @@ const AdminUsersPage = ({
 
                 return (
                   <React.Fragment key={user.id}>
-                    <tr aria-expanded={open} id={user.id}>
+                    <tr aria-expanded={open}>
                       <td>
                         <img
                           className="avatar"

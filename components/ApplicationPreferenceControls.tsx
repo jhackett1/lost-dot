@@ -4,6 +4,7 @@ import GroupField from "./GroupField"
 import * as inflection from "inflection"
 import { usePreferences } from "../hooks/useAdminData"
 import { useEffect, useRef, useState } from "react"
+import useClickOutside from "../hooks/useClickOutside"
 
 interface FormValues {
   preferences: typeof prefs
@@ -28,20 +29,13 @@ const ApplicationPreferenceControls = () => {
     }
   }
 
-  const ref = useRef<HTMLDivElement>()
+  const handleClick = () => setOpen(false)
 
-  const handleOutsideClick = e => {
-    if (!ref.current.contains(e.target)) setOpen(false)
-  }
+  const ref = useClickOutside(handleClick)
 
   const handleKeyUp = e => {
-    if (e.key === "Escape") setOpen(false)
+    if (e.key === "Escape") handleClick()
   }
-
-  useEffect(() => {
-    window.addEventListener("click", handleOutsideClick)
-    return () => window.removeEventListener("click", handleOutsideClick)
-  }, [])
 
   useEffect(() => methods.reset(data), [data])
 
