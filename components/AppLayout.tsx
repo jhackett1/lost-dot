@@ -18,7 +18,37 @@ const AppLayout = ({ children }) => {
     <>
       <Head>
         <link rel="icon" href="/favicon.png" />
+
         <title>Lost Dot</title>
+        <meta name="title" content="Lost Dot" />
+        <meta
+          name="description"
+          content="The Transcontinental Race is the definitive self-supported bicycle race across Europe. At the sharp end it is a beautifully hard bicycle race, simple in design but complex in execution."
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_URL} />
+        <meta property="og:title" content="Lost Dot" />
+        <meta
+          property="og:description"
+          content="The Transcontinental Race is the definitive self-supported bicycle race across Europe. At the sharp end it is a beautifully hard bicycle race, simple in design but complex in execution."
+        />
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_URL}/social.jpg`}
+        />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={process.env.NEXT_PUBLIC_URL} />
+        <meta property="twitter:title" content="Lost Dot" />
+        <meta
+          property="twitter:description"
+          content="The Transcontinental Race is the definitive self-supported bicycle race across Europe. At the sharp end it is a beautifully hard bicycle race, simple in design but complex in execution."
+        />
+        <meta
+          property="twitter:image"
+          content={`${process.env.NEXT_PUBLIC_URL}/social.jpg`}
+        />
       </Head>
 
       <a href="#main-content" className="skip-link">
