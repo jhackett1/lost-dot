@@ -26,6 +26,7 @@ import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
 import ApplicationColumns from "../../components/ApplicationColumns"
 import ApplicationPreferenceControls from "../../components/ApplicationPreferenceControls"
+import DetailDialog from "../../components/DetailDialog"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -127,7 +128,13 @@ const AdminApplicationsPage = ({
                       </td>
                     </tr>
 
-                    {open && <ExpanderRow {...application} />}
+                    {/* {open && <ExpanderRow {...application} />} */}
+
+                    <DetailDialog
+                      data={application}
+                      open={open}
+                      handleClose={() => setExpanded(false)}
+                    />
                   </React.Fragment>
                 )
               })}

@@ -20,6 +20,7 @@ import ExpanderRow from "../../components/ExpanderRow"
 import { commonUsersQuery } from "../api/admin/users"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
+import DetailDialog from "../../components/DetailDialog"
 
 const AdminUsersPage = ({
   initialUsers,
@@ -137,7 +138,13 @@ const AdminUsersPage = ({
                         </button>
                       </td>
                     </tr>
-                    {open && <ExpanderRow {...user} />}
+                    {/* {open && <ExpanderRow {...user} />} */}
+
+                    <DetailDialog
+                      data={user}
+                      open={open}
+                      handleClose={() => setExpanded(false)}
+                    />
                   </React.Fragment>
                 )
               })}
