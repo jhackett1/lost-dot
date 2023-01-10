@@ -2,8 +2,8 @@ import { User } from "@prisma/client"
 import { useForm, FormProvider } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Field from "./Field"
-import { UserInput, UserWithApplications } from "../types"
-import { UserInputSchema } from "../lib/validators"
+import { UserInput } from "../types"
+import { UserInputClientSchema } from "../lib/validators"
 import { useState } from "react"
 import marketingPrefs from "../data/marketing-preferences.json"
 import ethnicities from "../data/ethnicities.json"
@@ -27,7 +27,7 @@ const UserForm = ({ user }: Props) => {
         ? new Date(user.dateOfBirth).toISOString().slice(0, 10)
         : "",
     },
-    resolver: zodResolver(UserInputSchema),
+    resolver: zodResolver(UserInputClientSchema),
   })
 
   const onSubmit = async values => {
@@ -124,7 +124,7 @@ const UserForm = ({ user }: Props) => {
 
         <fieldset className="fieldset">
           <legend className="fieldset__big-legend">Contact preferences</legend>
-          <p>Let us know what emails you'd like to receive.</p>
+          <p>Let us know what emails you&apos;d like to receive.</p>
           {Object.entries(marketingPrefs).map(opt => (
             <GroupField
               label={opt[0]}

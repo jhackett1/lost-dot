@@ -107,7 +107,7 @@ const AppLayout = ({ children }) => {
 
       {asPath.includes("/admin") && (
         <div className="admin-banner">
-          You're using your admin superpowers to see this page
+          You&aposl;re using your admin superpowers to see this page
         </div>
       )}
 

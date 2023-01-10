@@ -45,11 +45,11 @@ const ApplicationStepAboutYouPage = (application: Application) => {
         <h2>About you</h2>
 
         <p className="centred">
-          First we'd like a little more information about you, your history with
-          the race or ultra endurance racing and your experience.
+          First we&apos;d like a little more information about you, your history
+          with the race or ultra endurance racing and your experience.
           Transcontinental is not all about qualifying but if you have done some
           big things before or if you look like you could win it we want to
-          know. Here's your chance to tell us. Please be kind and keep your
+          know. Here&apos;s your chance to tell us. Please be kind and keep your
           answers short, sweet and relevant.
         </p>
       </div>

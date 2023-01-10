@@ -27,8 +27,8 @@ const SignInPage = () => {
       <div className="page-header">
         <h1 className="page-header__heading">Sign in to Lost Dot</h1>
         <p className="page-header__body">
-          To sign in or sign up, enter your email address below and we'll email
-          you a one-time magic link.
+          To sign in or sign up, enter your email address below and we&aposl;ll
+          email you a one-time magic link.
         </p>
       </div>
 

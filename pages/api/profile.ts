@@ -1,8 +1,7 @@
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
+import type { NextApiHandler } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { getSession } from "next-auth/react"
 import prisma from "../../lib/prisma"
-import { UserInputSchema } from "../../lib/validators"
+import { UserInputServerSchema } from "../../lib/validators"
 import { authOptions } from "./auth/[...nextauth]"
 
 const handler: NextApiHandler = async (req, res) => {
@@ -20,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
         break
       case "PUT":
         const data = JSON.parse(req.body)
-        // UserInputSchema.nullable().optional().parse(data)
+        UserInputServerSchema.parse(data)
 
         const result = await prisma.user.update({
           where: {

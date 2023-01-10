@@ -2,7 +2,7 @@ import { z } from "zod"
 import legals from "../data/legals.json"
 import { Question } from "../types"
 
-export const UserInputSchema = z.object({
+export const UserInputCommonSchema = {
   firstName: z
     .string({ invalid_type_error: "We need to know your first name" })
     .min(1, "We need to know your first name"),
@@ -32,7 +32,16 @@ export const UserInputSchema = z.object({
     ),
   contactPrefs: z.array(z.string()),
   preferences: z.array(z.string()),
-})
+}
+
+export const UserInputClientSchema = z.object(UserInputCommonSchema)
+
+// make all fields optional so it works server-side
+export const UserInputServerSchema = z.object(
+  Object.fromEntries(
+    Object.entries(UserInputCommonSchema).map(([k, v]) => [k, v.optional()])
+  )
+)
 
 export const SignInSchema = z.object({
   email: z.string().email("That doesn't look like a valid email"),

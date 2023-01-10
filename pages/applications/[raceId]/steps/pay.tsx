@@ -32,7 +32,7 @@ const ApplicationPayPage = (application: Application) => {
         return res.json()
       })
       .then(data => setClientSecret(data.clientSecret))
-  }, [])
+  }, [application.raceId])
 
   const options: StripeElementsOptions = {
     clientSecret,

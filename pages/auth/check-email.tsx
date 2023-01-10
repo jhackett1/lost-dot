@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { getCsrfToken, getSession, signIn } from "next-auth/react"
-import { FormProvider, useForm } from "react-hook-form"
-import Field from "../../components/Field"
+import { signIn } from "next-auth/react"
+import Link from "next/link"
+import { useForm } from "react-hook-form"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 const CheckEmailPage = () => {
@@ -19,7 +19,8 @@ const CheckEmailPage = () => {
         A sign in link has been sent to your email address.
       </p>
       <p className="page-header__body">
-        If you're having trouble signing in, <a href="/">let us know</a>.
+        If you&apos;re having trouble signing in,{" "}
+        <Link href="/">let us know</Link>.
       </p>
     </div>
   )

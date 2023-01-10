@@ -54,9 +54,9 @@ const ApplicationStepIndexPage = (application: Application) => {
       <h2>Legals</h2>
       <p>
         By applying for the Transcontinental Race No.9 we expect you to have a
-        good understanding of what you're signing up for. If you are new to the
-        race and would like to learn more about it please access the information
-        on our website transcontinental.cc.
+        good understanding of what you&apos;re signing up for. If you are new to
+        the race and would like to learn more about it please access the
+        information on our website transcontinental.cc.
       </p>
 
       <FormProvider {...methods}>

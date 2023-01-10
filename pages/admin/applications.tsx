@@ -79,7 +79,9 @@ const AdminApplicationsPage = ({
                 <th scope="col">Race</th>
 
                 {preferencesData?.preferences?.map(col => (
-                  <th scope="col">{col}</th>
+                  <th scope="col" key={col}>
+                    {col}
+                  </th>
                 ))}
 
                 <th scope="col" className="visually-hidden">
@@ -111,6 +113,7 @@ const AdminApplicationsPage = ({
                         <ApplicationColumns
                           col={col}
                           application={application}
+                          key={col}
                         />
                       ))}
 

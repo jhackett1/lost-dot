@@ -1,9 +1,8 @@
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import prefs from "../data/preferences"
 import GroupField from "./GroupField"
-import * as inflection from "inflection"
 import { usePreferences } from "../hooks/useAdminData"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import useClickOutside from "../hooks/useClickOutside"
 
 interface FormValues {
@@ -37,7 +36,7 @@ const ApplicationPreferenceControls = () => {
     if (e.key === "Escape") handleClick()
   }
 
-  useEffect(() => methods.reset(data), [data])
+  useEffect(() => methods.reset(data), [data, methods])
 
   return (
     <div className="menu" ref={ref} onKeyUp={handleKeyUp}>
@@ -92,6 +91,7 @@ const ApplicationPreferenceControls = () => {
                   name="preferences"
                   value={pref}
                   className="group-field--small"
+                  key={pref}
                 />
               ))}
             </fieldset>
