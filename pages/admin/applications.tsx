@@ -4,30 +4,20 @@ import Head from "next/head"
 import { FormProvider, useForm } from "react-hook-form"
 import PageHeader from "../../components/PageHeader"
 import prisma from "../../lib/prisma"
-import useSWR from "swr"
 import { getRaceById } from "../../lib/races"
-import {
-  AdminAPIResponse,
-  ApplicationAdminFilters,
-  ApplicationStatus,
-  ApplicationWithUser,
-} from "../../types"
-import { formatDate, prettyKey, prettyStatus } from "../../lib/formatters"
+import { ApplicationAdminFilters, ApplicationWithUser } from "../../types"
 import { getStatus } from "../../lib/applications"
 import Link from "next/link"
-import { removeFalsy } from "../../lib/helpers"
 import useUrlHash from "../../hooks/useUrlHash"
 import ApplicationFilters from "../../components/ApplicationFilters"
 import { useApplications, usePreferences } from "../../hooks/useAdminData"
-import ExpanderRow from "../../components/ExpanderRow"
 import { commonApplicationsQuery } from "../api/admin/applications"
-import { useSession } from "next-auth/react"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
 import ApplicationColumns from "../../components/ApplicationColumns"
 import ApplicationPreferenceControls from "../../components/ApplicationPreferenceControls"
-import DetailDialog from "../../components/DetailDialog"
 import SeeMoreButton from "../../components/SeeMoreButton"
+import DetailSidebar from "../../components/DetailDialog"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -131,7 +121,7 @@ const AdminApplicationsPage = ({
           </table>
 
           {expanded && (
-            <DetailDialog
+            <DetailSidebar
               data={data.data.find(application => application.id === expanded)}
               handleClose={() => setExpanded(false)}
             />

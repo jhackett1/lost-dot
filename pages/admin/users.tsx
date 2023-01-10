@@ -2,26 +2,21 @@ import { GetServerSideProps } from "next"
 import Head from "next/head"
 import PageHeader from "../../components/PageHeader"
 import prisma from "../../lib/prisma"
-import GroupField from "../../components/GroupField"
-import Field from "../../components/Field"
 import { FormProvider, useForm } from "react-hook-form"
-import useSWR from "swr"
 import { UserAdminFilters, UserWithApplicationsAndSessions } from "../../types"
 import { getRaceById } from "../../lib/races"
-import React, { useEffect, useState } from "react"
-import { prettyKey, prettyTimeDiff } from "../../lib/formatters"
+import React from "react"
+import { prettyTimeDiff } from "../../lib/formatters"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
 import useUrlHash from "../../hooks/useUrlHash"
 import UserFilters from "../../components/UserFilters"
 import { useUsers } from "../../hooks/useAdminData"
-import ExpanderRow from "../../components/ExpanderRow"
 import { commonUsersQuery } from "../api/admin/users"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
-import DetailDialog from "../../components/DetailDialog"
 import SeeMoreButton from "../../components/SeeMoreButton"
+import DetailSidebar from "../../components/DetailDialog"
 
 const AdminUsersPage = ({
   initialUsers,
@@ -139,7 +134,7 @@ const AdminUsersPage = ({
           </table>
 
           {expanded && (
-            <DetailDialog
+            <DetailSidebar
               data={data.data.find(user => user.id === expanded)}
               handleClose={() => setExpanded(false)}
             />

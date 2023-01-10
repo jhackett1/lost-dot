@@ -3,7 +3,7 @@ import { prettyKey } from "../lib/formatters"
 import { ApplicationWithUser, UserWithApplications } from "../types"
 import PrettyValue from "./PrettyValue"
 
-const DetailDialog = ({
+const DetailSidebar = ({
   data,
   handleClose,
 }: {
@@ -45,4 +45,4 @@ const DetailDialog = ({
   return null
 }
 
-export default DetailDialog
+export default DetailSidebar
