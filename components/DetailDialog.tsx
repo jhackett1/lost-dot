@@ -5,20 +5,14 @@ import PrettyValue from "./PrettyValue"
 
 const DetailDialog = ({
   data,
-  open,
   handleClose,
 }: {
   data: ApplicationWithUser | UserWithApplications
-  open: boolean
   handleClose: () => void
 }) => {
   if (typeof window !== "undefined")
     return createPortal(
-      <aside
-        // isOpen={open}
-        // onRequestClose={handleClose}
-        className="dialog"
-      >
+      <aside className="dialog">
         <header className="dialog__header">
           <h1 className="dialog__title">Application detail</h1>
 

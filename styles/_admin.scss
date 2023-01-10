@@ -36,14 +36,14 @@
     background: none;
 
     svg path {
-      stroke: $teal;
+      stroke: $grey2;
     }
 
     &:hover {
       background: none;
 
       svg path {
-        stroke: darken($teal, 2);
+        stroke: darken($grey2, 2);
       }
     }
 

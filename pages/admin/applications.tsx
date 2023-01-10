@@ -27,6 +27,7 @@ import { authOptions } from "../api/auth/[...nextauth]"
 import ApplicationColumns from "../../components/ApplicationColumns"
 import ApplicationPreferenceControls from "../../components/ApplicationPreferenceControls"
 import DetailDialog from "../../components/DetailDialog"
+import SeeMoreButton from "../../components/SeeMoreButton"
 
 const AdminApplicationsPage = ({
   initialApplications,
@@ -118,44 +119,23 @@ const AdminApplicationsPage = ({
                       ))}
 
                       <td>
-                        <button
-                          onClick={() =>
-                            open
-                              ? setExpanded(false)
-                              : setExpanded(application.id)
-                          }
-                          className="admin-table__see-more"
-                        >
-                          <svg
-                            width="13"
-                            height="18"
-                            viewBox="0 0 13 18"
-                            fill="none"
-                          >
-                            <path
-                              d="M2 1.5L9.5 9L2 16.5"
-                              stroke="white"
-                              stroke-width="4"
-                            />
-                          </svg>
-
-                          <span className="visually-hidden">See more</span>
-                        </button>
+                        <SeeMoreButton
+                          onClick={() => setExpanded(application.id)}
+                        />
                       </td>
                     </tr>
-
-                    {/* {open && <ExpanderRow {...application} />} */}
-
-                    <DetailDialog
-                      data={application}
-                      open={open}
-                      handleClose={() => setExpanded(false)}
-                    />
                   </React.Fragment>
                 )
               })}
             </tbody>
           </table>
+
+          {expanded && (
+            <DetailDialog
+              data={data.data.find(application => application.id === expanded)}
+              handleClose={() => setExpanded(false)}
+            />
+          )}
         </div>
       ) : (
         <p className="no-results">No results</p>

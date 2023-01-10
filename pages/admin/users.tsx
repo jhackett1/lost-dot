@@ -21,6 +21,7 @@ import { commonUsersQuery } from "../api/admin/users"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
 import DetailDialog from "../../components/DetailDialog"
+import SeeMoreButton from "../../components/SeeMoreButton"
 
 const AdminUsersPage = ({
   initialUsers,
@@ -128,28 +129,21 @@ const AdminUsersPage = ({
                           "Never"}
                       </td>
                       <td>
-                        <button
-                          onClick={() =>
-                            open ? setExpanded(false) : setExpanded(user.id)
-                          }
-                          className="link"
-                        >
-                          See {open ? "less" : "more"}
-                        </button>
+                        <SeeMoreButton onClick={() => setExpanded(user.id)} />
                       </td>
                     </tr>
-                    {/* {open && <ExpanderRow {...user} />} */}
-
-                    <DetailDialog
-                      data={user}
-                      open={open}
-                      handleClose={() => setExpanded(false)}
-                    />
                   </React.Fragment>
                 )
               })}
             </tbody>
           </table>
+
+          {expanded && (
+            <DetailDialog
+              data={data.data.find(user => user.id === expanded)}
+              handleClose={() => setExpanded(false)}
+            />
+          )}
         </div>
       ) : (
         <p className="no-results">No results</p>
