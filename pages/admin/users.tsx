@@ -75,7 +75,7 @@ const AdminUsersPage = ({
 
                 return (
                   <React.Fragment key={user.id}>
-                    <tr aria-expanded={open}>
+                    <tr aria-selected={open} className="admin-table__row">
                       <td>
                         <img
                           className="avatar"

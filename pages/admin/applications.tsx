@@ -84,11 +84,9 @@ const AdminApplicationsPage = ({
               {data.data.map(application => {
                 const open = expanded === application.id
 
-                const status = getStatus(application)
-
                 return (
                   <React.Fragment key={application.id}>
-                    <tr aria-expanded={open}>
+                    <tr aria-selected={open} className="admin-table__row">
                       <td>
                         <Link href={`/admin/users#${application.user.id}`}>
                           {application.user.firstName}{" "}

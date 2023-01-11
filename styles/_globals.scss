@@ -66,15 +66,15 @@ button {
 
 table {
   width: 100%;
-  border-collapse: collapse;
+  // border-collapse: collapse;
+  border-spacing: 0;
   border-bottom: 2px solid $grey2;
 }
 
-tbody tr {
-  border-top: 2px solid $grey2;
-}
+// tbody tr {}
 
 td {
+  border-top: 2px solid $grey2;
   padding: 1rem 2rem 1rem 0;
   text-align: left;
   white-space: nowrap;

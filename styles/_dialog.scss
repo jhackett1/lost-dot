@@ -1,3 +1,13 @@
+.layout {
+  display: grid;
+  grid-template-columns: auto 30rem;
+
+  &>div:first-child {
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
 .dialog {
   position: relative;
   background: $white;
@@ -13,7 +23,6 @@
   }
 
   @media screen and (min-width: $breakpoint-m) {
-    max-width: 30rem;
     border-left: 1px solid $grey2;
   }
 

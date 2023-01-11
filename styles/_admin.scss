@@ -14,6 +14,11 @@
 .admin-table {
   position: relative;
 
+  a {
+    position: relative;
+    z-index: 2;
+  }
+
   &--loading {
 
     // backdrop
@@ -30,21 +35,34 @@
     }
   }
 
+  &__row {
+    position: relative;
+
+    &[aria-selected=true],
+    &:hover {
+      background: lighten($grey2, 11);
+    }
+  }
+
   &__see-more {
     display: inline-flex;
     padding: 0.5rem;
     background: none;
+    position: inherit;
+
+
+    &:before {
+      position: absolute;
+      content: "";
+      display: block;
+      top: 1px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 2px);
+    }
 
     svg path {
       stroke: $grey2;
-    }
-
-    &:hover {
-      background: none;
-
-      svg path {
-        stroke: darken($grey2, 2);
-      }
     }
 
     &:focus,
@@ -52,7 +70,15 @@
       outline: none;
 
       svg path {
-        stroke: $black;
+        stroke: $grey2;
+      }
+    }
+
+    &:hover {
+      background: none;
+
+      svg path {
+        stroke: $grey;
       }
     }
   }
